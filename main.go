@@ -1,14 +1,22 @@
 package main
 
 import (
-	_ "encoding/json"
-	_ "log"
-	_ "net/http"
+	"log"
+	"net/http"
 
-	_ "github.com/gorilla/mux"
+	"github.com/gorilla/mux"
 )
 
-type User struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
+func main() {
+	initMigration()
+	initRouter()
+}
+
+func initRouter() {
+	r := mux.NewRouter()
+
+	r.HandleFunc("/users", getUsers).Methods("GET")
+	r.HandleFunc("/users", createUser).Methods("POST")
+
+	log.Fatal(http.ListenAndServe(":8080", r))
 }
