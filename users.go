@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gorilla/mux"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -14,6 +15,7 @@ var err error
 
 type User struct {
 	gorm.Model
+	ID       uint   `gorm:"primaryKey" json:"id"`
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
@@ -38,6 +40,29 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	db.Create(&user)
+
+	err = json.NewEncoder(w).Encode(&user)
+	if err != nil {
+		log.Fatalln("Error Encoding")
+	}
+}
+
+func updateUser(w http.ResponseWriter, r *http.Request) {
+	var user User
+	w.Header().Set("Content-Type", "application/json")
+
+	params := mux.Vars(r)["id"]
+	db.First(&user, params)
+	if user.ID == 0 {
+		log.Fatalln("User not found")
+	}
+
+	err := json.NewDecoder(r.Body).Decode(&user)
+	if err != nil {
+		log.Fatalln("Error Decoding")
+	}
+
+	db.Save(&user)
 
 	err = json.NewEncoder(w).Encode(&user)
 	if err != nil {
