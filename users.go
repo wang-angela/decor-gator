@@ -39,6 +39,7 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 		log.Fatalln("Error Decoding")
 	}
 
+	user.Password = encrypt(user.Password)
 	db.Create(&user)
 
 	err = json.NewEncoder(w).Encode(&user)
