@@ -9,15 +9,18 @@ const LoginField = () => {
         navigate ('/redirect');
     };
 
-  return <form className='input'>
-        Username:&nbsp;
-        <input type='input' placeholder='Username' className="Input-box"/>
+  return <form className='box'>
+        <h2 className="title">Sign in</h2>
+
+        <label className="label">Username:</label>
         
-        Password:&nbsp;
-        <input type='input' placeholder='Password' className="Input-box"/>
+        <input type='input' placeholder='Username' className="login_box"/>
         
-        <button id="loginButton" type="submit" className="Input-submit" onClick={goToDashboard}>
-            Log in
+        <label className="label">Password:</label>
+        <input type='input' placeholder='Password' className="login_box"/>
+        
+        <button id="loginButton" type="submit" className="login_submit" onClick={goToDashboard}>
+            Sign in
         </button>
     </form>;
 }
