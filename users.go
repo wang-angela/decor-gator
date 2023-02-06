@@ -42,6 +42,8 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 		log.Fatalln("Error Decoding")
 	}
 
+	user.Password = encrypt(user.Password)
+	db.Create(&user)
 	if db.Create(&user).Error != nil {
 		log.Println("User already exists")
 	}
@@ -64,9 +66,19 @@ func updateUser(w http.ResponseWriter, r *http.Request) {
 		log.Fatalln("User not found")
 	}
 
+	// Retrieve and store current
+	cur := user.Password
+
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
 		log.Fatalln("Error Decoding")
+	}
+
+	// If password didn't change, keep current hash
+	if comparePassword(user.Password, cur) {
+		user.Password = cur
+	} else {
+		user.Password = encrypt(user.Password)
 	}
 
 	db.Save(&user)
