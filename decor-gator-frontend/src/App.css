@@ -6,7 +6,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: whitesmoke;
+  background: rgb(222,99,22);
+  background: linear-gradient(158deg, rgba(222,99,22,1) 0%, rgba(195,33,137,1) 46%, rgba(8,0,255,1) 100%);
   font-family: "Nunito"
 }
 

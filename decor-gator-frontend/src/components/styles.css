@@ -1,3 +1,4 @@
+
 .input {
     display: flex;
     width: 90%;
@@ -8,24 +9,46 @@
 .box {
     display: flex;
     flex-direction: column;
-    padding: 100px;
-    width: 160px;
+    padding: 150px;
+    width: 200px;
+    height: 400px;
+    margin-top: 125px;
+    background-color: white;
+    box-shadow: 4px 4px 10px 10px rgba(0, 0, 0, 0.06);
+    border-radius: 20px;
+    opacity:100%;
+    transition: all 0.1s ease-out;
   }
+
+.box:hover {
+    opacity: 1;
+    transition: all 0.1s ease-in;
+}
+
+@keyframes fadein {
+  from {opacity: 0.8;}
+  to {opacity: 1;}
+}
   
   .title {
     display: flex;
     flex-direction: column;
     align-items: center;
     font-family: "Nunito";
+    font-size: 40px;
+    font-weight: bolder;
   }
   
-  .login-box {
+  .login_box {
     display: flex;
     flex-direction: column;
     align-items: center;
     border-style: hidden;
     background-color: white;
-    font-family: "Nunito"
+    font-family: "Nunito";
+    border-bottom: solid #000000 1px;
+    
+    
   }
   
   .label {
@@ -33,19 +56,32 @@
     flex-direction: column;
     align-items: start;
     margin: 5px 0;
+    font-style:italic;
+    font-size: 14px;
+    padding-top: 30px;
   }
   
   .login_submit {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 3px;
-    margin: 10px 0;
+    padding: 10px;
+    margin-top: 70px;
     font-family: "Nunito";
+    background-color: rgb(225, 70, 192);
+    color: white;
+    border-radius: 15px;
+    align-self: center;
+    width: 320px;
+    transition: all 0.1s ease-out;
+    border: none;
+    font-weight: bolder;
   }
   
   .login_submit:hover {
-    background-color: #c84f4fbb;
+    background-color: #3529b6bb;
+    opacity: 1;
+    transition: all 0.1s ease-in;
   }
   
   .App-header {

@@ -4,7 +4,6 @@ import LoginField from './LoginField'
 function Login() {
     return (
     <div className="App">
-      <span className="heading">Decor Gator</span>
       <LoginField />
     </div>
     );
