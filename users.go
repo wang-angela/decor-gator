@@ -16,9 +16,9 @@ var err error
 type User struct {
 	gorm.Model
 	ID       uint   `gorm:"primaryKey" json:"id"`
-	Username string `json:"username"`
+	Username string `gorm:"unique" json:"username"`
 	Password string `json:"password"`
-	Email    string `json:"email"`
+	Email    string `gorm:"unique" json:"email"`
 }
 
 func initMigration() {
@@ -42,7 +42,9 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 		log.Fatalln("Error Decoding")
 	}
 
-	db.Create(&user)
+	if db.Create(&user).Error != nil {
+		log.Println("User already exists")
+	}
 
 	// Returns error if encoding is unsuccessful
 	err = json.NewEncoder(w).Encode(&user)
