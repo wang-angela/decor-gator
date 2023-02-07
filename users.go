@@ -31,6 +31,29 @@ func initMigration() {
 	db.AutoMigrate(&User{})
 }
 
+func getUsers(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application-json")
+	var users []User
+	db.Find(&users)
+	json.NewEncoder(w).Encode(users)
+}
+
+func getUser(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application-json")
+	var user User
+
+	params := mux.Vars(r)["id"]
+	db.First(&user, params)
+	if user.ID == 0 {
+		log.Fatalln("User not found")
+	}
+
+	err = json.NewEncoder(w).Encode(&user)
+	if err != nil {
+		log.Fatalln("Error Encoding")
+	}
+}
+
 func createUser(w http.ResponseWriter, r *http.Request) {
 	var user User
 	w.Header().Set("Content-Type", "application/json")
@@ -87,4 +110,12 @@ func updateUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalln("Error Encoding")
 	}
+}
+
+func deleteUser(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application-json")
+	var user User
+	params := mux.Vars(r)["id"]
+	db.Delete(&user, params)
+	json.NewEncoder(w).Encode("You've successfully deleted this user.")
 }
