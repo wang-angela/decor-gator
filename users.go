@@ -6,12 +6,8 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
-
-var db *gorm.DB
-var err error
 
 type User struct {
 	gorm.Model
@@ -21,27 +17,26 @@ type User struct {
 	Email    string `gorm:"unique" json:"email"`
 }
 
-func initMigration() {
-	// Open data.db; if data does not exist, create it
-	db, err = gorm.Open(sqlite.Open("data.db"), &gorm.Config{})
-	// If there is an error, print error and message
-	if err != nil {
-		log.Print("Unable to connect to DB")
-	}
-	db.AutoMigrate(&User{})
-}
-
 func getUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application-json")
 	var users []User
-	db.Find(&users)
-	json.NewEncoder(w).Encode(users)
+
+	// Prints an error if no users were in the data base.
+	if db.Find(&users).Error != nil {
+		log.Printf("There are no users in the database.")
+	}
+
+	err = json.NewEncoder(w).Encode(users)
+	if err != nil {
+		log.Printf("Error Encoding.")
+	}
 }
 
 func getUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application-json")
 	var user User
 
+	// Prints an error id the user doesn't exists.
 	params := mux.Vars(r)["id"]
 	db.First(&user, params)
 	if user.ID == 0 {
@@ -116,6 +111,11 @@ func deleteUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application-json")
 	var user User
 	params := mux.Vars(r)["id"]
-	db.Delete(&user, params)
+
+	// Prints if deletion was not successful.
+	if db.Delete(&user, params).Error != nil {
+		log.Printf("Could not delete user.")
+	}
+
 	json.NewEncoder(w).Encode("You've successfully deleted this user.")
 }
