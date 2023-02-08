@@ -15,7 +15,6 @@ var err error
 
 type User struct {
 	gorm.Model
-	ID       uint   `gorm:"primaryKey" json:"id"`
 	Username string `gorm:"unique" json:"username"`
 	Password string `json:"password"`
 	Email    string `gorm:"unique" json:"email"`
@@ -45,7 +44,7 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)["id"]
 	db.First(&user, params)
 	if user.ID == 0 {
-		log.Fatalln("User not found")
+		log.Println("User not found")
 	}
 
 	err = json.NewEncoder(w).Encode(&user)
@@ -66,7 +65,6 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	user.Password = encrypt(user.Password)
-	db.Create(&user)
 	if db.Create(&user).Error != nil {
 		log.Println("User already exists")
 	}
@@ -86,7 +84,7 @@ func updateUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)["id"]
 	db.First(&user, params)
 	if user.ID == 0 {
-		log.Fatalln("User not found")
+		log.Println("User not found")
 	}
 
 	// Retrieve and store current
