@@ -85,6 +85,7 @@ func updateUser(w http.ResponseWriter, r *http.Request) {
 	db.First(&user, params)
 	if user.ID == 0 {
 		log.Println("User not found")
+		return
 	}
 
 	// Retrieve and store current
