@@ -1,19 +1,13 @@
 import React from "react";
-import "./App.css";
-import { BrowserRouter as Router, Routes, Route }
-    from "react-router-dom";
-import Login from "./components/Login";
-import Dashboard from "./components/Dashboard";
-  
+import "./App.css"
+import FlipMenu from "./components/FlipMenu"
+
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/redirect" element={<Dashboard />}/> 
-        <Route path="/" element={<Login/>}/>
-      </Routes>
-    </Router>
-  );
+    <div className = "App">
+      <FlipMenu />
+    </div>
+  )
 }
   
 export default App;
