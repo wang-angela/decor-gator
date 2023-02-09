@@ -15,7 +15,7 @@ As a person who travels frequently for work, I don't live in an area for more th
 Some issues that we plan to addres are:
 
 1. Create a login screen with user authentication
-2. Create a dashboard that allows users to list furniture for sale or rent, and a button to take the user to the furniture marketplace to browse.
+2. Create a dashboard that allows users to list furniture for sale or rent, and a tab to take the user to the furniture marketplaces to browse.
 3. A way to allow users to upload pictures
 
 ## Issues Successfully Completed
@@ -24,5 +24,8 @@ Some issues that we have successfully completed:
 1. Created a way to store user information
 2. Added password encryption to protect user passwords
 3. Created APIs for users and posts/listings
+4. Created a login screen and a sign up page
 
 ## Issues Not Successfully Completed
+1. User authentication is not completed yet - it took a while to settle down with a specific details of the frontend and didn't have enough time to set up the authentication method.
+2. Dashboard - this was divided into multiple pages to create (front page, homepage, selling board, renting board, posting page) and will be addressed separately in the upcoming sprints.
