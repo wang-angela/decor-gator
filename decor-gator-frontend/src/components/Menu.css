@@ -27,28 +27,46 @@
 
 }
 
-.login-title {
+.signup-name-headers {
+    display: flex;
+    align-items: left;
+    justify-content: flex-start;
+    width: 80%;
+    gap: 28%;
+}
+
+.signup-name-inputs {
+    display: flex;
+    justify-content: flex-start;
+    gap: 5%;
+}
+
+.first-name-text, .last-name-text {
+    align-self: left;
+}
+
+.login-title, .signup-title {
     justify-content: center;
     font-family: "Nunito";
     font-weight: 800;
     font-size: 40px;
     color: black;
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.8);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
 }
 
-.login-text {
+.login-text, .first-name-text, .last-name-text, .signup-text {
     display: flex;
-    flex-direction: column;
     justify-content: left;
+    align-self: left;
 
     margin: 5px 0;
     font-family: "Nunito";
     font-weight: 800;
-    font-size: 23px;
-    padding-top: 30px;
+    font-size: 16px;
+    padding-top: 20px;
 }
 
-.login-button {
+.login-button, .signup-button {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -65,7 +83,39 @@
     font-weight: bolder;
 }
 
-.login-button:hover {
+.login-box {
+    width: 60%;
+    height: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-style: hidden;
+    background-color: rgb(232, 229, 229);
+    font-family: "Nunito";
+    border-radius: 8px;
+    text-indent: 6px;
+  }
+
+.login-box::placeholder {
+    font-style: italic;
+}
+
+.signup-box-small {
+    width: 46%;
+    height: 28px;
+    flex-direction: column;
+    border-style: hidden;
+    background-color: rgb(232, 229, 229);
+    font-family: "Nunito";
+    border-radius: 8px;
+    text-indent: 6px;
+  }
+
+.signup-box-small::placeholder {
+    font-style: italic;
+}
+
+.login-button:hover, .signup-button:hover {
     background-color: #3529b6bb;
     opacity: 1;
     transition: all 0.1s ease-in;

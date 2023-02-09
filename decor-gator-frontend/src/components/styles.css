@@ -39,7 +39,7 @@
     font-weight: bolder;
   }
   
-  .login_box {
+  .login-box {
     display: flex;
     flex-direction: column;
     align-items: center;

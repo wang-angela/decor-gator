@@ -5,16 +5,16 @@ import {CSSTransition} from 'react-transition-group'
 import {useState} from 'react';
 
 export default function FlipMenu() {
-    const [showFront, setShowFront] = useState(true)
+    const [showLogin, setShowLogin] = useState(true)
     return (
         <div className = 'flip-menu-container'>
             <CSSTransition
-                in = {showFront}
+                in = {showLogin}
                 timeout = {500}
                 classNames = 'flip'
             >
                 <Menu onClick = {() => {
-                    setShowFront((state) => !state)
+                    setShowLogin((state) => !state)
                 }} />
             </CSSTransition>
         </div>
