@@ -27,5 +27,6 @@ Some issues that we have successfully completed:
 4. Created a login screen and a sign up page
 
 ## Issues Not Successfully Completed
-1. User authentication is not completed yet - it took a while to settle down with a specific details of the frontend and didn't have enough time to set up the authentication method.
+1. User authentication is not completed yet - it took a while to settle down with a specific details of the frontend and didn't have enough time to set up the authentication method. On the backend, there were errors and bugs that took some time to fix, so the backend didn't have the code ready to test for the frontend.
 2. Dashboard - this was divided into multiple pages to create (front page, homepage, selling board, renting board, posting page) and will be addressed separately in the upcoming sprints.
+3. Pictures - we were not able to complete enough of the project to get to a point that allowed users to upload pictures.
