@@ -1,3 +1,8 @@
+/* Code referenced from:
+* https://www.youtube.com/watch?v=KPftgI40WHI by the Daily Code Buffer
+* https://blog.logrocket.com/routing-go-gorilla-mux/ by Paul Akinyemi
+ */
+
 package main
 
 import (

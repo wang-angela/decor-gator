@@ -1,3 +1,5 @@
+// https://gowebexamples.com/password-hashing/
+
 package main
 
 import (
