@@ -44,7 +44,7 @@ func initRouter() {
 	r.HandleFunc("/posts/{id}", deletePost).Methods("DELETE")
 
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:8000"},
+		AllowedOrigins:   []string{"http://localhost:3000"},
 		AllowCredentials: true,
 	})
 
