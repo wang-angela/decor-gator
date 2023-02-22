@@ -42,5 +42,11 @@ func initRouter() {
 	r.HandleFunc("/posts/{id}", updatePost).Methods("PUT")
 	r.HandleFunc("/posts/{id}", deletePost).Methods("DELETE")
 
+	r.HandleFunc("/images", getImages).Methods("GET")
+	r.HandleFunc("/images/{id}", getImage).Methods("GET")
+	r.HandleFunc("/images", createImage).Methods("POST")
+	r.HandleFunc("/images/{id}", updateImage).Methods("PUT")
+	r.HandleFunc("/images/{id}", deleteImage).Methods("DELETE")
+
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
