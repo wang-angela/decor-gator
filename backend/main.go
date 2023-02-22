@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -42,5 +43,11 @@ func initRouter() {
 	r.HandleFunc("/posts/{id}", updatePost).Methods("PUT")
 	r.HandleFunc("/posts/{id}", deletePost).Methods("DELETE")
 
-	log.Fatal(http.ListenAndServe(":8080", r))
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:8000"},
+		AllowCredentials: true,
+	})
+
+	handler := c.Handler(r)
+	log.Fatal(http.ListenAndServe(":8080", handler))
 }
