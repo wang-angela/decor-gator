@@ -13,6 +13,13 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
 
     function handleLogin() {
         if (loginEmailRef.current && loginPasswordRef.current) {
+            fetch('http://localhost:8080/users/'+loginEmailRef.current.value).then((res) => {
+                return res.json()
+            }).then((response) => {
+                console.log(response)
+            }).catch((err) => {
+                console.log(err)
+            })
             console.log(loginEmailRef.current.value)
             console.log(loginPasswordRef.current.value)
         }
