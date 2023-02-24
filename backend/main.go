@@ -5,6 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	// "github.com/gorilla/context"
+	// "github;com/gorilla/sessions"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -29,6 +31,10 @@ func initMigration() {
 
 func initRouter() {
 	r := mux.NewRouter()
+
+	r.HandleFunc("/login", Login)
+	r.HandleFunc("/home", Home)
+	r.HandleFunc("/refresh", Refresh)
 
 	r.HandleFunc("/users", getUsers).Methods("GET")
 	r.HandleFunc("/users/{id}", getUser).Methods("GET")
