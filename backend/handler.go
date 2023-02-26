@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/decor-gator/backend/pkg/models"
 	"github.com/golang-jwt/jwt/v5"
 )
 
@@ -23,7 +24,7 @@ type Claims struct {
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
-	var credentials User
+	var credentials models.User
 	err := json.NewDecoder(r.Body).Decode(&credentials)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)

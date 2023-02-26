@@ -1,28 +1,21 @@
-package main
+package controllers
 
 import (
 	"encoding/json"
 	"log"
 	"net/http"
 
+	"github.com/decor-gator/backend/pkg/models"
+	"github.com/decor-gator/backend/pkg/utils"
 	"github.com/gorilla/mux"
-	"gorm.io/gorm"
 )
 
-type Post struct {
-	gorm.Model
-	ID            uint   `gorm:"primaryKey" json:"id"`
-	Title         string `json:"title"`
-	FurnitureType string `json:"furnitureType"`
-	UserPosted    string `json:"userPosted"` // Change later to user object once we learn how to test that on Postman.
-}
-
-func getPosts(w http.ResponseWriter, r *http.Request) {
+func GetPosts(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application-json")
-	var posts []Post
+	var posts []models.Post
 
 	// Prints an error if no posts are in the database.
-	if db.Find(&posts).Error != nil {
+	if utils.DB.Find(&posts).Error != nil {
 		log.Printf("No posts exists.")
 	}
 
@@ -32,13 +25,13 @@ func getPosts(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getPost(w http.ResponseWriter, r *http.Request) {
+func GetPost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application-json")
-	var post Post
+	var post models.Post
 
 	// Prints error if the post doesn't exist.
 	params := mux.Vars(r)["id"]
-	db.First(&post, params)
+	utils.DB.First(&post, params)
 	if post.ID == 0 {
 		log.Fatalln("Post not found")
 	}
@@ -49,8 +42,8 @@ func getPost(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func createPost(w http.ResponseWriter, r *http.Request) {
-	var post Post
+func CreatePost(w http.ResponseWriter, r *http.Request) {
+	var post models.Post
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 
@@ -60,7 +53,7 @@ func createPost(w http.ResponseWriter, r *http.Request) {
 		log.Fatalln("Error Decoding")
 	}
 
-	if db.Create(&post).Error != nil {
+	if utils.DB.Create(&post).Error != nil {
 		log.Println("Post already exists")
 	}
 
@@ -71,13 +64,13 @@ func createPost(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func updatePost(w http.ResponseWriter, r *http.Request) {
-	var post Post
+func UpdatePost(w http.ResponseWriter, r *http.Request) {
+	var post models.Post
 	w.Header().Set("Content-Type", "application/json")
 
 	// Search for user by id; id=0 if user not found
 	params := mux.Vars(r)["id"]
-	db.First(&post, params)
+	utils.DB.First(&post, params)
 	if post.ID == 0 {
 		log.Fatalln("Post not found")
 	}
@@ -87,7 +80,7 @@ func updatePost(w http.ResponseWriter, r *http.Request) {
 		log.Fatalln("Error Decoding")
 	}
 
-	db.Save(&post)
+	utils.DB.Save(&post)
 
 	err = json.NewEncoder(w).Encode(&post)
 	if err != nil {
@@ -95,13 +88,13 @@ func updatePost(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func deletePost(w http.ResponseWriter, r *http.Request) {
+func DeletePost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application-json")
-	var post Post
+	var post models.Post
 	params := mux.Vars(r)["id"]
 
 	// Prints if deletion was not successful.
-	if db.Delete(&post, params).Error != nil {
+	if utils.DB.Delete(&post, params).Error != nil {
 		log.Printf("Could not delete post.")
 	}
 
