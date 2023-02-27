@@ -11,12 +11,12 @@ import (
 
 type Image struct {
 	gorm.Model
-	imageID       int    `gorm:"primaryKey" json:"id"`
-	imageByteData string `json:"ByteData"`
+	ImageID       int    `gorm:"primaryKey" json:"id"`
+	ImageByteData string `json:"ByteData"`
 }
 
 func getImages(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application-json")
+	w.Header().Set("Content-Type", "application/json")
 	var images []Image
 
 	// Prints an error if no posts are in the database.
@@ -31,7 +31,7 @@ func getImages(w http.ResponseWriter, r *http.Request) {
 }
 
 func getImage(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application-json")
+	w.Header().Set("Content-Type", "application/json")
 	var image Image
 
 	// Prints error if the post doesn't exist.
@@ -94,7 +94,7 @@ func updateImage(w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteImage(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application-json")
+	w.Header().Set("Content-Type", "application/json")
 	var image Image
 	params := mux.Vars(r)["id"]
 

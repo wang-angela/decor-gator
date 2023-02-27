@@ -18,7 +18,7 @@ type Post struct {
 }
 
 func getPosts(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application-json")
+	w.Header().Set("Content-Type", "application/json")
 	var posts []Post
 
 	// Prints an error if no posts are in the database.
@@ -33,7 +33,7 @@ func getPosts(w http.ResponseWriter, r *http.Request) {
 }
 
 func getPost(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application-json")
+	w.Header().Set("Content-Type", "application/json")
 	var post Post
 
 	// Prints error if the post doesn't exist.
@@ -96,7 +96,7 @@ func updatePost(w http.ResponseWriter, r *http.Request) {
 }
 
 func deletePost(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application-json")
+	w.Header().Set("Content-Type", "application/json")
 	var post Post
 	params := mux.Vars(r)["id"]
 
