@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/rs/cors"
+	// "github.com/rs/cors"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -31,9 +31,11 @@ func initMigration() {
 func initRouter() {
 	r := mux.NewRouter()
 
+	/*
 	r.HandleFunc("/login", Login)
 	r.HandleFunc("/home", Home)
 	r.HandleFunc("/refresh", Refresh)
+	*/
 
 	r.HandleFunc("/users", getUsers).Methods("GET")
 	r.HandleFunc("/users/{email}", getUser).Methods("GET")
@@ -53,11 +55,13 @@ func initRouter() {
 	r.HandleFunc("/images/{id}", updateImage).Methods("PUT")
 	r.HandleFunc("/images/{id}", deleteImage).Methods("DELETE")
 
+	/*
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"http://localhost:3000"},
 		AllowCredentials: true,
 	})
+	*/
 
-	handler := c.Handler(r)
+	// handler := c.Handler(r)
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
