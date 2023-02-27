@@ -33,9 +33,15 @@ func initRouter() {
 
 	/*
 <<<<<<< HEAD
+<<<<<<< HEAD
 	r.HandleFunc("/login", Login)
 	r.HandleFunc("/home", Home)
 	r.HandleFunc("/refresh", Refresh)
+=======
+		r.HandleFunc("/login", Login)
+		r.HandleFunc("/home", Home)
+		r.HandleFunc("/refresh", Refresh)
+>>>>>>> 3c4149a659a03ad7a23c17a74d6ff43d05dfc1cb
 =======
 		r.HandleFunc("/login", Login)
 		r.HandleFunc("/home", Home)
@@ -70,8 +76,13 @@ func initRouter() {
 	*/
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	// handler := c.Handler(r)
 	log.Fatal(http.ListenAndServe(":8080", r))
+=======
+	handler := c.Handler(r)
+	log.Fatal(http.ListenAndServe(":8080", handler))
+>>>>>>> 3c4149a659a03ad7a23c17a74d6ff43d05dfc1cb
 =======
 	handler := c.Handler(r)
 	log.Fatal(http.ListenAndServe(":8080", handler))
