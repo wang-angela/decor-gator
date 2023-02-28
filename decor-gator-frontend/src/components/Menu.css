@@ -1,0 +1,186 @@
+.menu {
+    height: 100%;
+    width: 100%;
+    position: relative;
+
+    border-radius: 5px;
+    border: 3px solid white;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);
+
+    transform-style: preserve-3d;
+
+}
+
+.menu-front-login, .menu-back-signup {
+    display: flex;
+    flex-direction: column;
+
+    height: 100%;
+    width: 100%;
+    position: absolute;
+
+    display: flex;
+    align-items: center;
+    
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.signup-name-headers {
+    display: flex;
+    align-items: left;
+    justify-content: flex-start;
+    width: 80%;
+    gap: 28%;
+}
+
+.signup-name-inputs {
+    display: flex;
+    justify-content: flex-start;
+    gap: 5%;
+}
+
+.first-name-text, .last-name-text {
+    align-self: left;
+}
+
+.login-title, .signup-title {
+    justify-content: center;
+    font-family: "Nunito";
+    font-weight: 800;
+    font-size: 40px;
+    color: black;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+}
+
+.login-text, .first-name-text, .last-name-text, .signup-text {
+    display: flex;
+    justify-content: left;
+    align-self: left;
+
+    margin: 5px 0;
+    font-family: "Nunito";
+    font-weight: 800;
+    font-size: 16px;
+    padding-top: 20px;
+}
+
+.login-button, .signup-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+    margin-top: 20px;
+    font-family: "Nunito";
+    background-color: rgb(225, 70, 192);
+    color: white;
+    border-radius: 15px;
+    align-self: center;
+    width: 170px;
+    transition: all 0.1s ease-out;
+    border: none;
+    font-weight: bolder;
+}
+
+.login-box {
+    width: 60%;
+    height: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-style: hidden;
+    background-color: rgb(232, 229, 229);
+    font-family: "Nunito";
+    border-radius: 8px;
+    text-indent: 6px;
+  }
+
+.login-box::placeholder {
+    font-style: italic;
+}
+
+.signup-box-small {
+    width: 46%;
+    height: 28px;
+    flex-direction: column;
+    border-style: hidden;
+    background-color: rgb(232, 229, 229);
+    font-family: "Nunito";
+    border-radius: 8px;
+    text-indent: 6px;
+    backface-visibility: hidden;
+  }
+
+.signup-box-small::placeholder {
+    font-style: italic;
+}
+
+.login-button:hover, .signup-button:hover {
+    background-color: #3529b6bb;
+    opacity: 1;
+    transition: all 0.1s ease-in;
+}
+
+.menu-front-login {
+
+    background: white;
+
+}
+
+.menu-back-signup {
+
+    background: white;
+    transform: rotateY(180deg);
+
+}
+
+.flip-exit {
+    transform: rotateY(0deg);
+}
+
+.flip-exit-active {
+    transform: rotateY(180deg);
+    transition: transform 500ms;
+    transition-timing-function: ease-out;
+}
+
+.flip-exit-done {
+    transform: rotateY(180deg);
+}
+
+.flip-enter {
+    transform: rotateY(180deg);
+}
+
+.flip-enter-active {
+    transform: rotateY(360deg);
+    transition: transform 500ms;
+    transition-timing-function: ease-out;
+}
+
+.flip-enter-done {
+    transform: rotateY(360deg);
+}
+
+.flip-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    margin-top: 70px;
+    font-family: "Nunito";
+    background-color: rgb(225, 70, 192);
+    color: white;
+    border-radius: 15px;
+    align-self: center;
+    width: 320px;
+    transition: all 0.1s ease-out;
+    border: none;
+    font-weight: bolder;
+}
+
+.flip-button:hover {
+    background-color: #3529b6bb;
+    opacity: 1;
+    transition: all 0.1s ease-in;
+}
