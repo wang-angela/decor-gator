@@ -55,11 +55,13 @@ func initRouter() {
 	r.HandleFunc("/images/{id}", updateImage).Methods("PUT")
 	r.HandleFunc("/images/{id}", deleteImage).Methods("DELETE")
 
+	
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"http://localhost:3000"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE"},
 		AllowCredentials: true,
 	})
+	
 
 	handler := c.Handler(r)
 	log.Fatal(http.ListenAndServe(":8080", handler))
