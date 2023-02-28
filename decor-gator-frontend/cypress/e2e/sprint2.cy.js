@@ -31,6 +31,8 @@ describe('decor-gator signup and login test', () => {
 
     it('Signs up with all information entered', () => {
         cy.contains('Don\'t have an account? SIGN UP').click()
+
+        //This one has issue with signup-title not being visible even if the card is flipped over
         //cy.get('.signup-title').should('be.visible')
         //cy.get('input[placeholder="First Name"').type('Dwayne')
         //cy.get('input[placeholder="Last Name"').type('Johnson')
@@ -46,6 +48,13 @@ describe('decor-gator signup and login test', () => {
       cy.get('input[placeholder="Password"').last().type('123456')
       cy.contains('SIGN IN').click()
       
+      //Test if login successful message popped off
+
+
+      //cy.get('.buypage').should('have.text', 'Buy Page')
+      cy.contains('Buy Page')
+      cy.get('.makePost-button').click()
+      cy.get('input[placeholder="Title"')
     })
   })
   

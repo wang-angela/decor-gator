@@ -8,7 +8,7 @@ function BuyPage() {
     //Build more structure
     const navigate = useNavigate();
     return (
-        <div>
+        <div className='buypage'>
             <Header />
             Buy Page
             <button type="button" className="makePost-button" onClick={()=>navigate('/PostPage')}>
