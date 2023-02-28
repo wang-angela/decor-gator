@@ -24,7 +24,6 @@
     
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-
 }
 
 .signup-name-headers {
@@ -109,6 +108,7 @@
     font-family: "Nunito";
     border-radius: 8px;
     text-indent: 6px;
+    backface-visibility: hidden;
   }
 
 .signup-box-small::placeholder {

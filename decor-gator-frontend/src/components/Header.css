@@ -1,3 +1,12 @@
 .header {
+    height: 100%;
+    width: 100%;
+    position: relative;
     
+    justify-content: center;
+    font-family: "Nunito";
+    font-weight: 800;
+    font-size: 40px;
+    color: black;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
 }

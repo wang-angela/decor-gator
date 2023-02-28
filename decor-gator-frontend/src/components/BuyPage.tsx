@@ -9,7 +9,8 @@ function BuyPage() {
     const navigate = useNavigate();
     return (
         <div>
-            <Header />cd 
+            <Header />
+            Buy Page
             <button type="button" className="makePost-button" onClick={()=>navigate('/PostPage')}>
                 + Post
             </button>

@@ -17,14 +17,14 @@ describe('example to-do app', () => {
     // so we must tell it to visit our website with the `cy.visit()` command.
     // Since we want to visit the same URL at the start of all our tests,
     // we include it in our beforeEach function so that it runs before each test
-    cy.visit('https://example.cypress.io/todo')
+    cy.visit('http://localhost:3000/')
   })
 
-  it('displays two todo items by default', () => {
+  it('Flips the login screen to signup', () => {
     // We use the `cy.get()` command to get all elements that match the selector.
     // Then, we use `should` to assert that there are two matched items,
     // which are the two default items.
-    cy.get('.todo-list li').should('have.length', 2)
+    cy.get('.menu-front-login').get('flip-button')
 
     // We can go even further and check that the default todos each contain
     // the correct text. We use the `first` and `last` functions
