@@ -22,7 +22,7 @@ type User struct {
 }
 
 func getUsers(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application-json")
+	w.Header().Set("Content-Type", "application/json")
 	var users []User
 
 	// Prints an error if no users were in the data base.
@@ -37,13 +37,13 @@ func getUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func getUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application-json")
+	w.Header().Set("Content-Type", "application/json")
 	var user User
 
 	// Prints an error id the user doesn't exists.
-	params := mux.Vars(r)["id"]
-	db.First(&user, params)
-	if user.ID == 0 {
+	params := mux.Vars(r)["email"]
+	db.Where("email = ?", params).First(&user)
+	if user.Email == "" {
 		log.Println("User not found")
 	}
 
@@ -81,11 +81,10 @@ func updateUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	// Search for user by id; id=0 if user not found
-	params := mux.Vars(r)["id"]
-	db.First(&user, params)
-	if user.ID == 0 {
+	params := mux.Vars(r)["email"]
+	db.Where("email = ?", params).First(&user)
+	if user.Email == "" {
 		log.Println("User not found")
-		return
 	}
 
 	// Retrieve and store current
@@ -112,12 +111,14 @@ func updateUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application-json")
+	w.Header().Set("Content-Type", "application/json")
 	var user User
-	params := mux.Vars(r)["id"]
+	params := mux.Vars(r)["email"]
+
+	db.Where("email = ?", params).Delete(&user)
 
 	// Prints if deletion was not successful.
-	if db.Delete(&user, params).Error != nil {
+	if user.Email != "" {
 		log.Printf("Could not delete user.")
 	}
 

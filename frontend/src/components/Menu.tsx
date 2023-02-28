@@ -17,6 +17,10 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
         navigate('/BuyPage');
     }
 
+    function validateLogin() {
+        
+    }
+
     function handleLogin() {
 
         if (loginEmailRef.current && loginPasswordRef.current) {
@@ -41,10 +45,23 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
 
     function handleSignup() {
         if (signupFirstNameRef.current && signupLastNameRef.current && signupEmailRef.current && signupPasswordRef.current) {
-            console.log(signupFirstNameRef.current.value)
-            console.log(signupLastNameRef.current.value)
-            console.log(signupEmailRef.current.value)
-            console.log(signupPasswordRef.current.value)
+            
+            let username = signupFirstNameRef.current.value + signupLastNameRef.current.value
+            let email = signupEmailRef.current.value
+            let password = signupPasswordRef.current.value
+            let signupObj = {username, email, password}
+
+            fetch('http://localhost:8080/users', {
+                method: "POST",
+                headers: {'content-type': 'application/json'},
+                body:JSON.stringify(signupObj)
+            }).then((response)=>{
+                alert("User successfully created!")
+            }).catch((err) => {
+                console.log(err)
+            })
+            
+            console.log(signupObj)
         }
     }
 

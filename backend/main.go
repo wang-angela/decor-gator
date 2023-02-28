@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -30,11 +31,17 @@ func initMigration() {
 func initRouter() {
 	r := mux.NewRouter()
 
+	/*
+		r.HandleFunc("/login", Login)
+		r.HandleFunc("/home", Home)
+		r.HandleFunc("/refresh", Refresh)
+	*/
+
 	r.HandleFunc("/users", getUsers).Methods("GET")
-	r.HandleFunc("/users/{id}", getUser).Methods("GET")
+	r.HandleFunc("/users/{email}", getUser).Methods("GET")
 	r.HandleFunc("/users", createUser).Methods("POST")
-	r.HandleFunc("/users/{id}", updateUser).Methods("PUT")
-	r.HandleFunc("/users/{id}", deleteUser).Methods("DELETE")
+	r.HandleFunc("/users/{email}", updateUser).Methods("PUT")
+	r.HandleFunc("/users/{email}", deleteUser).Methods("DELETE")
 
 	r.HandleFunc("/posts", getPosts).Methods("GET")
 	r.HandleFunc("/posts/{id}", getPost).Methods("GET")
@@ -42,5 +49,20 @@ func initRouter() {
 	r.HandleFunc("/posts/{id}", updatePost).Methods("PUT")
 	r.HandleFunc("/posts/{id}", deletePost).Methods("DELETE")
 
-	log.Fatal(http.ListenAndServe(":8080", r))
+	r.HandleFunc("/images", getImages).Methods("GET")
+	r.HandleFunc("/images/{id}", getImage).Methods("GET")
+	r.HandleFunc("/images", createImage).Methods("POST")
+	r.HandleFunc("/images/{id}", updateImage).Methods("PUT")
+	r.HandleFunc("/images/{id}", deleteImage).Methods("DELETE")
+
+	
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:3000"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE"},
+		AllowCredentials: true,
+	})
+	
+
+	handler := c.Handler(r)
+	log.Fatal(http.ListenAndServe(":8080", handler))
 }
