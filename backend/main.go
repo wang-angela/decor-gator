@@ -31,9 +31,11 @@ func initMigration() {
 func initRouter() {
 	r := mux.NewRouter()
 
-	r.HandleFunc("/login", Login)
-	r.HandleFunc("/home", Home)
-	r.HandleFunc("/refresh", Refresh)
+	/*
+		r.HandleFunc("/login", Login)
+		r.HandleFunc("/home", Home)
+		r.HandleFunc("/refresh", Refresh)
+	*/
 
 	r.HandleFunc("/users", getUsers).Methods("GET")
 	r.HandleFunc("/users/{email}", getUser).Methods("GET")
@@ -55,6 +57,7 @@ func initRouter() {
 
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"http://localhost:3000"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE"},
 		AllowCredentials: true,
 	})
 

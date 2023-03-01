@@ -1,4 +1,5 @@
 import React, {createRef} from 'react'
+import { useNavigate } from "react-router-dom";
 import './Menu.css'
 
 export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLButtonElement>}) {
@@ -11,18 +12,31 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
     const signupEmailRef = React.createRef<HTMLInputElement>()
     const signupPasswordRef = React.createRef<HTMLInputElement>()
 
+    const navigate = useNavigate();
+    const goToBuyPage = () => { //check if user is authenticated
+        navigate('/BuyPage');
+    }
+
     function handleLogin() {
+
         if (loginEmailRef.current && loginPasswordRef.current) {
             fetch('http://localhost:8080/users/'+loginEmailRef.current.value).then((res) => {
                 return res.json()
             }).then((response) => {
                 console.log(response)
+                if (response.message === "SUCCESS"){ //Need to edit the condition based on what respoonse is
+                    alert("Login successful!");
+                    goToBuyPage();
+                }
+
             }).catch((err) => {
                 console.log(err)
             })
             console.log(loginEmailRef.current.value)
             console.log(loginPasswordRef.current.value)
         }
+        {/* DELETE THIS vv after testing sign-up request */}
+        goToBuyPage();
     }
 
     function handleSignup() {
@@ -74,8 +88,8 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
 
                 <label className="login-text">Password</label>
                 <input ref={loginPasswordRef} type='password' placeholder='Password' className="login-box"/>
-
-                <button type="submit" onClick = {handleLogin} className="login-button">
+                
+                <button type="submit" onClick = {handleLogin} className="login-button"> 
                     SIGN IN
                 </button>
 
@@ -87,4 +101,4 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
 
         </div>
     )
-}
+};
