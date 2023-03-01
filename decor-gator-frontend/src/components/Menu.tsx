@@ -1,6 +1,7 @@
 import React, {createRef} from 'react'
 import { useNavigate } from "react-router-dom";
 import './Menu.css'
+import bcrypt from 'bcryptjs'
 
 export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLButtonElement>}) {
     
@@ -17,34 +18,80 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
         navigate('/BuyPage');
     }
 
-    function handleLogin() {
+    async function handleLogin() {
 
         if (loginEmailRef.current && loginPasswordRef.current) {
+            if (!loginEmailRef.current.value || !loginPasswordRef.current.value) {
+                alert("Please enter credentials.")
+                return
+                }
             fetch('http://localhost:8080/users/'+loginEmailRef.current.value).then((res) => {
                 return res.json()
             }).then((response) => {
                 console.log(response)
-                if (response.message === "SUCCESS"){ //Need to edit the condition based on what respoonse is
-                    alert("Login successful!");
-                    goToBuyPage();
+                let status = 'ERROR'
+                if (loginPasswordRef.current) {
+                    bcrypt.compare(loginPasswordRef.current.value, response.password).then((result) => {
+                        console.log(result)
+                        if (result) {
+                            status = 'SUCCESS'
+                            alert("Login successful!")
+                            localStorage.setItem('userData', JSON.stringify(response)) // store userData in local storage for whenever we need info about the current user
+                            console.log(JSON.parse(localStorage.getItem('userData') || ""))
+                            goToBuyPage()
+                        }
+                        else {
+                            status = 'INVALID PASSWORD'
+                            alert("Invalid password")
+                        }
+                    }).catch((err) => {
+                        console.log(err)
+                    })
                 }
 
             }).catch((err) => {
                 console.log(err)
             })
-            console.log(loginEmailRef.current.value)
-            console.log(loginPasswordRef.current.value)
         }
-        {/* DELETE THIS vv after testing sign-up request */}
-        goToBuyPage();
     }
 
     function handleSignup() {
         if (signupFirstNameRef.current && signupLastNameRef.current && signupEmailRef.current && signupPasswordRef.current) {
-            console.log(signupFirstNameRef.current.value)
-            console.log(signupLastNameRef.current.value)
-            console.log(signupEmailRef.current.value)
-            console.log(signupPasswordRef.current.value)
+            if (!signupFirstNameRef.current.value || !signupLastNameRef.current.value || !signupEmailRef.current.value || !signupPasswordRef.current.value) {
+                alert("Please enter all fields.")
+                return
+            }
+            let username = signupFirstNameRef.current.value + signupLastNameRef.current.value
+            let email = signupEmailRef.current.value
+            let password = signupPasswordRef.current.value
+            let signupObj = {username, email, password}
+
+            fetch('http://localhost:8080/users/'+email).then((res) => {
+                return res.json()
+            }).then((response) => {
+                console.log(response)
+                if (response.ID != 0)
+                    return false
+                else
+                    return true
+            }).then((isAvailableEmail) => {
+                if (!isAvailableEmail)
+                    alert("Email already registered.")
+                else {
+                    fetch('http://localhost:8080/users', {
+                        method: "POST",
+                        headers: {'content-type': 'application/json'},
+                        body:JSON.stringify(signupObj)
+                    }).then((response)=>{
+                        console.log(response.json())
+                        alert("User successfully created!")
+                    }).catch((err) => {
+                    console.log(err)
+                    })
+                }
+                
+            })
+            console.log(signupObj)
         }
     }
 

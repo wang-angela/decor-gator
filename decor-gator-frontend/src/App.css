@@ -6,7 +6,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(158deg, rgba(222,99,22,1) 0%, rgba(195,33,137,1) 46%, rgba(8,0,255,1) 100%);
+  background: #e5deca;
   font-family: "Nunito"
 }
 
