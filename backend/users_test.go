@@ -26,7 +26,7 @@ func initDB() {
 	}
 
 	tx = db.Session(&gorm.Session{SkipDefaultTransaction: true})
-	tx.AutoMigrate(&User{})
+	tx.AutoMigrate(&User{}, &Post{}, &Image{})
 }
 
 func TestGetAllUsers(t *testing.T) {
