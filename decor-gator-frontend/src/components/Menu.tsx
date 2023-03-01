@@ -36,6 +36,7 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
                 let status = 'ERROR'
                 if (loginPasswordRef.current) {
                     bcrypt.compare(loginPasswordRef.current.value, response.password).then((result) => {
+                        console.log(result)
                         if (result) {
                             status = 'SUCCESS'
                             alert("Login successful!")
