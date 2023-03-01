@@ -29,10 +29,6 @@ func initDB() {
 	tx.AutoMigrate(&User{})
 }
 
-func deleteLast() {
-	db.Exec("DELETE FROM users WHERE id = (SELECT MAX(id) FROM users)")
-}
-
 func TestGetAllUsers(t *testing.T) {
 	initDB()
 
