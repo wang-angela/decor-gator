@@ -59,6 +59,36 @@ func TestGetAllUsers(t *testing.T) {
 	}
 }
 
+func TestGetUser(t *testing.T) {
+	initDB()
+
+	// Send new request with json body info
+	req, err := http.NewRequest("GET", "/users/john.smith@gmail.com", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Record Response
+	rr := httptest.NewRecorder()
+
+	r := mux.NewRouter()
+	r.HandleFunc("/users/{email}", getUser)
+	r.ServeHTTP(rr, req)
+
+	if status := rr.Code; status != http.StatusOK {
+		t.Errorf("Handler returned wrong status code: got %v want %v",
+			status, http.StatusOK)
+	}
+
+	// Decoding recorded response
+	var resp map[string]interface{}
+	json.Unmarshal(rr.Body.Bytes(), &resp)
+
+	if resp["username"] != "john.smith" {
+		t.Errorf("Username is invalid, expected john.smith, got %v", resp["username"])
+	}
+}
+
 func TestCreateUser(t *testing.T) {
 	initDB()
 	clearDB()
@@ -94,35 +124,5 @@ func TestCreateUser(t *testing.T) {
 
 	if resp["username"] != "john.smith" {
 		t.Errorf("username is invalid, expected john.smith, got %v", resp["username"])
-	}
-}
-
-func TestGetUser(t *testing.T) {
-	initDB()
-
-	// Send new request with json body info
-	req, err := http.NewRequest("GET", "/users/john.smith@gmail.com", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	// Record Response
-	rr := httptest.NewRecorder()
-
-	r := mux.NewRouter()
-	r.HandleFunc("/users/{email}", getUser)
-	r.ServeHTTP(rr, req)
-
-	if status := rr.Code; status != http.StatusOK {
-		t.Errorf("Handler returned wrong status code: got %v want %v",
-			status, http.StatusOK)
-	}
-
-	// Decoding recorded response
-	var resp map[string]interface{}
-	json.Unmarshal(rr.Body.Bytes(), &resp)
-
-	if resp["username"] != "john.smith" {
-		t.Errorf("Username is invalid, expected john.smith, got %v", resp["username"])
 	}
 }
