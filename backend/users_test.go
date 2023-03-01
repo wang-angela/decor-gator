@@ -92,7 +92,7 @@ func TestGetUser(t *testing.T) {
 	json.Unmarshal(rr.Body.Bytes(), &resp)
 
 	if resp["username"] != "john.smith" {
-		t.Errorf("username is invalid, expected john.smith, got %v", resp["username"])
+		t.Errorf("Username is invalid, expected john.smith, got %v", resp["username"])
 	}
 }
 
