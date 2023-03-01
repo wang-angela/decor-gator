@@ -95,3 +95,34 @@ func TestGetUser(t *testing.T) {
 		t.Errorf("username is invalid, expected john.smith, got %v", resp["username"])
 	}
 }
+
+func TestGetAllUsers(t *testing.T) {
+	initDB()
+
+	// Send new request with json body info
+	req, err := http.NewRequest("POST", "/users", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Record Response
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(getUsers)
+
+	handler.ServeHTTP(rr, req)
+
+	if status := rr.Code; status != http.StatusOK {
+		t.Errorf("Handler returned wrong status code: got %v want %v",
+			status, http.StatusOK)
+	}
+
+	// Decoding recorded response
+	var resp []User
+	if err := json.Unmarshal(rr.Body.Bytes(), &resp); err != nil {
+		t.Errorf("Invalid response, expected list of users, got %v", rr.Body.String())
+	}
+
+	if len(resp) < 1 {
+		t.Errorf("Invalid number of users, expected 1, got %v", len(resp))
+	}
+}
