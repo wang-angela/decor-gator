@@ -33,12 +33,13 @@ describe('decor-gator signup and login test', () => {
         cy.contains('Don\'t have an account? SIGN UP').click()
 
         //This one has issue with signup-title not being visible even if the card is flipped over
-        //cy.get('.signup-title').should('be.visible')
-        //cy.get('input[placeholder="First Name"').type('Dwayne')
-        //cy.get('input[placeholder="Last Name"').type('Johnson')
-        //cy.get('input[placeholder="Email"').first().type('djohnson@gmail.com')
-        //cy.get('input[placeholder="Password"').type('123456')
-        //cy.contains('SIGN UP').click()
+        cy.get('.menu-back-signup').should('be.visible')
+        cy.get('.signup-title').should('be.visible')
+        cy.get('input[placeholder="First Name"]').type('Dwayne')
+        cy.get('input[placeholder="Last Name"]').type('Johnson')
+        cy.get('input[placeholder="Email"]').first().type('djohnson@gmail.com')
+        cy.get('input[placeholder="Password"]').type('123456')
+        cy.contains('SIGN UP').click()
     
         //Test if successful message popped off
       })
