@@ -67,3 +67,29 @@ Updates a specific image using the information stored in that JSON body. Returns
 
 ##### deletePost(w http.ResponseWriter, r \*http.Request):
 Deletes a specific image contained in the database given by id. Returns an error if that image is not contained in the database. Is stored as a DELETE function.
+
+### handlers.go
+
+#### Functions:
+
+##### JWTCreateToken() (string, error)
+Creates a JWT token that expires in one hour.
+
+##### ValidateToken(next func(w http.ResponseWriter, r \*http.Request)) http.Handler
+Makes sure that the correct token is created before displaying the home screen. Prints an error message otherwise.
+
+##### GetJwt(w http.ResponseWriter, r \*http.Request)
+Creates a JWT token if the correct access key is passed through the JSON headers.
+
+##### Home(w http.ResponseWriter, r \*http.Request)
+Prints a simple message to verify that the token is valid.
+
+### password.go
+
+#### Functions:
+
+##### encrypt(password string) string
+Encrypts a given password into encrypted hash data for user privacy.
+
+##### comparePassword(password, hash string) boo
+Compares a given password to its corresponding encrypted hash data.
