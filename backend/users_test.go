@@ -26,11 +26,7 @@ func initDB() {
 	}
 
 	tx = db.Session(&gorm.Session{SkipDefaultTransaction: true})
-	tx.AutoMigrate(&User{})
-}
-
-func deleteLast() {
-	db.Exec("DELETE FROM users WHERE id = (SELECT MAX(id) FROM users)")
+	tx.AutoMigrate(&User{}, &Post{}, &Image{})
 }
 
 func TestGetAllUsers(t *testing.T) {
