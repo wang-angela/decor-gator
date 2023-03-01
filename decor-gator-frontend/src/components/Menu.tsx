@@ -18,10 +18,6 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
         navigate('/BuyPage');
     }
 
-    function validateLogin() {
-        
-    }
-
     async function handleLogin() {
 
         if (loginEmailRef.current && loginPasswordRef.current) {
@@ -69,18 +65,7 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
             let email = signupEmailRef.current.value
             let password = signupPasswordRef.current.value
             let signupObj = {username, email, password}
-            /*
-            fetch('http://localhost:8080/users', {
-                        method: "POST",
-                        headers: {'content-type': 'application/json'},
-                        body:JSON.stringify(signupObj)
-                    }).then((response)=>{
-                        console.log(response.json())
-                        alert("User successfully created!")
-                    }).catch((err) => {
-                    console.log(err)
-                    })
-            */
+
             fetch('http://localhost:8080/users/'+email).then((res) => {
                 return res.json()
             }).then((response) => {
