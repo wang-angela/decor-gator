@@ -23,8 +23,8 @@ func initDB() {
 	db.AutoMigrate(&User{}, &Post{})
 }
 
-func clearDB() {
-	db.Exec("DELETE FROM users")
+func deleteLast() {
+	db.Exec("DELETE FROM users WHERE id = (SELECT MAX(id) FROM users)")
 	db.Exec("DELETE FROM posts")
 }
 
@@ -63,7 +63,7 @@ func TestGetUser(t *testing.T) {
 	initDB()
 
 	// Send new request with json body info
-	req, err := http.NewRequest("GET", "/users/john.smith@gmail.com", nil)
+	req, err := http.NewRequest("GET", "/users/simon@simonkurt.com", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -84,14 +84,13 @@ func TestGetUser(t *testing.T) {
 	var resp map[string]interface{}
 	json.Unmarshal(rr.Body.Bytes(), &resp)
 
-	if resp["username"] != "john.smith" {
-		t.Errorf("Username is invalid, expected john.smith, got %v", resp["username"])
+	if resp["username"] != "simon.kurt" {
+		t.Errorf("Username is invalid, expected simon.kurt, got %v", resp["username"])
 	}
 }
 
 func TestCreateUser(t *testing.T) {
 	initDB()
-	clearDB()
 
 	// Request Body
 	jsonBody := []byte(`{
@@ -125,6 +124,8 @@ func TestCreateUser(t *testing.T) {
 	if resp["username"] != "john.smith" {
 		t.Errorf("username is invalid, expected john.smith, got %v", resp["username"])
 	}
+
+	deleteLast()
 }
 
 func TestUpdateUser(t *testing.T) {
@@ -132,14 +133,14 @@ func TestUpdateUser(t *testing.T) {
 
 	// Request Body
 	jsonBody := []byte(`{
-		"username": "cool-name",
+		"username": "billy.scott",
 		"password": "123abc",
-		"email":    "john.smith@gmail.com"
+		"email":    "will.scott@thehouse.com"
 	}`)
 	bodyReader := bytes.NewReader(jsonBody)
 
 	// Send new request with json body info
-	req, err := http.NewRequest("PUT", "/users/john.smith@gmail.com", bodyReader)
+	req, err := http.NewRequest("PUT", "/users/will.scott@thehouse.com", bodyReader)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -160,7 +161,37 @@ func TestUpdateUser(t *testing.T) {
 	var resp map[string]interface{}
 	json.Unmarshal(rr.Body.Bytes(), &resp)
 
-	if resp["username"] != "cool-name" {
-		t.Errorf("Username is invalid, expected cool-name, got %v", resp["username"])
+	if resp["username"] != "billy.scott" {
+		t.Errorf("Username is invalid, expected billy.scott, got %v", resp["username"])
+	}
+}
+
+func TestDeleteUser(t *testing.T) {
+	initDB()
+
+	// Send new request with json body info
+	req, err := http.NewRequest("DELETE", "/users/will.scott@thehouse.com", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Record Response
+	rr := httptest.NewRecorder()
+
+	r := mux.NewRouter()
+	r.HandleFunc("/users/{email}", deleteUser)
+	r.ServeHTTP(rr, req)
+
+	if status := rr.Code; status != http.StatusOK {
+		t.Errorf("Handler returned wrong status code: got %v want %v",
+			status, http.StatusOK)
+	}
+
+	// Decoding recorded response
+	var resp map[string]interface{}
+	json.Unmarshal(rr.Body.Bytes(), &resp)
+
+	if resp["deleted_at"] == "" {
+		t.Errorf("Has not been deleted")
 	}
 }
