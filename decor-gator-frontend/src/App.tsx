@@ -2,8 +2,8 @@ import React from "react";
 import "./App.css"
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom"
 import FlipMenu from "./components/FlipMenu"
-import BuyPage from "./components/BuyPage"
-import PostPage from "./components/PostPage"
+import BuyPage from "./BuyPage"
+import PostPage from "./PostPage"
 
 function App() {
   return (
