@@ -26,12 +26,11 @@ func initDB() {
 	}
 
 	tx = db.Session(&gorm.Session{SkipDefaultTransaction: true})
-	tx.AutoMigrate(&User{}, &Post{})
+	tx.AutoMigrate(&User{})
 }
 
 func deleteLast() {
 	db.Exec("DELETE FROM users WHERE id = (SELECT MAX(id) FROM users)")
-	db.Exec("DELETE FROM posts")
 }
 
 func TestGetAllUsers(t *testing.T) {
@@ -90,8 +89,8 @@ func TestGetUser(t *testing.T) {
 	var resp map[string]interface{}
 	json.Unmarshal(rr.Body.Bytes(), &resp)
 
-	if resp["username"] != "simon.kurt" {
-		t.Errorf("Username is invalid, expected simon.kurt, got %v", resp["username"])
+	if resp["username"] != "simon-kurt" {
+		t.Errorf("Username is invalid, expected simon-kurt, got %v", resp["username"])
 	}
 }
 
@@ -137,6 +136,7 @@ func TestCreateUser(t *testing.T) {
 
 func TestUpdateUser(t *testing.T) {
 	initDB()
+	tx.SavePoint("sp2")
 
 	// Request Body
 	jsonBody := []byte(`{
@@ -171,10 +171,13 @@ func TestUpdateUser(t *testing.T) {
 	if resp["username"] != "billy.scott" {
 		t.Errorf("Username is invalid, expected billy.scott, got %v", resp["username"])
 	}
+
+	tx.RollbackTo("sp2")
 }
 
 func TestDeleteUser(t *testing.T) {
 	initDB()
+	tx.SavePoint("sp3")
 
 	// Send new request with json body info
 	req, err := http.NewRequest("DELETE", "/users/will.scott@thehouse.com", nil)
@@ -201,4 +204,6 @@ func TestDeleteUser(t *testing.T) {
 	if resp["deleted_at"] == "" {
 		t.Errorf("Has not been deleted")
 	}
+
+	tx.RollbackTo("sp3")
 }
