@@ -126,3 +126,41 @@ func TestCreateUser(t *testing.T) {
 		t.Errorf("username is invalid, expected john.smith, got %v", resp["username"])
 	}
 }
+
+func TestUpdateUser(t *testing.T) {
+	initDB()
+
+	// Request Body
+	jsonBody := []byte(`{
+		"username": "cool-name",
+		"password": "123abc",
+		"email":    "john.smith@gmail.com"
+	}`)
+	bodyReader := bytes.NewReader(jsonBody)
+
+	// Send new request with json body info
+	req, err := http.NewRequest("PUT", "/users/john.smith@gmail.com", bodyReader)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Record Response
+	rr := httptest.NewRecorder()
+
+	r := mux.NewRouter()
+	r.HandleFunc("/users/{email}", updateUser)
+	r.ServeHTTP(rr, req)
+
+	if status := rr.Code; status != http.StatusOK {
+		t.Errorf("Handler returned wrong status code: got %v want %v",
+			status, http.StatusOK)
+	}
+
+	// Decoding recorded response
+	var resp map[string]interface{}
+	json.Unmarshal(rr.Body.Bytes(), &resp)
+
+	if resp["username"] != "cool-name" {
+		t.Errorf("Username is invalid, expected cool-name, got %v", resp["username"])
+	}
+}
