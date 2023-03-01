@@ -13,14 +13,20 @@ import (
 	"gorm.io/gorm"
 )
 
+var tx *gorm.DB
+
 func initDB() {
 	// Open data.db; if data does not exist, create it
-	db, err = gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+	db, err = gorm.Open(sqlite.Open("test.db"), &gorm.Config{
+		SkipDefaultTransaction: true,
+	})
 	// If there is an error, print error and message
 	if err != nil {
 		log.Print("Unable to connect to DB")
 	}
-	db.AutoMigrate(&User{}, &Post{})
+
+	tx = db.Session(&gorm.Session{SkipDefaultTransaction: true})
+	tx.AutoMigrate(&User{}, &Post{})
 }
 
 func deleteLast() {
@@ -91,6 +97,7 @@ func TestGetUser(t *testing.T) {
 
 func TestCreateUser(t *testing.T) {
 	initDB()
+	tx.SavePoint("sp1")
 
 	// Request Body
 	jsonBody := []byte(`{
@@ -125,7 +132,7 @@ func TestCreateUser(t *testing.T) {
 		t.Errorf("username is invalid, expected john.smith, got %v", resp["username"])
 	}
 
-	deleteLast()
+	tx.RollbackTo("sp1")
 }
 
 func TestUpdateUser(t *testing.T) {
