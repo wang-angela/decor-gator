@@ -31,11 +31,8 @@ func initMigration() {
 func initRouter() {
 	r := mux.NewRouter()
 
-	/*
-		r.HandleFunc("/login", Login)
-		r.HandleFunc("/home", Home)
-		r.HandleFunc("/refresh", Refresh)
-	*/
+	r.HandleFunc("/token", GetJwt)
+	r.Handle("/home", ValidateToken(Home))
 
 	r.HandleFunc("/users", getUsers).Methods("GET")
 	r.HandleFunc("/users/{email}", getUser).Methods("GET")
