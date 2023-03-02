@@ -1,5 +1,16 @@
 # Sprint 2
 
+## What Frontend accomplished in Sprint 2:
+1. Connected frontend and backend to communicate with fetch
+2. Created a Buy Page where users can see posts created. 
+3. Created Post Page where users can submit posts.
+4. Implemented unit tests for nearly all functions.
+
+## What Frontend didn't get accomplished:
+1. Constructing the Buy Page and adding more features to it (ex. display post in a box)
+2. Upload images for creating posts
+
+
 ## What backend accomplished in Sprint 2:
 1. Created a file called handlers.go that creates a token that is required to access a given page. 
 2. Made a file called images.go that can store image byte data in the database.
@@ -9,9 +20,21 @@
 ## What backend didn't get accomplished:
 1. Not able to get the user token to work in a web broswer nor be able to set a cookie after logging into an account.
 
+
 ## Unit Tests
 
 ### Frontend:
+#### Signup and Login
+* Flips login screen to signup page
+* Returns error message if no sign up information entered
+* Signs up with all information entered
+* Alerts if sign up is attempted twice with the same email
+* Alerts if login information is invalid (Wrong password)
+* Logs in with correct information and redirects to Buy Page
+
+#### Creating Post
+* Click "+ Post" button and submit a post with title and furniture type
+* Click "Show Post" to log post title, furniture type, and user email to console
 
 ### Backend:
 
