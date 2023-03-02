@@ -93,3 +93,70 @@ Encrypts a given password into encrypted hash data for user privacy.
 
 ##### comparePassword(password, hash string) boo
 Compares a given password to its corresponding encrypted hash data.
+
+### users_test.go
+
+#### Functions:
+
+##### initDB()
+Initializes database and creates gorm transactions.
+
+##### TestGetAllUsers (t \*testing.T)
+Test getUsers() using a custom http request and checks results.
+
+##### TestGetUser (t \*testing.T)
+Test getUser() using a custom http request and checks results.
+
+##### TestCreateUser (t \*testing.T)
+Test createUser() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
+
+##### TestUpdateUser (t \*testing.T)
+Test updateUser() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
+
+##### TestDeleteUser (t \*testing.T)
+Test deleteUser() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
+
+### posts_test.go
+
+#### Functions:
+
+##### TestGetAllPosts (t \*testing.T)
+Test getPosts() using a custom http request and checks results.
+
+##### TestGetPost (t \*testing.T)
+Test getPost() using a custom http request and checks results.
+
+##### TestCreatePost (t \*testing.T)
+Test createPost() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
+
+##### TestUpdatePost (t \*testing.T)
+Test updatePost() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
+
+##### TestDeletePost (t \*testing.T)
+Test deletePost() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
+
+### images_test.go
+
+#### Functions:
+
+##### TestGetAllImages (t \*testing.T)
+Test getImages() using a custom http request and checks results.
+
+##### TestGetImage (t \*testing.T)
+Test getImage() using a custom http request and checks results.
+
+##### TestCreateImage (t \*testing.T)
+Test createImage() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
+
+##### TestUpdateImage (t \*testing.T)
+Test updateImage() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
+
+##### TestDeleteImage (t \*testing.T)
+Test deleteImage() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
+
+### password_test.go
+
+#### Functions:
+
+##### TestEncryption (t \*testing.T)
+Tests encrypt() then checks result using comparePassword() .
