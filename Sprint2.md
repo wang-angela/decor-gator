@@ -1,5 +1,32 @@
 # Sprint 2
 
+## Unit Tests
+
+### Frontend:
+
+### Backend:
+
+#### user_test.go
+* TestGetAllUsers()
+* TestGetUser()
+* TestCreateUser()
+* TestDeleteUser()
+
+#### posts_test.go
+* TestGetAllPosts()
+* TestGetPost()
+* TestCreatePost()
+* TestDeletePost()
+
+#### images_test.go
+* TestGetAllImages()
+* TestGetImage()
+* TestCreateImage()
+* TestDeleteImage()
+
+#### password_test.go
+* TestEncryption()
+
 ## API Documentation
 
 ### users.go:
