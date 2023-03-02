@@ -1,5 +1,11 @@
 # Sprint 2
 
+## What backend accomplished in Sprint 2:
+We created a file called handlers.go that creates a token that is required to access a given page. We also made a file called images.go that can store image byte data in the database.
+
+## What backend didn't get accomplished:
+We were not able to get the user token to work in a web broswer nor be able to set a cookie after logging into an account.
+
 ## Unit Tests
 
 ### Frontend:
