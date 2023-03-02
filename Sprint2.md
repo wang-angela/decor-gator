@@ -5,6 +5,7 @@
 2. Created a Buy Page where users can see posts created. 
 3. Created Post Page where users can submit posts.
 4. Implemented unit tests for nearly all functions.
+5. Fully implemented user signup and login with password and duplicate account validation
 
 ## What Frontend didn't get accomplished:
 1. Constructing the Buy Page and adding more features to it (ex. display post in a box)
