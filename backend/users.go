@@ -16,9 +16,11 @@ import (
 
 type User struct {
 	gorm.Model
-	Username string `gorm:"unique" json:"username"`
-	Password string `json:"password"`
-	Email    string `gorm:"unique" json:"email"`
+	Username  string `gorm:"unique" json:"username"`
+	Password  string `json:"password"`
+	Email     string `gorm:"unique" json:"email"`
+	FirstName string `json:"firstname"`
+	LastName  string `json:"lastname"`
 }
 
 func getUsers(w http.ResponseWriter, r *http.Request) {
