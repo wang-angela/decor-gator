@@ -1,5 +1,65 @@
 # Sprint 2
 
+## What Frontend accomplished in Sprint 2:
+1. Connected frontend and backend to communicate with fetch
+2. Created a Buy Page where users can see posts created. 
+3. Created Post Page where users can submit posts.
+4. Implemented unit tests for nearly all functions.
+5. Fully implemented user signup and login with password and duplicate account validation
+
+## What Frontend didn't get accomplished:
+1. Constructing the Buy Page and adding more features to it (ex. display post in a box)
+2. Upload images for creating posts
+
+
+## What backend accomplished in Sprint 2:
+1. Created a file called handlers.go that creates a token that is required to access a given page. 
+2. Made a file called images.go that can store image byte data in the database.
+3. Implented cors and allowed frontend to communicate with backend
+4. Implemented unit tests for nearly all functions
+
+## What backend didn't get accomplished:
+1. Not able to get the user token to work in a web broswer nor be able to set a cookie after logging into an account.
+
+
+## Unit Tests
+
+### Frontend:
+#### Signup and Login
+* Flips login screen to signup page
+* Returns error message if no sign up information entered
+* Signs up with all information entered
+* Alerts if sign up is attempted twice with the same email
+* Alerts if login information is invalid (Wrong password)
+* Logs in with correct information and redirects to Buy Page
+
+#### Creating Post
+* Click "+ Post" button and submit a post with title and furniture type
+* Click "Show Post" to log post title, furniture type, and user email to console
+
+### Backend:
+
+#### user_test.go
+* TestGetAllUsers()
+* TestGetUser()
+* TestCreateUser()
+* TestDeleteUser()
+
+#### posts_test.go
+* TestGetAllPosts()
+* TestGetPost()
+* TestCreatePost()
+* TestDeletePost()
+
+#### images_test.go
+* TestGetAllImages()
+* TestGetImage()
+* TestCreateImage()
+* TestDeleteImage()
+
+#### password_test.go
+* TestEncryption()
+
 ## API Documentation
 
 ### users.go:
@@ -93,3 +153,70 @@ Encrypts a given password into encrypted hash data for user privacy.
 
 ##### comparePassword(password, hash string) boo
 Compares a given password to its corresponding encrypted hash data.
+
+### users_test.go
+
+#### Functions:
+
+##### initDB()
+Initializes database and creates gorm transactions.
+
+##### TestGetAllUsers (t \*testing.T)
+Test getUsers() using a custom http request and checks results.
+
+##### TestGetUser (t \*testing.T)
+Test getUser() using a custom http request and checks results.
+
+##### TestCreateUser (t \*testing.T)
+Test createUser() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
+
+##### TestUpdateUser (t \*testing.T)
+Test updateUser() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
+
+##### TestDeleteUser (t \*testing.T)
+Test deleteUser() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
+
+### posts_test.go
+
+#### Functions:
+
+##### TestGetAllPosts (t \*testing.T)
+Test getPosts() using a custom http request and checks results.
+
+##### TestGetPost (t \*testing.T)
+Test getPost() using a custom http request and checks results.
+
+##### TestCreatePost (t \*testing.T)
+Test createPost() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
+
+##### TestUpdatePost (t \*testing.T)
+Test updatePost() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
+
+##### TestDeletePost (t \*testing.T)
+Test deletePost() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
+
+### images_test.go
+
+#### Functions:
+
+##### TestGetAllImages (t \*testing.T)
+Test getImages() using a custom http request and checks results.
+
+##### TestGetImage (t \*testing.T)
+Test getImage() using a custom http request and checks results.
+
+##### TestCreateImage (t \*testing.T)
+Test createImage() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
+
+##### TestUpdateImage (t \*testing.T)
+Test updateImage() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
+
+##### TestDeleteImage (t \*testing.T)
+Test deleteImage() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
+
+### password_test.go
+
+#### Functions:
+
+##### TestEncryption (t \*testing.T)
+Tests encrypt() then checks result using comparePassword() .

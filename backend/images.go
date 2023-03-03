@@ -11,7 +11,7 @@ import (
 
 type Image struct {
 	gorm.Model
-	ImageID       int    `gorm:"primaryKey" json:"id"`
+	ID            int    `gorm:"primaryKey" json:"id"`
 	ImageByteData string `json:"ByteData"`
 }
 
