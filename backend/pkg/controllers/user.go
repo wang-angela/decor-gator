@@ -3,32 +3,26 @@
 * https://blog.logrocket.com/routing-go-gorilla-mux/ by Paul Akinyemi
  */
 
-package main
+package controllers
 
 import (
 	"encoding/json"
 	"log"
 	"net/http"
 
+	"github.com/decor-gator/backend/pkg/models"
+	"github.com/decor-gator/backend/pkg/utils"
 	"github.com/gorilla/mux"
-	"gorm.io/gorm"
 )
 
-type User struct {
-	gorm.Model
-	Username  string `gorm:"unique" json:"username"`
-	Password  string `json:"password"`
-	Email     string `gorm:"unique" json:"email"`
-	FirstName string `json:"firstname"`
-	LastName  string `json:"lastname"`
-}
+var err error
 
-func getUsers(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	var users []User
+func GetUsers(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application-json")
+	var users []models.User
 
 	// Prints an error if no users were in the data base.
-	if db.Find(&users).Error != nil {
+	if utils.DB.Find(&users).Error != nil {
 		log.Printf("There are no users in the database.")
 	}
 
@@ -38,13 +32,13 @@ func getUsers(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	var user User
+func GetUser(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application-json")
+	var user models.User
 
 	// Prints an error id the user doesn't exists.
 	params := mux.Vars(r)["email"]
-	db.Where("email = ?", params).First(&user)
+	utils.DB.Where("email = ?", params).First(&user)
 	if user.Email == "" {
 		log.Println("User not found")
 	}
@@ -55,8 +49,8 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func createUser(w http.ResponseWriter, r *http.Request) {
-	var user User
+func CreateUser(w http.ResponseWriter, r *http.Request) {
+	var user models.User
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 
@@ -66,8 +60,8 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 		log.Fatalln("Error Decoding")
 	}
 
-	user.Password = encrypt(user.Password)
-	if db.Create(&user).Error != nil {
+	user.Password = utils.Encrypt(user.Password)
+	if utils.DB.Create(&user).Error != nil {
 		log.Println("User already exists")
 	}
 
@@ -78,13 +72,13 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func updateUser(w http.ResponseWriter, r *http.Request) {
-	var user User
+func UpdateUser(w http.ResponseWriter, r *http.Request) {
+	var user models.User
 	w.Header().Set("Content-Type", "application/json")
 
 	// Search for user by id; id=0 if user not found
 	params := mux.Vars(r)["email"]
-	db.Where("email = ?", params).First(&user)
+	utils.DB.Where("email = ?", params).First(&user)
 	if user.Email == "" {
 		log.Println("User not found")
 	}
@@ -98,13 +92,13 @@ func updateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// If password didn't change, keep current hash
-	if comparePassword(user.Password, cur) {
+	if utils.ComparePassword(user.Password, cur) {
 		user.Password = cur
 	} else {
-		user.Password = encrypt(user.Password)
+		user.Password = utils.Encrypt(user.Password)
 	}
 
-	db.Save(&user)
+	utils.DB.Save(&user)
 
 	err = json.NewEncoder(w).Encode(&user)
 	if err != nil {
@@ -112,12 +106,12 @@ func updateUser(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func deleteUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	var user User
+func DeleteUser(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application-json")
+	var user models.User
 	params := mux.Vars(r)["email"]
 
-	db.Where("email = ?", params).Delete(&user)
+	utils.DB.Where("email = ?", params).Delete(&user)
 
 	// Prints if deletion was not successful.
 	if user.Email != "" {

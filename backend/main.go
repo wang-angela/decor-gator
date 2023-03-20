@@ -4,14 +4,13 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/decor-gator/backend/pkg/routes"
+	"github.com/decor-gator/backend/pkg/utils"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
-
-var db *gorm.DB
-var err error
 
 func main() {
 	SendWelcomeEmail([]string{"sgallic5@gmail.com"})
@@ -31,27 +30,11 @@ func initMigration() {
 
 func initRouter() {
 	r := mux.NewRouter()
+	utils.InitDB("data")
 
-	r.HandleFunc("/token", GetJwt)
-	r.Handle("/home", ValidateToken(Home))
-
-	r.HandleFunc("/users", getUsers).Methods("GET")
-	r.HandleFunc("/users/{email}", getUser).Methods("GET")
-	r.HandleFunc("/users", createUser).Methods("POST")
-	r.HandleFunc("/users/{email}", updateUser).Methods("PUT")
-	r.HandleFunc("/users/{email}", deleteUser).Methods("DELETE")
-
-	r.HandleFunc("/posts", getPosts).Methods("GET")
-	r.HandleFunc("/posts/{id}", getPost).Methods("GET")
-	r.HandleFunc("/posts", createPost).Methods("POST")
-	r.HandleFunc("/posts/{id}", updatePost).Methods("PUT")
-	r.HandleFunc("/posts/{id}", deletePost).Methods("DELETE")
-
-	r.HandleFunc("/images", getImages).Methods("GET")
-	r.HandleFunc("/images/{id}", getImage).Methods("GET")
-	r.HandleFunc("/images", createImage).Methods("POST")
-	r.HandleFunc("/images/{id}", updateImage).Methods("PUT")
-	r.HandleFunc("/images/{id}", deleteImage).Methods("DELETE")
+	routes.UserRoutes(r)
+	routes.PostRoutes(r)
+	routes.ImageRoutes(r)
 
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"http://localhost:3000"},
@@ -62,3 +45,12 @@ func initRouter() {
 	handler := c.Handler(r)
 	log.Fatal(http.ListenAndServe(":8080", handler))
 }
+
+/*
+func InitRouter() {
+
+	r.HandleFunc("/login", Login)
+	r.HandleFunc("/home", Home)
+	r.HandleFunc("/refresh", Refresh)
+}
+*/
