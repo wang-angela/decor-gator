@@ -14,6 +14,7 @@ var db *gorm.DB
 var err error
 
 func main() {
+	SendWelcomeEmail([]string{"sgallic5@gmail.com"})
 	initMigration()
 	initRouter()
 }
