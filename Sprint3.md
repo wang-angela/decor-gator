@@ -21,6 +21,7 @@ Joanne: Use the GUI create About page
 ### Finish making Buy Page & Post Page structure and make Rent Page
 #### Post Page Features:
 - Title, Description, Type (Drop-down Menu), Buy/Rent, (Multiple) Images, Price, Location (?)
+- Three fields - Search by input, search by Buy/Rent, Price, Newest/Oldest, and search by furniture type
 
 #### Buy Page Features: 
 - Display Posts (obvious) by Newst (default)
