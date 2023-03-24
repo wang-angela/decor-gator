@@ -21,13 +21,12 @@ Joanne: Use the GUI create About page
 ### Finish making Buy Page & Post Page structure and make Rent Page
 #### Post Page Features:
 - Title, Description, Type (Drop-down Menu), Buy/Rent, (Multiple) Images, Price, Location (?)
-- Three fields - Search by input, search by Buy/Rent, Price, Newest/Oldest, and search by furniture type
 
 #### Buy Page Features: 
 - Display Posts (obvious) by Newst (default)
 - Sort by Chair, Sofa, Bed, Table, Electronics, Lighting, Stroage, Kitchen, Other 
 - Search bar to search posts by Buy/Rent, Title, Type, Price (Low to high, high to low), Location (?)
-   - Left side expanded, users can select multiple parameters
+   - Three fields - Search by input string, search by drop-down with Buy/Rent, Price, Newest/Oldest, and search by drop-down furniture type
 - When clicked on a post that same user made - Put edit button
 - Implement Edit page using Post Page
 - User Icon -> User Page
