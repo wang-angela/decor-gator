@@ -8,15 +8,15 @@
 
 ## API Documentation (Continued from Sprint 2.md)
 
-### email.go
+### email.go:
 
-#### Functions
+#### Functions:
 
-##### SendWelcomeEmail(destinationEmails []string)
+##### SendWelcomeEmail(destinationEmails []string):
 
 Sends an email from decorgators@gmail.com confirming that the user signed up with our service. For now, the only emails we can send are to those we manually approve on our Amazon Web Service account. We cannot fix this until we get approval to leave the sandbox from Amazon.
 
-##### SendForgotPasswordEmail(destinationEmails []string)
+##### SendForgotPasswordEmail(destinationEmails []string):
 
 Sends an email from decorgators@gmail.com for user to reset their password. Similar issues from SendWelcomeEmail().
 
