@@ -10,4 +10,5 @@ type Post struct {
 	Description   string  `json:"description"`
 	Price         float64 `json:"price"`
 	UserPosted    string  `json:"userPosted"` // Change later to user object once we learn how to test that on Postman.
+	ImageURL      string  `json:"imageURL"`
 }
