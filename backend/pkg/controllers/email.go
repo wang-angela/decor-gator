@@ -9,6 +9,7 @@ import (
 
 func SendWelcomeEmail(destinationEmails []string) {
 
+	// Creates necessary variables for the function.
 	var (
 		authUserName   = "AKIAWYOMFPS7EFQ4MFNL"
 		authPassword   = "BGy07FXzzx3rQFXUUxzMvf/YKQsi97EtxzZyao70fDyb"
@@ -17,15 +18,19 @@ func SendWelcomeEmail(destinationEmails []string) {
 		senderEmail    = "decorgators@gmail.com"
 	)
 
+	// Creates message for the email.
 	msg := []byte("Subject: Welcome to DecorGators!\r\n" +
 		"\r\n" +
 		"You've successfully made an account with DecorGators!\r\n")
 
+	// Gives authentification to send the email through AWS.
 	auth := smtp.PlainAuth("", authUserName, authPassword, smtpServerAddr)
 
+	// Sends email.
 	err := smtp.SendMail(smtpServerAddr+":"+smtpServerPort,
 		auth, senderEmail, destinationEmails, msg)
 
+	// Catches error.
 	if err != nil {
 		fmt.Printf("Error to sending email: %s", err)
 		return
@@ -34,6 +39,7 @@ func SendWelcomeEmail(destinationEmails []string) {
 
 func SendForgotPasswordEmail(destinationEmails []string) {
 
+	// Creates necessary variables for the function.
 	var (
 		authUserName   = "AKIAWYOMFPS7EFQ4MFNL"
 		authPassword   = "BGy07FXzzx3rQFXUUxzMvf/YKQsi97EtxzZyao70fDyb"
@@ -42,15 +48,19 @@ func SendForgotPasswordEmail(destinationEmails []string) {
 		senderEmail    = "decorgators@gmail.com"
 	)
 
+	// Creates message for the email.
 	msg := []byte("Subject: Reset DecorGators Password\r\n" +
 		"\r\n" +
 		"Follow this link to reset your password:\r\n")
 
+	// Gives authentification to send the email through AWS.
 	auth := smtp.PlainAuth("", authUserName, authPassword, smtpServerAddr)
 
+	// Sends email.
 	err := smtp.SendMail(smtpServerAddr+":"+smtpServerPort,
 		auth, senderEmail, destinationEmails, msg)
 
+	// Catches error.
 	if err != nil {
 		fmt.Printf("Error to sending email: %s", err)
 		return
