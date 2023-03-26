@@ -1,4 +1,4 @@
-package main
+package tests
 
 import (
 	"bytes"
@@ -7,21 +7,24 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/decor-gator/backend/pkg/controllers"
+	"github.com/decor-gator/backend/pkg/models"
+	"github.com/decor-gator/backend/pkg/utils"
 	"github.com/gorilla/mux"
 )
 
-func TestGetAllImages(t *testing.T) {
-	initDB()
+func TestGetAllPosts(t *testing.T) {
+	utils.InitDBTest("test")
 
 	// Send new request with json body info
-	req, err := http.NewRequest("GET", "/images", nil)
+	req, err := http.NewRequest("POST", "/users", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	// Record Response
 	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(getImages)
+	handler := http.HandlerFunc(controllers.GetPosts)
 
 	handler.ServeHTTP(rr, req)
 
@@ -31,21 +34,21 @@ func TestGetAllImages(t *testing.T) {
 	}
 
 	// Decoding recorded response
-	var resp []Image
+	var resp []models.Post
 	if err := json.Unmarshal(rr.Body.Bytes(), &resp); err != nil {
-		t.Errorf("Invalid response, expected list of images, got %v", rr.Body.String())
+		t.Errorf("Invalid response, expected list of posts, got %v", rr.Body.String())
 	}
 
 	if len(resp) < 1 {
-		t.Errorf("Invalid number of images, expected 1, got %v", len(resp))
+		t.Errorf("Invalid number of posts, expected 1, got %v", len(resp))
 	}
 }
 
-func TestGetImage(t *testing.T) {
-	initDB()
+func TestGetPost(t *testing.T) {
+	utils.InitDBTest("test")
 
 	// Send new request with json body info
-	req, err := http.NewRequest("GET", "/images/1", nil)
+	req, err := http.NewRequest("GET", "/posts/1", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -54,7 +57,7 @@ func TestGetImage(t *testing.T) {
 	rr := httptest.NewRecorder()
 
 	r := mux.NewRouter()
-	r.HandleFunc("/images/{id}", getImage)
+	r.HandleFunc("/posts/{id}", controllers.GetPost)
 	r.ServeHTTP(rr, req)
 
 	if status := rr.Code; status != http.StatusOK {
@@ -66,32 +69,33 @@ func TestGetImage(t *testing.T) {
 	var resp map[string]interface{}
 	json.Unmarshal(rr.Body.Bytes(), &resp)
 
-	const mockData = "joewjoiu432987(*&(*$#&*(Wuroiesjfkjaskjdoiwj"
-	if resp["ByteData"] != mockData {
-		t.Errorf("Data is invalid, expected \"joewjoiu432987(*&(*$#&*(Wuroiesjfkjaskjdoiwj\" got %v", resp["image_byte_data"])
+	if resp["title"] != "Sofa for sale!" {
+		t.Errorf("Posts is invalid, expected \"Sofa for sale\", got %v", resp["title"])
 	}
 }
 
-func TestCreateImage(t *testing.T) {
-	initDB()
-	tx.SavePoint("sp1")
+func TestCreatePost(t *testing.T) {
+	TX := utils.InitDBTest("test")
+	TX.SavePoint("sp1")
 
 	// Request Body
 	jsonBody := []byte(`{
 		"id": 4,
-		"ByteData": "hfji3u42987&(*&$#@(*Q&$ilkasmlkamljdaljo"
+		"title": "Hello Kitty Chair for Rent!",
+		"furnitureType": "Chair",
+		"userPosted": "john.smith"
 	}`)
 	bodyReader := bytes.NewReader(jsonBody)
 
-	// Send new request whfji3u42987&(*&$#@(*Q&$ilkasmlkamljdaljoith json body info
-	req, err := http.NewRequest("POST", "/images", bodyReader)
+	// Send new request with json body info
+	req, err := http.NewRequest("POST", "/posts", bodyReader)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	// Record Response
 	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(createImage)
+	handler := http.HandlerFunc(controllers.CreatePost)
 
 	handler.ServeHTTP(rr, req)
 
@@ -104,27 +108,28 @@ func TestCreateImage(t *testing.T) {
 	var resp map[string]interface{}
 	json.Unmarshal(rr.Body.Bytes(), &resp)
 
-	const mockData = "hfji3u42987&(*&$#@(*Q&$ilkasmlkamljdaljo"
-	if resp["ByteData"] != mockData {
-		t.Errorf("Image title is invalid, expected \"hfji3u42987&(*&$#@(*Q&$ilkasmlkamljdaljo\", got %v", resp["ByteData"])
+	if resp["title"] != "Hello Kitty Chair for Rent!" {
+		t.Errorf("Post title is invalid, expected \"Hello Kitty Chair for Rent!\", got %v", resp["title"])
 	}
 
-	tx.RollbackTo("sp1")
+	TX.RollbackTo("sp1")
 }
 
-func TestUpdateImage(t *testing.T) {
-	initDB()
-	tx.SavePoint("sp2")
+func TestUpdatePost(t *testing.T) {
+	TX := utils.InitDBTest("test")
+	TX.SavePoint("sp2")
 
 	// Request Body
 	jsonBody := []byte(`{
 		"id": 2,
-		"ByteData": "dskjfo34($&*378uwefoisdjfoiwqurifj"
+		"title": "Selling a Dining Table",
+		"furnitureType": "Table",
+		"userPosted": "william-scott"
 	}`)
 	bodyReader := bytes.NewReader(jsonBody)
 
 	// Send new request with json body info
-	req, err := http.NewRequest("PUT", "/images/2", bodyReader)
+	req, err := http.NewRequest("PUT", "/posts/2", bodyReader)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -133,7 +138,7 @@ func TestUpdateImage(t *testing.T) {
 	rr := httptest.NewRecorder()
 
 	r := mux.NewRouter()
-	r.HandleFunc("/images/{id}", updateImage)
+	r.HandleFunc("/posts/{id}", controllers.UpdatePost)
 	r.ServeHTTP(rr, req)
 
 	if status := rr.Code; status != http.StatusOK {
@@ -145,20 +150,19 @@ func TestUpdateImage(t *testing.T) {
 	var resp map[string]interface{}
 	json.Unmarshal(rr.Body.Bytes(), &resp)
 
-	const mockData = "dskjfo34($&*378uwefoisdjfoiwqurifj"
-	if resp["ByteData"] != mockData {
-		t.Errorf("Image Title is invalid, expected \"dskjfo34($&*378uwefoisdjfoiwqurifj\", got %v", resp["title"])
+	if resp["title"] != "Selling a Dining Table" {
+		t.Errorf("Post Title is invalid, expected \"Selling a Dining Table\", got %v", resp["title"])
 	}
 
-	tx.RollbackTo("sp2")
+	TX.RollbackTo("sp2")
 }
 
-func TestDeleteImage(t *testing.T) {
-	initDB()
-	tx.SavePoint("sp3")
+func TestDeletePost(t *testing.T) {
+	TX := utils.InitDBTest("test")
+	TX.SavePoint("sp3")
 
 	// Send new request with json body info
-	req, err := http.NewRequest("DELETE", "/images/3", nil)
+	req, err := http.NewRequest("DELETE", "/posts/3", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -167,7 +171,7 @@ func TestDeleteImage(t *testing.T) {
 	rr := httptest.NewRecorder()
 
 	r := mux.NewRouter()
-	r.HandleFunc("/images/{id}", deleteImage)
+	r.HandleFunc("/posts/{id}", controllers.DeletePost)
 	r.ServeHTTP(rr, req)
 
 	if status := rr.Code; status != http.StatusOK {
@@ -183,5 +187,5 @@ func TestDeleteImage(t *testing.T) {
 		t.Errorf("Has not been deleted")
 	}
 
-	tx.RollbackTo("sp3")
+	TX.RollbackTo("sp3")
 }
