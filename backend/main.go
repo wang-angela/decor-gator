@@ -8,27 +8,9 @@ import (
 	"github.com/decor-gator/backend/pkg/utils"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
 )
 
 func main() {
-	SendWelcomeEmail([]string{"sgallic5@gmail.com"})
-	initMigration()
-	initRouter()
-}
-
-func initMigration() {
-	// Open data.db; if data does not exist, create it
-	db, err = gorm.Open(sqlite.Open("data.db"), &gorm.Config{})
-	// If there is an error, print error and message
-	if err != nil {
-		log.Print("Unable to connect to DB")
-	}
-	db.AutoMigrate(&User{}, &Post{}, &Image{})
-}
-
-func initRouter() {
 	r := mux.NewRouter()
 	utils.InitDB("data")
 
