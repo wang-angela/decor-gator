@@ -1,4 +1,4 @@
-package main
+package controllers
 
 // The code is formatted using this tutorial: https://blog.devgenius.io/sending-emails-with-golang-and-amazon-ses-31f25a0f2acb
 
