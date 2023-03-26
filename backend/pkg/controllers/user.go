@@ -63,7 +63,11 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	user.Password = utils.Encrypt(user.Password)
 	if utils.DB.Create(&user).Error != nil {
 		log.Println("User already exists")
+		return
 	}
+
+	email := []string{user.Email}
+	SendWelcomeEmail(email)
 
 	// Returns error if encoding is unsuccessful
 	err = json.NewEncoder(w).Encode(&user)
