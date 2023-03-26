@@ -1,8 +1,24 @@
 # Sprint 3
 
-## Backend Goals
-1. Finish user authentification with working cookies.
-2. Implement Twilio to email users when they sign up.
+## Backend Accomplishments
+1. Created methods that send welcome email to user when they sign up.
+
+## Backend Shortcomings
+1. Cannot send emails that aren't manually approved by Amazon Web Service.
+
+## API Documentation (Continued from Sprint 2.md)
+
+### email.go
+
+#### Functions
+
+##### SendWelcomeEmail(destinationEmails []string)
+
+Sends an email from decorgators@gmail.com confirming that the user signed up with our service. For now, the only emails we can send are to those we manually approve on our Amazon Web Service account. We cannot fix this until we get approval to leave the sandbox from Amazon.
+
+##### SendForgotPasswordEmail(destinationEmails []string)
+
+Sends an email from decorgators@gmail.com for user to reset their password. Similar issues from SendWelcomeEmail().
 
 ## Frontend Goals
 Chris: Username --> Uploading image --> 
