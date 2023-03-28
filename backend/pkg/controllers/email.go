@@ -3,8 +3,15 @@ package controllers
 // The code is formatted using this tutorial: https://blog.devgenius.io/sending-emails-with-golang-and-amazon-ses-31f25a0f2acb
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
+	"net/http"
 	"net/smtp"
+
+	"github.com/decor-gator/backend/pkg/models"
+	"github.com/decor-gator/backend/pkg/utils"
+	"github.com/gorilla/mux"
 )
 
 func SendWelcomeEmail(destinationEmails []string) {
@@ -34,6 +41,26 @@ func SendWelcomeEmail(destinationEmails []string) {
 	if err != nil {
 		fmt.Printf("Error to sending email: %s", err)
 		return
+	}
+}
+
+func HelperForgotPassword(w http.ResponseWriter, r *http.Request) {
+	var user models.User
+	w.Header().Set("Content-Type", "application/json")
+
+	// Search for user by id; id=0 if user not found
+	params := mux.Vars(r)["email"]
+	utils.DB.Where("email = ?", params).First(&user)
+	if user.Email == "" {
+		log.Println("User not found")
+	}
+
+	email := []string{user.Email}
+	SendForgotPasswordEmail(email)
+
+	err = json.NewEncoder(w).Encode(&user)
+	if err != nil {
+		log.Fatalln("Error Encoding")
 	}
 }
 
