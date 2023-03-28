@@ -11,9 +11,22 @@ type PostContainerProps = {
 export default function PostContainer(props: PostContainerProps) {
     return (
         <div className = 'container'>  
-            <label>
-                {props.title}: posted by {props.posterUsername} for a price of {props.price} with category {props.furnitureType} and id {props.id}
-            </label>
+            <div className='post-title'>
+                <label className='title-label'>
+                    {props.title}
+                </label>
+            </div>
+            <div className='post-display'>
+                <img className='post-image' src='https://cdn.discordapp.com/attachments/726320415827427360/1090294211645018192/image.png' alt={props.title}></img>
+            </div>
+            <div className='post-footer'>
+                <label className='price-label'>
+                    {props.price}
+                </label>
+                <label className='category-label'>
+                    {props.furnitureType}
+                </label>
+            </div>
         </div>
     )
 }

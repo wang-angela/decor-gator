@@ -1,3 +1,43 @@
 .container{
-    color:white;
+    height: 260px;
+    width: 300px;
+    border-radius: 8px;
+
+    background-color: whitesmoke;
+    border: 2px solid white;
+    color:black;
+}
+
+.post-title{
+    display:block;
+    height:40px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom: 1px solid #eee;
+    color: black;
+    background-color: grey;
+}
+
+.post-display{
+    min-width: 0;
+    width:300px;
+    min-height:0;
+    max-height:178px;
+}
+
+.post-image{
+    width:100%;
+    min-width: 0;
+    min-height:0;
+    max-height:178px;
+}
+
+.post-footer{
+    height:40px;
+    border-top: 1px solid #DDD;
+    width: 300px;
+    color: black;
+    background-color: gray;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
