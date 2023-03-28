@@ -58,7 +58,7 @@ func HelperForgotPassword(w http.ResponseWriter, r *http.Request) {
 	email := []string{user.Email}
 	SendForgotPasswordEmail(email)
 
-	err = json.NewEncoder(w).Encode(&user)
+	err = json.NewEncoder(w).Encode("Email Sent")
 	if err != nil {
 		log.Fatalln("Error Encoding")
 	}
