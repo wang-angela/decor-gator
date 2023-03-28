@@ -4,6 +4,7 @@ import PostPage from "./PostPage"
 import {useState, useEffect} from 'react';
 import MasterPostContainer from './components/MasterPostContainer'
 import PostContainer from './components/MasterPostContainer'
+import './BuyPage.css'
 
 function BuyPage() {
     
@@ -82,7 +83,6 @@ function BuyPage() {
     }, [])
 
     useEffect(() => {
-        console.log("AHHH!!")
         renderPage()
     }, [page])
 
@@ -103,7 +103,7 @@ function BuyPage() {
             Next Page
             </button>
             <label className="page-label">
-            {page}
+            Page {page} of {pageList.length}
             </label>
         </div>
         
