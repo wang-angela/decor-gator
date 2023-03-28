@@ -14,7 +14,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func SendWelcomeEmail(destinationEmails []string) {
+func SendWelcomeEmail(destinationEmails []string) error {
 
 	// Creates necessary variables for the function.
 	var (
@@ -40,8 +40,10 @@ func SendWelcomeEmail(destinationEmails []string) {
 	// Catches error.
 	if err != nil {
 		fmt.Printf("Error to sending email: %s", err)
-		return
+		return err
 	}
+
+	return nil
 }
 
 func HelperForgotPassword(w http.ResponseWriter, r *http.Request) {
@@ -64,7 +66,7 @@ func HelperForgotPassword(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func SendForgotPasswordEmail(destinationEmails []string) {
+func SendForgotPasswordEmail(destinationEmails []string) error {
 
 	// Creates necessary variables for the function.
 	var (
@@ -90,6 +92,8 @@ func SendForgotPasswordEmail(destinationEmails []string) {
 	// Catches error.
 	if err != nil {
 		fmt.Printf("Error to sending email: %s", err)
-		return
+		return err
 	}
+
+	return nil
 }
