@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/decor-gator/static/css/main.8894a9d2.css",
+    "main.js": "/decor-gator/static/js/main.1b4d19ac.js",
+    "index.html": "/decor-gator/index.html",
+    "main.8894a9d2.css.map": "/decor-gator/static/css/main.8894a9d2.css.map",
+    "main.1b4d19ac.js.map": "/decor-gator/static/js/main.1b4d19ac.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8894a9d2.css",
+    "static/js/main.1b4d19ac.js"
+  ]
+}
