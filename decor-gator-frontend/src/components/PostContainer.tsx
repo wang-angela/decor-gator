@@ -11,7 +11,7 @@ type PostContainerProps = {
 export default function PostContainer(props: PostContainerProps) {
     return (
         <div className = 'container'>  
-            <div className='post-title'>
+            <div className='post-header'>
                 <label className='title-label'>
                     {props.title}
                 </label>
