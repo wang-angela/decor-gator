@@ -1,0 +1,11 @@
+.master-container{
+    background-color: lightblue;
+    opacity:100%;
+    padding-top: 0px;
+    gap: 5px;
+    height: 900px;
+    width: 1280px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}

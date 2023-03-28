@@ -1,3 +1,4 @@
+import './MasterPostContainer.css'
 import PostContainer from './PostContainer'
 
 type MasterPostContainerProps = {
