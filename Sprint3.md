@@ -11,7 +11,7 @@
 
 ## Updated API Documentation
 
-### users.go:
+### user.go:
 
 #### Struct:
 Creates a user struct that holds an id as an int and username, password, and email all as strings.
@@ -33,7 +33,7 @@ Updates a specific user using the information stored in that JSON body. Returns 
 ##### deleteUser(w http.ResponseWriter, r \*http.Request):
 Delete a specific user contained in the database given by email. Returns an error if that user is not contained in the database. Is stored as a DELETE function.
 
-### posts.go:
+### post.go:
 
 #### Struct:
 Creates a post struct that holds an id as an int and the user that posted the furniture, furniture type, and post title all as strings.
@@ -55,7 +55,7 @@ Updates a specific post using the information stored in that JSON body. Returns 
 ##### deletePost(w http.ResponseWriter, r \*http.Request):
 Deletes a specific post contained in the database given by id. Returns an error if that post is not contained in the database. Is stored as a DELETE function.
 
-### images.go:
+### image.go:
 
 #### Struct:
 Creates a image struct that holds an id as an int and the image url as a string.
