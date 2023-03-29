@@ -180,7 +180,18 @@ Test deleteImage() using a http request and checks results. The changes to the d
 #### Functions:
 
 ##### TestEncryption (t \*testing.T)
-Tests encrypt() then checks result using comparePassword() .
+Tests encrypt() then checks result using comparePassword().
+
+### email_test.go
+
+#### Functions:
+
+##### TestSendWelcomeEmail (t \*testing.T)
+Tests SendWelcomeEmail() and checks result to ensure email was sent.
+
+##### TestSendForgotPasswordEmail(t \*testing.T)
+Tests SendForgotPasswordEmail() and checks result to ensure email was sent.
+
 
 ## Frontend Goals
 Chris: Username --> Uploading image --> 
