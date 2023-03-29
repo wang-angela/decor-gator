@@ -6,5 +6,5 @@ import (
 )
 
 func EmailRoutes(r *mux.Router) {
-	r.HandleFunc("/emails/ForgotPassword", controllers.UpdateImage).Methods("PUT")
+	r.HandleFunc("/emails/{email}", controllers.HelperForgotPassword).Methods("PUT")
 }

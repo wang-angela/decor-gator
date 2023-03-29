@@ -18,7 +18,7 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
         navigate('/BuyPage');
     }
 
-    async function handleLogin() {
+    function handleLogin() {
 
         if (loginEmailRef.current && loginPasswordRef.current) {
             if (!loginEmailRef.current.value || !loginPasswordRef.current.value) {

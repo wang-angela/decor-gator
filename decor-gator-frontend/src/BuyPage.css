@@ -1,0 +1,12 @@
+.page-label{
+    color:black;
+    font-weight: bold;
+}
+
+.change-page-container{
+    padding-left: 37vw;
+}
+
+.buy-container{
+    justify-content: space-between;
+}

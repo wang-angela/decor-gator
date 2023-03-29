@@ -69,9 +69,9 @@ func TestGetImage(t *testing.T) {
 	var resp map[string]interface{}
 	json.Unmarshal(rr.Body.Bytes(), &resp)
 
-	const mockData = "joewjoiu432987(*&(*$#&*(Wuroiesjfkjaskjdoiwj"
-	if resp["ByteData"] != mockData {
-		t.Errorf("Data is invalid, expected \"joewjoiu432987(*&(*$#&*(Wuroiesjfkjaskjdoiwj\" got %v", resp["image_byte_data"])
+	const URL = "cool-url.go/img1"
+	if resp["url"] != URL {
+		t.Errorf("Data is invalid, expected \"cool-url.go/img1\" got %v", resp["url"])
 	}
 }
 
@@ -82,11 +82,11 @@ func TestCreateImage(t *testing.T) {
 	// Request Body
 	jsonBody := []byte(`{
 		"id": 4,
-		"ByteData": "hfji3u42987&(*&$#@(*Q&$ilkasmlkamljdaljo"
+		"url": "cool-url.go/img4"
 	}`)
 	bodyReader := bytes.NewReader(jsonBody)
 
-	// Send new request whfji3u42987&(*&$#@(*Q&$ilkasmlkamljdaljoith json body info
+	// Send new request cool-url.go/img4 json body info
 	req, err := http.NewRequest("POST", "/images", bodyReader)
 	if err != nil {
 		t.Fatal(err)
@@ -107,9 +107,9 @@ func TestCreateImage(t *testing.T) {
 	var resp map[string]interface{}
 	json.Unmarshal(rr.Body.Bytes(), &resp)
 
-	const mockData = "hfji3u42987&(*&$#@(*Q&$ilkasmlkamljdaljo"
-	if resp["ByteData"] != mockData {
-		t.Errorf("Image title is invalid, expected \"hfji3u42987&(*&$#@(*Q&$ilkasmlkamljdaljo\", got %v", resp["ByteData"])
+	const URL = "cool-url.go/img4"
+	if resp["url"] != URL {
+		t.Errorf("Image title is invalid, expected \"cool-url.go/img4\", got %v", resp["url"])
 	}
 
 	TX.RollbackTo("sp1")
@@ -122,7 +122,7 @@ func TestUpdateImage(t *testing.T) {
 	// Request Body
 	jsonBody := []byte(`{
 		"id": 2,
-		"ByteData": "dskjfo34($&*378uwefoisdjfoiwqurifj"
+		"url": "cool-url.go/radical"
 	}`)
 	bodyReader := bytes.NewReader(jsonBody)
 
@@ -148,9 +148,9 @@ func TestUpdateImage(t *testing.T) {
 	var resp map[string]interface{}
 	json.Unmarshal(rr.Body.Bytes(), &resp)
 
-	const mockData = "dskjfo34($&*378uwefoisdjfoiwqurifj"
-	if resp["ByteData"] != mockData {
-		t.Errorf("Image Title is invalid, expected \"dskjfo34($&*378uwefoisdjfoiwqurifj\", got %v", resp["title"])
+	const URL = "cool-url.go/radical"
+	if resp["url"] != URL {
+		t.Errorf("Image Title is invalid, expected \"cool-url.go/radical\", got %v", resp["url"])
 	}
 
 	TX.RollbackTo("sp2")
