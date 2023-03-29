@@ -13,21 +13,25 @@
     "@types/node": "^16.18.11",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
+    "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.0",
     "cypress": "^12.7.0",
     "jquery": "^3.6.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.2",
-    "react-scripts": "^5.0.1",
+    "react-scripts": "^4.0.3",
     "react-transition-group": "^4.4.5",
+    "stream-browserify": "^3.0.0",
     "typescript": "^4.9.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
+    "start": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -53,6 +57,11 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/react-transition-group": "^4.4.5",
-    "gh-pages": "^5.0.0"
+    "gh-pages": "^5.0.0",
+    "webpack": "^4.44.2"
+  },
+  "browser": {
+    "crypto": false,
+    "stream": false
   }
 }
