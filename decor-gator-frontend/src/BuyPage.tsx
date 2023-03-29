@@ -94,12 +94,10 @@ function BuyPage() {
     }, [])
 
     useEffect(() => {
-        console.log("AHHHH!!")
         renderPage()
     }, [page])
 
     useEffect(() => {
-        console.log(pageList)
         if (page === 1)
             renderPage()
         else
