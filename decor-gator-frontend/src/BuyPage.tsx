@@ -50,7 +50,7 @@ function BuyPage() {
     }
 
     function getPages(inputPostArray:Array<any>) {
-        let pageSize = 12
+        let pageSize = 8
         let pageArray:Array<any> = []
 
         for (let i = 0; i < inputPostArray.length; i += pageSize) {
@@ -112,23 +112,24 @@ function BuyPage() {
             + Post
             </button>
             <button type="button" className="viewPosts-button" onClick={getAllPosts}>
-            List Posts
+            List Posts (Debug)
             </button>
-            <button type="button" className="previous-page-button" onClick={decreasePage}>
-            Previous Page
-            </button>
-            <button type="button" className="next-page-button" onClick={increasePage}>
-            Next Page
-            </button>
-            <input type="text" className="search-text-input" placeholder="Search" ref={searchBarRef}/>
+            <input type="text" className="search-text-input" placeholder="Search Title" ref={searchBarRef}/>
             <button type="button" className="search-button" onClick={filterBySearch}>
             Search
             </button>
-            <label className="page-label">
-            Page {page} of {pageList.length}
-            </label>
+            <div className="change-page-container">
+                <button type="button" className="previous-page-button" onClick={decreasePage}>
+                Previous Page
+                </button>
+                <label className="page-label">
+                Page {page} of {pageList.length}
+                </label>
+                <button type="button" className="next-page-button" onClick={increasePage}>
+                Next Page
+                </button>
+            </div>
         </div>
-        
     )
 }
 

@@ -15,7 +15,8 @@ export default function MasterPostContainer(props: MasterPostContainerProps) {
     return (
         <div className = 'master-container'>
                 {props.postContainers?.map(post => {
-                    return <PostContainer key={post.id} title={post.title} furnitureType={post.furnitureType} posterUsername={post.posterUsername} price={post.price} id={post.id}/>
+                    return <PostContainer key={post.id} title={post.title} furnitureType={post.furnitureType}
+                        posterUsername={post.posterUsername} price={post.price} id={post.id}/>
                 })}
         </div>
     )

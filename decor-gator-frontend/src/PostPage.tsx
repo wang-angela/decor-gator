@@ -6,6 +6,11 @@ export default function PostPage() {
     const postTitleRef = React.createRef<HTMLInputElement>()
     const postTypeRef = React.createRef<HTMLInputElement>()
 
+    const navigate = useNavigate();
+    const goToBuyPage = () => { //check if user is authenticated
+        navigate('/BuyPage');
+    }
+
     function uploadPost() {
         var Title, FurnitureType, UserPosted, postObj
         if (postTitleRef.current && postTypeRef.current) {
@@ -26,6 +31,7 @@ export default function PostPage() {
         }).then((response)=>{
             console.log(response)
             alert("Post successfully created!")
+            goToBuyPage()
         }).catch((err) => {
             console.log(err)
         })
