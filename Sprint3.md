@@ -57,7 +57,7 @@ Deletes a specific post contained in the database given by id. Returns an error 
 ### images.go:
 
 #### Struct:
-Creates a image struct that holds an id as an int and the image byte data as a string.
+Creates a image struct that holds an id as an int and the image url as a string.
 
 #### Functions:
 
