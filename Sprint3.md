@@ -9,6 +9,15 @@
 2. Have not gotten AWS to host images through buckets yet.
 3. Needs to be able to send JWT token to frontend.
 
+## Frontend Accomplishments
+1. Created post containers that holds post title and furniture type
+2. Update the Buy Page to display multiple posts
+3. Add search functionality to search posts by title
+
+## Frontend Shortcomings
+1. Need to add more data to creating posts - price, image
+2. Need to find out how to upload images and send to backend
+
 ## Updated API Documentation
 
 ### user.go:
