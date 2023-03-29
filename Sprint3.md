@@ -7,6 +7,7 @@
 ## Backend Shortcomings
 1. Cannot send emails that aren't manually approved by Amazon Web Service.
 2. Have not gotten AWS to host images through buckets yet.
+3. Needs to be able to send JWT token to frontend.
 
 ## Updated API Documentation
 
