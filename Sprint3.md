@@ -103,6 +103,18 @@ Encrypts a given password into encrypted hash data for user privacy.
 ##### comparePassword(password, hash string) boo
 Compares a given password to its corresponding encrypted hash data.
 
+### email.go:
+
+#### Functions:
+
+##### SendWelcomeEmail(destinationEmails []string):
+
+Sends an email from decorgators@gmail.com confirming that the user signed up with our service. For now, the only emails we can send are to those we manually approve on our Amazon Web Service account. We cannot fix this until we get approval to leave the sandbox from Amazon.
+
+##### SendForgotPasswordEmail(w http.ResponseWriter, r \*http.Request):
+
+Sends an email from decorgators@gmail.com for user to reset their password. Similar issues from SendWelcomeEmail(). This is stored as a PUT function.
+
 ### users_test.go
 
 #### Functions:
@@ -169,18 +181,6 @@ Test deleteImage() using a http request and checks results. The changes to the d
 
 ##### TestEncryption (t \*testing.T)
 Tests encrypt() then checks result using comparePassword() .
-
-### email.go:
-
-#### Functions:
-
-##### SendWelcomeEmail(destinationEmails []string):
-
-Sends an email from decorgators@gmail.com confirming that the user signed up with our service. For now, the only emails we can send are to those we manually approve on our Amazon Web Service account. We cannot fix this until we get approval to leave the sandbox from Amazon.
-
-##### SendForgotPasswordEmail(w http.ResponseWriter, r \*http.Request):
-
-Sends an email from decorgators@gmail.com for user to reset their password. Similar issues from SendWelcomeEmail().
 
 ## Frontend Goals
 Chris: Username --> Uploading image --> 
