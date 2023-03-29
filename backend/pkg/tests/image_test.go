@@ -69,9 +69,9 @@ func TestGetImage(t *testing.T) {
 	var resp map[string]interface{}
 	json.Unmarshal(rr.Body.Bytes(), &resp)
 
-	const mockData = "joewjoiu432987(*&(*$#&*(Wuroiesjfkjaskjdoiwj"
-	if resp["ByteData"] != mockData {
-		t.Errorf("Data is invalid, expected \"joewjoiu432987(*&(*$#&*(Wuroiesjfkjaskjdoiwj\" got %v", resp["image_byte_data"])
+	const url = "cool-url.go/img1"
+	if resp["url"] != url {
+		t.Errorf("Data is invalid, expected \"cool-url.go/img1\" got %v", resp["url"])
 	}
 }
 
