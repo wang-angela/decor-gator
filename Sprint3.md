@@ -1,10 +1,12 @@
 # Sprint 3
 
 ## Backend Accomplishments
-1. Created methods that send welcome email to user when they sign up.
+1. Was able to start sending emails through AWS SES service.
+2. Made unit tests to assure that these emails are sent successfully.
 
 ## Backend Shortcomings
 1. Cannot send emails that aren't manually approved by Amazon Web Service.
+2. Have not gotten AWS to host images through buckets yet.
 
 ## Updated API Documentation
 
