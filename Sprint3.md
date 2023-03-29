@@ -178,7 +178,7 @@ Tests encrypt() then checks result using comparePassword() .
 
 Sends an email from decorgators@gmail.com confirming that the user signed up with our service. For now, the only emails we can send are to those we manually approve on our Amazon Web Service account. We cannot fix this until we get approval to leave the sandbox from Amazon.
 
-##### SendForgotPasswordEmail(destinationEmails []string):
+##### SendForgotPasswordEmail(w http.ResponseWriter, r \*http.Request):
 
 Sends an email from decorgators@gmail.com for user to reset their password. Similar issues from SendWelcomeEmail().
 
