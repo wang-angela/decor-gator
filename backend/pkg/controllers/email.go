@@ -3,11 +3,18 @@ package controllers
 // The code is formatted using this tutorial: https://blog.devgenius.io/sending-emails-with-golang-and-amazon-ses-31f25a0f2acb
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
+	"net/http"
 	"net/smtp"
+
+	"github.com/decor-gator/backend/pkg/models"
+	"github.com/decor-gator/backend/pkg/utils"
+	"github.com/gorilla/mux"
 )
 
-func SendWelcomeEmail(destinationEmails []string) {
+func SendWelcomeEmail(destinationEmails []string) error {
 
 	// Creates necessary variables for the function.
 	var (
@@ -33,11 +40,33 @@ func SendWelcomeEmail(destinationEmails []string) {
 	// Catches error.
 	if err != nil {
 		fmt.Printf("Error to sending email: %s", err)
-		return
+		return err
+	}
+
+	return nil
+}
+
+func HelperForgotPassword(w http.ResponseWriter, r *http.Request) {
+	var user models.User
+	w.Header().Set("Content-Type", "application/json")
+
+	// Search for user by id; id=0 if user not found
+	params := mux.Vars(r)["email"]
+	utils.DB.Where("email = ?", params).First(&user)
+	if user.Email == "" {
+		log.Println("User not found")
+	}
+
+	email := []string{user.Email}
+	SendForgotPasswordEmail(email)
+
+	err = json.NewEncoder(w).Encode("Email Sent")
+	if err != nil {
+		log.Fatalln("Error Encoding")
 	}
 }
 
-func SendForgotPasswordEmail(destinationEmails []string) {
+func SendForgotPasswordEmail(destinationEmails []string) error {
 
 	// Creates necessary variables for the function.
 	var (
@@ -63,6 +92,8 @@ func SendForgotPasswordEmail(destinationEmails []string) {
 	// Catches error.
 	if err != nil {
 		fmt.Printf("Error to sending email: %s", err)
-		return
+		return err
 	}
+
+	return nil
 }
