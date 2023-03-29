@@ -25,7 +25,7 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
                 alert("Please enter credentials.")
                 return
                 }
-            fetch('http://localhost:8080/users/'+loginEmailRef.current.value).then((res) => {
+            fetch('http://localhost:8080/user/'+loginEmailRef.current.value).then((res) => {
                 return res.json()
             }).then((response) => {
                 console.log(response)
@@ -66,7 +66,7 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
             let password = signupPasswordRef.current.value
             let signupObj = {username, email, password}
 
-            fetch('http://localhost:8080/users/'+email).then((res) => {
+            fetch('http://localhost:8080/user/'+email).then((res) => {
                 return res.json()
             }).then((response) => {
                 console.log(response)
@@ -78,7 +78,7 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
                 if (!isAvailableEmail)
                     alert("Email already registered.")
                 else {
-                    fetch('http://localhost:8080/users', {
+                    fetch('http://localhost:8080/user', {
                         method: "POST",
                         headers: {'content-type': 'application/json'},
                         body:JSON.stringify(signupObj)
@@ -92,6 +92,23 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
                 
             })
             console.log(signupObj)
+        }
+    }
+
+    function handlePasswordEmail() {
+        if (!loginEmailRef.current?.value) {
+            alert("Enter an email address first!")
+        } else {
+            fetch('http://localhost:8080/emails/'+loginEmailRef.current.value, {
+            method: "PUT",
+            headers: {'content-type': 'application/json'},
+            body:JSON.stringify(loginEmailRef.current.value)
+            }).then((response)=>{
+            console.log(response)
+            alert("Password reset email successfully handled.")
+            }).catch((err) => {
+            console.log(err)
+        })
         }
     }
 
@@ -138,6 +155,10 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
                 
                 <button type="submit" onClick = {handleLogin} className="login-button"> 
                     SIGN IN
+                </button>
+
+                <button type="submit" className="forgot-password-link" onClick = {handlePasswordEmail}>
+                    Forgot password?
                 </button>
 
                 <button className = 'flip-button' onClick = {onClick}>
