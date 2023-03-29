@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import PostPage from "./PostPage"
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import MasterPostContainer from './components/MasterPostContainer'
 import PostContainer from './components/MasterPostContainer'
 import './BuyPage.css'
@@ -11,6 +11,8 @@ function BuyPage() {
     const [postsToDisplay, updateDisplayedPosts] = useState<any[]>([])
     const [pageList, updatePageList] = useState<any[][]>([])
     const [page, setPage] = useState<number>(1)
+    const allPostsRef = useRef<Array<any>>([])
+    const searchBarRef = React.createRef<HTMLInputElement>()
 
     function getAllPosts() {
         
@@ -37,7 +39,8 @@ function BuyPage() {
     }).then(() => {
         console.log("This is what I am logging")
         console.log(postArray)
-        let pages = getPages(postArray)
+        allPostsRef.current = postArray
+        let pages = getPages(allPostsRef.current)
         updatePageList(pages)
         console.log(pages[0])
         console.log(pages[1])
@@ -77,14 +80,31 @@ function BuyPage() {
         updateDisplayedPosts(pageList[page-1])
     }
 
+    function filterBySearch() {
+        let matchedResults = allPostsRef.current.filter((post) => {
+            return post.title.toLowerCase().includes(searchBarRef.current?.value.toLowerCase())
+        })
+        let newPages = getPages(matchedResults)
+        updatePageList(newPages)
+    }
+
     useEffect(() => {
         console.log("Rendering initial posts...")
         getAllPosts()
     }, [])
 
     useEffect(() => {
+        console.log("AHHHH!!")
         renderPage()
     }, [page])
+
+    useEffect(() => {
+        console.log(pageList)
+        if (page === 1)
+            renderPage()
+        else
+            setPage(1)
+    }, [pageList])
 
     const navigate = useNavigate();
     return (
@@ -101,6 +121,10 @@ function BuyPage() {
             </button>
             <button type="button" className="next-page-button" onClick={increasePage}>
             Next Page
+            </button>
+            <input type="text" className="search-text-input" placeholder="Search" ref={searchBarRef}/>
+            <button type="button" className="search-button" onClick={filterBySearch}>
+            Search
             </button>
             <label className="page-label">
             Page {page} of {pageList.length}
