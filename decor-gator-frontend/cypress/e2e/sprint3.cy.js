@@ -62,7 +62,6 @@ describe('decor-gator Post and Buy Page', () => {
     cy.on('window:alert', (t) => {
       expect(t).to.contains('Post successfully created!');
     })
-    cy.wait(5000)
     // Redirect to Post page
     cy.url().should('be.equal', 'http://localhost:3000/BuyPage')
   })
@@ -73,21 +72,35 @@ describe('decor-gator Post and Buy Page', () => {
     cy.get('.container').contains('Chair')
   })
   
-  it('Creates ', () => {
+  it('Creates new page if posts go over 8', () => {
     for (let i = 1; i <= 8; ++i) {
+      // Go to post page
       cy.contains('+ Post').click()
-      
+      // Make a new post
       cy.get('.post-title').type('' + i)
       cy.get('.post-furniture-type').type('Chair')
-      
       cy.get('.post-submit-button').click()
     }
+    cy.wait(5000)
 
     // Is able to go to next page and see post name '7'
     cy.contains('Next Page').click()
-    cy.get('.container').last().contains('8')
+    cy.get('.container').first().contains('8')
   })
 
-    
+  it('Searches by post titles', () => {
+    // Go to post page
+    cy.contains('+ Post').click()
+    // Make a new post
+    cy.get('.post-title').type('SELLING BRICK SOFA')
+    cy.get('.post-furniture-type').type('Sofa')
+    cy.get('.post-submit-button').click()
+
+    // Search the first post created
+    cy.get('.search-text-input').type('BRICK')
+    cy.get('.search-button').click()
+    cy.contains('SELLING BRICK CHAIR')
+    cy.contains('SELLING BRICK SOFA')
+  })
 })
   
