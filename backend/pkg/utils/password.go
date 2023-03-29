@@ -1,6 +1,6 @@
 // https://gowebexamples.com/password-hashing/
 
-package main
+package utils
 
 import (
 	"log"
@@ -8,7 +8,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func encrypt(password string) string {
+func Encrypt(password string) string {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 15)
 	if err != nil {
 		log.Fatalln(err)
@@ -16,7 +16,7 @@ func encrypt(password string) string {
 	return string(bytes)
 }
 
-func comparePassword(password, hash string) bool {
+func ComparePassword(password, hash string) bool {
 	match := true
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	if err != nil {

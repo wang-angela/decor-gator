@@ -1,66 +1,15 @@
-# Sprint 2
+# Sprint 3
 
-## What Frontend accomplished in Sprint 2:
-1. Connected frontend and backend to communicate with fetch
-2. Created a Buy Page where users can see posts created. 
-3. Created Post Page where users can submit posts.
-4. Implemented unit tests for nearly all functions.
-5. Fully implemented user signup and login with password and duplicate account validation
+## Backend Accomplishments
+1. Was able to start sending emails through AWS SES service.
+2. Made unit tests to assure that these emails are sent successfully.
 
-## What Frontend didn't get accomplished:
-1. Constructing the Buy Page and adding more features to it (ex. display post in a box)
-2. Upload images for creating posts
+## Backend Shortcomings
+1. Cannot send emails that aren't manually approved by Amazon Web Service.
+2. Have not gotten AWS to host images through buckets yet.
+3. Needs to be able to send JWT token to frontend.
 
-
-## What backend accomplished in Sprint 2:
-1. Created a file called handlers.go that creates a token that is required to access a given page. 
-2. Made a file called images.go that can store image byte data in the database.
-3. Implented cors and allowed frontend to communicate with backend
-4. Implemented unit tests for nearly all functions
-
-## What backend didn't get accomplished:
-1. Not able to get the user token to work in a web broswer nor be able to set a cookie after logging into an account.
-
-
-## Unit Tests
-
-### Frontend:
-#### Signup and Login
-* Flips login screen to signup page
-* Returns error message if no sign up information entered
-* Signs up with all information entered
-* Alerts if sign up is attempted twice with the same email
-* Alerts if login information is invalid (Wrong password)
-* Logs in with correct information and redirects to Buy Page
-
-#### Creating Post
-* Click "+ Post" button and submit a post with title and furniture type
-* Click "Show Post" to log post title, furniture type, and user email to console
-
-### Backend:
-
-#### user_test.go
-* TestGetAllUsers()
-* TestGetUser()
-* TestCreateUser()
-* TestDeleteUser()
-
-#### posts_test.go
-* TestGetAllPosts()
-* TestGetPost()
-* TestCreatePost()
-* TestDeletePost()
-
-#### images_test.go
-* TestGetAllImages()
-* TestGetImage()
-* TestCreateImage()
-* TestDeleteImage()
-
-#### password_test.go
-* TestEncryption()
-
-## API Documentation
+## Updated API Documentation
 
 ### users.go:
 
@@ -76,7 +25,7 @@ Returns all of the users contained in the database. Returns an error if there ar
 Returns a specific user contained in the database given by email. Returns an error if that user is not contained in the database. Is stored as a GET function.
 
 ##### createUser(w http.ResponseWriter, r \*http.Request):
-Creates a specific user using the information stored in that JSON body. Returns an error if that user is already contained in the database. Is stored as a POST function.
+Creates a specific user using the information stored in that JSON body. Returns an error if that user is already contained in the database. Is stored as a POST function. Also sends an email to the user confirming account creation (see email.go for SendWelcomeEmail() function).
 
 ##### updateUser(w http.ResponseWriter, r \*http.Request):
 Updates a specific user using the information stored in that JSON body. Returns an error if that user is not contained in the database. Is stored as a PUT function.
@@ -154,6 +103,18 @@ Encrypts a given password into encrypted hash data for user privacy.
 ##### comparePassword(password, hash string) boo
 Compares a given password to its corresponding encrypted hash data.
 
+### email.go:
+
+#### Functions:
+
+##### SendWelcomeEmail(destinationEmails []string):
+
+Sends an email from decorgators@gmail.com confirming that the user signed up with our service. For now, the only emails we can send are to those we manually approve on our Amazon Web Service account. We cannot fix this until we get approval to leave the sandbox from Amazon.
+
+##### SendForgotPasswordEmail(w http.ResponseWriter, r \*http.Request):
+
+Sends an email from decorgators@gmail.com for user to reset their password. Similar issues from SendWelcomeEmail(). This is stored as a PUT function.
+
 ### users_test.go
 
 #### Functions:
@@ -220,3 +181,36 @@ Test deleteImage() using a http request and checks results. The changes to the d
 
 ##### TestEncryption (t \*testing.T)
 Tests encrypt() then checks result using comparePassword() .
+
+## Frontend Goals
+Chris: Username --> Uploading image --> 
+Joanne: Use the GUI create About page
+
+### Transform Website using MUI
+- Make front page (About page)
+- Login, Sign up, Post, Buy
+
+### Implement username for users
+- Include in Sign-up page
+   - Check if the username is unqiue
+- Change Log in page to login with username instead of email
+- Send username instead of email when creating new post
+
+### Finish making Buy Page & Post Page structure and make Rent Page
+#### Post Page Features:
+- Title, Description, Type (Drop-down Menu), Buy/Rent, (Multiple) Images, Price, Location (?)
+
+#### Buy Page Features: 
+- Display Posts (obvious) by Newst (default)
+- Sort by Chair, Sofa, Bed, Table, Electronics, Lighting, Stroage, Kitchen, Other 
+- Search bar to search posts by Buy/Rent, Title, Type, Price (Low to high, high to low), Location (?)
+   - Three fields - Search by input string, search by drop-down with Buy/Rent, Price, Newest/Oldest, and search by drop-down furniture type
+- When clicked on a post that same user made - Put edit button
+- Implement Edit page using Post Page
+- User Icon -> User Page
+
+#### In User Page:
+- Show my post
+- Change username, email, password, first and last name
+
+
