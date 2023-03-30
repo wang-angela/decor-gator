@@ -202,10 +202,9 @@ Tests SendWelcomeEmail() and checks result to ensure email was sent.
 Tests SendForgotPasswordEmail() and checks result to ensure email was sent.
 
 ## Front End Unit Test
-#### \*Note
-Sprint 2 unit testing had modification on Buy Page testing - It was removed and was entirely written again in Sprint 3.
-Everything else in Sprint 2 remains the same.
+#### \*Note Sprint 2 unit testing had modification on Buy Page testing - It was removed and was entirely written again in Sprint 3. Everything else in Sprint 2 remains the same.
 
+### In Sprint 3:
 * Alerts if any of post information in creating post is missing (Title or Furniture Type)
 * Clicks "+Post" button and submits a post
 * Shows new posts created
