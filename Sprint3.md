@@ -11,8 +11,9 @@
 
 ## Frontend Accomplishments
 1. Created post containers that holds post title and furniture type
-2. Update the Buy Page to display multiple posts
-3. Add search functionality to search posts by title
+2. Dynamically rendered posts whenever list of all posts is updated; used post containers to display title/price/image/etc.
+3. Added page function to post page to display sets of posts at once rather than all posts
+4. Add search functionality to search posts by title
 
 ## Frontend Shortcomings
 1. Need to add more data to creating posts - price, image
