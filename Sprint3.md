@@ -120,7 +120,11 @@ Compares a given password to its corresponding encrypted hash data.
 
 Sends an email from decorgators@gmail.com confirming that the user signed up with our service. For now, the only emails we can send are to those we manually approve on our Amazon Web Service account. We cannot fix this until we get approval to leave the sandbox from Amazon.
 
-##### SendForgotPasswordEmail(w http.ResponseWriter, r \*http.Request):
+##### HelperForgotPassword(w http.ResponseWriter, r \*http.Request):
+
+Wrapper for SendForgotPasswordEmail(), so no parameters are needed.
+
+##### SendForgotPasswordEmail(destinationEmails []string):
 
 Sends an email from decorgators@gmail.com for user to reset their password. Similar issues from SendWelcomeEmail(). This is stored as a PUT function.
 
