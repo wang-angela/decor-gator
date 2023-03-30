@@ -18,6 +18,7 @@
 ## Frontend Shortcomings
 1. Need to add more data to creating posts - price, image
 2. Need to find out how to upload images by URL and sending them to backend
+3. Need to develop and finalize user page where they can edit/delete posts and email/password/etc.
 
 ## Updated API Documentation
 
