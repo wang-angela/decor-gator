@@ -27,8 +27,8 @@ describe('decor-gator Post and Buy Page', () => {
 
     // cy.contains('LOG IN').click({force: true})
     
-    cy.get('input[placeholder="Email"').last().type('djohnson@gmail.com')
-    cy.get('input[placeholder="Password"').last().type('123456')
+    cy.get('input[placeholder="Email"]').last().type('djohnson@gmail.com')
+    cy.get('input[placeholder="Password"]').last().type('123456')
     cy.contains('SIGN IN').click()
     cy.wait(5000)
     cy.url().should('be.equal', 'http://localhost:3000/BuyPage')
