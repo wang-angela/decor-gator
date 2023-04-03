@@ -1,7 +1,7 @@
 {
   "name": "decor-gator-frontend",
   "version": "0.1.0",
-  "homepage": "https://gitname.github.io/decor-gator",
+  "homepage": "https://wang-angela.github.io/decor-gator",
   "private": true,
   "dependencies": {
     "@babel/runtime": "^7.21.0",
