@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/decor-gator/backend/pkg/models"
+	"github.com/decor-gator/backend/pkg/utils"
 	"github.com/golang-jwt/jwt"
 	"github.com/gorilla/context"
 	"github.com/mitchellh/mapstructure"
@@ -21,11 +22,11 @@ func CreateTokenEndpoint(w http.ResponseWriter, r *http.Request) {
 		log.Fatalln("Error Decoding")
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, jwt.MapClaims{
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"username": user.Username,
 	})
 
-	tokenStr, err := token.SignedString([]byte("secret"))
+	tokenStr, err := token.SignedString([]byte(utils.GetEnvVar("PASS_PHRASE")))
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -40,7 +41,7 @@ func ProtectedEndpoint(w http.ResponseWriter, r *http.Request) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("There was an error")
 		}
-		return []byte("secret"), nil
+		return []byte(utils.GetEnvVar("PASS_PHRASE")), nil
 	})
 	if err != nil {
 		fmt.Print("Error Parsing")
@@ -66,7 +67,7 @@ func ValidateMiddleware(next http.HandlerFunc) http.HandlerFunc {
 					if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 						return nil, fmt.Errorf("There was an error")
 					}
-					return []byte("secret"), nil
+					return []byte(utils.GetEnvVar("PASS_PHRASE")), nil
 				})
 				if error != nil {
 					json.NewEncoder(w).Encode(models.Exception{Message: error.Error()})
