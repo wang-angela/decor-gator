@@ -18,6 +18,7 @@ func main() {
 	routes.PostRoutes(r)
 	routes.ImageRoutes(r)
 	routes.EmailRoutes(r)
+	routes.JwtRoutes(r)
 
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"http://localhost:3000"},
