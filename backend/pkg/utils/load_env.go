@@ -4,6 +4,6 @@ import (
 	"os"
 )
 
-func GetEnvVar(key string) string {
-	return os.Getenv(key)
+func GetEnvVar(key string) []byte {
+	return []byte(os.Getenv(key))
 }

@@ -38,7 +38,7 @@ func CreateTokenEndpoint(w http.ResponseWriter, r *http.Request) {
 		"exp":      time.Now().Add(time.Minute * 5).Unix(),
 	})
 
-	tokenStr, err := token.SignedString([]byte(utils.GetEnvVar("PASS_PHRASE")))
+	tokenStr, err := token.SignedString(utils.GetEnvVar("PASS_PHRASE"))
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -47,9 +47,9 @@ func CreateTokenEndpoint(w http.ResponseWriter, r *http.Request) {
 }
 
 func ValidateMiddleware(next http.HandlerFunc) http.HandlerFunc {
-	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-		authorizationHeader := req.Header.Get("authorization")
+		authorizationHeader := r.Header.Get("authorization")
 		if authorizationHeader != "" {
 			bearerToken := strings.Split(authorizationHeader, " ")
 			if len(bearerToken) == 2 {
@@ -57,15 +57,15 @@ func ValidateMiddleware(next http.HandlerFunc) http.HandlerFunc {
 					if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 						return nil, fmt.Errorf("There was an error")
 					}
-					return []byte(utils.GetEnvVar("PASS_PHRASE")), nil
+					return utils.GetEnvVar("PASS_PHRASE"), nil
 				})
 				if error != nil {
 					json.NewEncoder(w).Encode(models.Exception{Message: error.Error()})
 					return
 				}
 				if token.Valid {
-					context.Set(req, "decoded", token.Claims)
-					next(w, req)
+					context.Set(r, "decoded", token.Claims)
+					next(w, r)
 				} else {
 					json.NewEncoder(w).Encode(models.Exception{Message: "Invalid authorization token"})
 				}
@@ -76,7 +76,7 @@ func ValidateMiddleware(next http.HandlerFunc) http.HandlerFunc {
 	})
 }
 
-func TestEndpoint(w http.ResponseWriter, r *http.Request) {
+func VerifyEndpoint(w http.ResponseWriter, r *http.Request) {
 	decoded := context.Get(r, "decoded")
 	var user models.User
 	mapstructure.Decode(decoded.(jwt.MapClaims), &user)
