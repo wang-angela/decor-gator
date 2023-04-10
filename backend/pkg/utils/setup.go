@@ -15,7 +15,7 @@ var err error
 
 func InitDB(name string) {
 	// Open data.db; if data does not exist, create it
-	DB, err = gorm.Open(sqlite.Open("./pkg/models/"+name+".db"), &gorm.Config{})
+	DB, err = gorm.Open(sqlite.Open("./pkg/databases/"+name+".db"), &gorm.Config{})
 	// If there is an error, print error and message
 	if err != nil {
 		log.Print("Unable to connect to DB")
@@ -25,7 +25,7 @@ func InitDB(name string) {
 
 func InitDBTest(name string) *gorm.DB {
 	// Open data.db; if data does not exist, create it
-	DB, err = gorm.Open(sqlite.Open("../models/"+name+".db"), &gorm.Config{
+	DB, err = gorm.Open(sqlite.Open("../databases/"+name+".db"), &gorm.Config{
 		SkipDefaultTransaction: true,
 	})
 	// If there is an error, print error and message
