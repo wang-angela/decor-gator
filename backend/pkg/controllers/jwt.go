@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/decor-gator/backend/pkg/models"
 	"github.com/decor-gator/backend/pkg/utils"
@@ -22,8 +23,19 @@ func CreateTokenEndpoint(w http.ResponseWriter, r *http.Request) {
 		log.Fatalln("Error Decoding")
 	}
 
+	if !utils.JwtVerifyUserExists(user) {
+		fmt.Print("User does not exist")
+		return
+	}
+
+	if !utils.JwtVerifyPassword(user) {
+		fmt.Print("Password incorrect")
+		return
+	}
+
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"username": user.Username,
+		"exp":      time.Now().Add(time.Minute * 5).Unix(),
 	})
 
 	tokenStr, err := token.SignedString([]byte(utils.GetEnvVar("PASS_PHRASE")))
@@ -32,28 +44,6 @@ func CreateTokenEndpoint(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json.NewEncoder(w).Encode(models.JwtToken{Token: tokenStr})
-}
-
-func ProtectedEndpoint(w http.ResponseWriter, r *http.Request) {
-	params := r.URL.Query()
-
-	token, err := jwt.Parse(params["token"][0], func(t *jwt.Token) (interface{}, error) {
-		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("There was an error")
-		}
-		return []byte(utils.GetEnvVar("PASS_PHRASE")), nil
-	})
-	if err != nil {
-		fmt.Print("Error Parsing")
-	}
-
-	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		var user models.User
-		mapstructure.Decode(claims, &user)
-		json.NewEncoder(w).Encode(user)
-	} else {
-		json.NewEncoder(w).Encode(models.Exception{Message: "Invalid authorization token"})
-	}
 }
 
 func ValidateMiddleware(next http.HandlerFunc) http.HandlerFunc {
