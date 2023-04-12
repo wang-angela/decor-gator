@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/decor-gator/backend/pkg/configs"
 	"github.com/decor-gator/backend/pkg/routes"
 	"github.com/decor-gator/backend/pkg/utils"
 	"github.com/gorilla/mux"
@@ -18,6 +19,9 @@ func main() {
 	}
 
 	r := mux.NewRouter()
+
+	// Connect database
+	configs.ConnectDB()
 	utils.InitDB("data")
 
 	// Routes
