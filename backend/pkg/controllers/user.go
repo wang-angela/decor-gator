@@ -6,24 +6,35 @@
 package controllers
 
 import (
+	"context"
 	"encoding/json"
 	"log"
 	"net/http"
 
+	"github.com/decor-gator/backend/pkg/configs"
 	"github.com/decor-gator/backend/pkg/models"
 	"github.com/decor-gator/backend/pkg/utils"
 	"github.com/gorilla/mux"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 var err error
+var coll *mongo.Collection = configs.GetCollection(configs.DB, "users")
 
 func GetUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application-json")
 	var users []models.User
 
-	// Prints an error if no users were in the data base.
-	if utils.DB.Find(&users).Error != nil {
-		log.Printf("There are no users in the database.")
+	// Retrieving users
+	cur, err := coll.Find(context.TODO(), bson.D{})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Decodes results into User array
+	if cur.All(context.TODO(), &users) != nil {
+		log.Fatal(err)
 	}
 
 	err = json.NewEncoder(w).Encode(users)

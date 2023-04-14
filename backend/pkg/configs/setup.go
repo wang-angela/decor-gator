@@ -1,4 +1,3 @@
-// Code referenced for importing mongoDB: https://dev.to/hackmamba/build-a-rest-api-with-golang-and-mongodb-gorillamux-version-57fh
 package configs
 
 import (
@@ -21,12 +20,6 @@ func ConnectDB() *mongo.Client {
 		panic(err)
 	}
 
-	defer func() {
-		if err = client.Disconnect(context.TODO()); err != nil {
-			panic(err)
-		}
-	}()
-
 	if err := client.Database("admin").RunCommand(context.TODO(), bson.D{{"ping", 1}}).Err(); err != nil {
 		panic(err)
 	}
@@ -35,7 +28,7 @@ func ConnectDB() *mongo.Client {
 	return client
 }
 
-func GetCollection(client *mongo.Client, collectionName string) *mongo.Collection {
-	collection := client.Database("decor-gator").Collection(collectionName)
+func GetCollection(client *mongo.Client, collName string) *mongo.Collection {
+	collection := client.Database("decorGator").Collection(collName)
 	return collection
 }
