@@ -1,10 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import './PostPage.css'
 
 export default function PostPage() {
 
     const postTitleRef = React.createRef<HTMLInputElement>()
     const postTypeRef = React.createRef<HTMLInputElement>()
+    const postPriceRef = React.createRef<HTMLInputElement>()
+    const postDescriptionRef = React.createRef<HTMLInputElement>()
 
     const navigate = useNavigate();
     const goToBuyPage = () => { //check if user is authenticated
@@ -42,7 +45,9 @@ export default function PostPage() {
     return (
         <div className = 'post-editor'>
             <input ref={postTitleRef} type='text' placeholder='Title' className='post-title' />
-            <input ref={postTypeRef} type='text' placeholder='Furniture Type' className='post-furniture-type' />
+            <input ref={postTypeRef} type='text' placeholder='Furniture Type' className='post-furniture-type'/>
+            <input ref={postPriceRef} type='text' placeholder='Price' className='post-price'/>
+            <input ref={postDescriptionRef} type='text' placeholder='Description' className='post-description'/>
             <button type='button' onClick={uploadPost} className='post-submit-button'>Submit Post</button>
         </div>
     )
