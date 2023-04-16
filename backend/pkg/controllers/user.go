@@ -21,14 +21,14 @@ import (
 )
 
 var err error
-var coll *mongo.Collection = configs.GetCollection(configs.DB, "users")
+var userColl *mongo.Collection = configs.GetCollection(configs.DB, "users")
 
 func GetUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application-json")
 	var users []models.User
 
 	// Retrieving users
-	cur, err := coll.Find(context.TODO(), bson.D{})
+	cur, err := userColl.Find(context.TODO(), bson.D{})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -52,7 +52,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)["email"]
 	filter := bson.D{{Key: "email", Value: params}}
 
-	err := coll.FindOne(context.TODO(), filter).Decode(&user)
+	err := userColl.FindOne(context.TODO(), filter).Decode(&user)
 	if err == mongo.ErrNoDocuments {
 		// Throws error if no user exists
 		msg := "User does not exist"
@@ -89,7 +89,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	user.ID = primitive.NewObjectID()
 
 	// Insert into MongoDB
-	res, err := coll.InsertOne(context.TODO(), user)
+	res, err := userColl.InsertOne(context.TODO(), user)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -130,7 +130,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		},
 	}}
 
-	res, err := coll.UpdateOne(context.TODO(), filter, update)
+	res, err := userColl.UpdateOne(context.TODO(), filter, update)
 	if err != nil {
 		log.Fatal(err)
 	} else if res.MatchedCount == 0 {
@@ -156,7 +156,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)["email"]
 	filter := bson.D{{Key: "email", Value: params}}
 
-	res, err := coll.DeleteOne(context.TODO(), filter)
+	res, err := userColl.DeleteOne(context.TODO(), filter)
 	if err != nil {
 		// Throws error for other cases
 		log.Fatal(err)
