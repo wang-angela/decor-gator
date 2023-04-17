@@ -6,7 +6,7 @@ import './PostPage.css'
 export default function PostPage() {
 
     const postTitleRef = React.createRef<HTMLInputElement>()
-    const postTypeRef = React.createRef<HTMLInputElement>()
+    const postTypeRef = React.createRef<HTMLSelectElement>()
     const postPriceRef = React.createRef<HTMLInputElement>()
     const postDescriptionRef = React.createRef<HTMLInputElement>()
     const imageUploadRef = React.createRef<HTMLInputElement>()
@@ -63,7 +63,19 @@ export default function PostPage() {
         <div className = 'post-editor'>
             <div className = 'text-entries'>
                 <input ref={postTitleRef} type='text' placeholder='Title' className='post-title' />
-                <input ref={postTypeRef} type='text' placeholder='Furniture Type' className='post-furniture-type'/>
+                <select ref={postTypeRef} className='post-furniture-type'>   
+                    <option value='' selected disabled></option>
+                    <option value='Chair'>Chair</option>
+                    <option value='Sofa'>Sofa</option>
+                    <option value='Table'>Table</option>
+                    <option value='Desk'>Desk</option>
+                    <option value='Appliance'>Appliance</option>
+                    <option value='Bedding'>Bedding</option>
+                    <option value='Decoration'>Decoration</option>
+                    <option value='Storage'>Storage</option>
+                    <option value='Lighting'>Lighting</option>
+                    <option value='Other'>Other</option>
+                </select>
                 <input ref={postPriceRef} type='text' placeholder='Price' className='post-price'/>
                 <input ref={postDescriptionRef} type='text' placeholder='Description' className='post-description'/>
 
