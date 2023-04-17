@@ -1,6 +1,7 @@
 .post-editor{
     background-color: aqua;
-    height: auto;
+    height: 60vh;
+    max-height: 60vh;
     width: 60vw;
     border:2px;
     display:flex;
@@ -19,4 +20,28 @@
     width: 30vw;
     height: 20vh;
     margin-right: 30vw;
+}
+
+.file-upload{
+    display:none;
+}
+
+.text-entries{
+    width: 30vw;
+}
+
+.image-renderer{
+    width: 30vw;
+    display:flex;
+}
+
+.file-upload-display{
+    width:30vw;
+    height:auto;
+}
+
+.image-display{
+    width: 30vw;
+    height: 60vh;
+    object-fit: fill;
 }

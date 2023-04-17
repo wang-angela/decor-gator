@@ -1,4 +1,5 @@
 import React from "react";
+import { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import './PostPage.css'
 
@@ -8,6 +9,10 @@ export default function PostPage() {
     const postTypeRef = React.createRef<HTMLInputElement>()
     const postPriceRef = React.createRef<HTMLInputElement>()
     const postDescriptionRef = React.createRef<HTMLInputElement>()
+    const imageUploadRef = React.createRef<HTMLInputElement>()
+
+    const [image, setImage] = useState<File | null>()
+    const [imagePreview, setPreview] = useState<string | null>()
 
     const navigate = useNavigate();
     const goToBuyPage = () => { //check if user is authenticated
@@ -42,13 +47,45 @@ export default function PostPage() {
 
     }
 
+    useEffect(() => {
+        if (image) {
+            const fileReader = new FileReader()
+            fileReader.onloadend = () => {
+                setPreview(fileReader.result as string)
+            }
+            fileReader.readAsDataURL(image)
+        } else {
+            setPreview(null)
+        }
+    }, [image])
+
     return (
         <div className = 'post-editor'>
-            <input ref={postTitleRef} type='text' placeholder='Title' className='post-title' />
-            <input ref={postTypeRef} type='text' placeholder='Furniture Type' className='post-furniture-type'/>
-            <input ref={postPriceRef} type='text' placeholder='Price' className='post-price'/>
-            <input ref={postDescriptionRef} type='text' placeholder='Description' className='post-description'/>
-            <button type='button' onClick={uploadPost} className='post-submit-button'>Submit Post</button>
+            <div className = 'text-entries'>
+                <input ref={postTitleRef} type='text' placeholder='Title' className='post-title' />
+                <input ref={postTypeRef} type='text' placeholder='Furniture Type' className='post-furniture-type'/>
+                <input ref={postPriceRef} type='text' placeholder='Price' className='post-price'/>
+                <input ref={postDescriptionRef} type='text' placeholder='Description' className='post-description'/>
+
+                <button type='button' onClick={uploadPost} className='post-submit-button'>Submit Post</button>
+            </div>
+
+            <form className = 'image-renderer'>
+                {imagePreview ? <img onClick= {() => {setImage(null)}} className='image-display' src={imagePreview} /> :
+                <button onClick={(event) => {
+                    event.preventDefault()
+                    imageUploadRef.current?.click()
+                }} className='file-upload-display'>Upload Image</button>
+                }
+                
+                <input onChange={(event) => {
+                    let file = null
+                    if (event.target.files)
+                        file = event.target.files[0]
+                    setImage(file)
+
+                }} ref={imageUploadRef} type='file' accept='image/*' className='file-upload'/>
+            </form>     
         </div>
     )
 }
