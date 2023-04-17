@@ -41,11 +41,17 @@ func GetPost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application-json")
 	var post models.Post
 
-	// Prints an error id the post doesn't exists.
+	// Convert params string into ObjectID
 	params := mux.Vars(r)["id"]
-	filter := bson.D{{Key: "id", Value: params}}
+	objectId, err := primitive.ObjectIDFromHex(params)
+	if err != nil {
+		log.Println("Invalid id")
+	}
 
-	err := postColl.FindOne(context.TODO(), filter).Decode(&post)
+	// Search for posts, throw error if no document exists
+	filter := bson.D{{Key: "_id", Value: objectId}}
+
+	err = postColl.FindOne(context.TODO(), filter).Decode(&post)
 	if err == mongo.ErrNoDocuments {
 		// Throws error if no post exists
 		msg := "Post does not exist"
@@ -102,19 +108,24 @@ func UpdatePost(w http.ResponseWriter, r *http.Request) {
 		log.Fatalln("Error Decoding")
 	}
 
+	// Convert params string into ObjectID
+	params := mux.Vars(r)["id"]
+	objectId, err := primitive.ObjectIDFromHex(params)
+	if err != nil {
+		log.Println("Invalid id")
+	}
+
 	// Prints an error id the post doesn't exists.
-	params := mux.Vars(r)["_id"]
-	filter := bson.D{{Key: "_id", Value: params}}
+	filter := bson.D{{Key: "_id", Value: objectId}}
 
 	update := bson.D{{Key: "$set",
 		Value: bson.D{
-			{Key: "_id", Value: post.ID},
 			{Key: "title", Value: post.Title},
-			{Key: "furnitureType", Value: post.FurnitureType},
+			{Key: "furniture_type", Value: post.FurnitureType},
 			{Key: "description", Value: post.Description},
 			{Key: "price", Value: post.Price},
-			{Key: "userPosted", Value: post.UserPosted},
-			{Key: "imageURL", Value: post.ImageURL},
+			{Key: "user_posted", Value: post.UserPosted},
+			{Key: "image_url", Value: post.ImageURL},
 		},
 	}}
 
@@ -140,9 +151,15 @@ func UpdatePost(w http.ResponseWriter, r *http.Request) {
 func DeletePost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application-json")
 
+	// Convert params string into ObjectID
+	params := mux.Vars(r)["id"]
+	objectId, err := primitive.ObjectIDFromHex(params)
+	if err != nil {
+		log.Println("Invalid id")
+	}
+
 	// Search parameters
-	params := mux.Vars(r)["_id"]
-	filter := bson.D{{Key: "_id", Value: params}}
+	filter := bson.D{{Key: "_id", Value: objectId}}
 
 	res, err := postColl.DeleteOne(context.TODO(), filter)
 	if err != nil {
