@@ -8,7 +8,7 @@ export default function PostPage() {
     const postTitleRef = React.createRef<HTMLInputElement>()
     const postTypeRef = React.createRef<HTMLSelectElement>()
     const postPriceRef = React.createRef<HTMLInputElement>()
-    const postDescriptionRef = React.createRef<HTMLInputElement>()
+    const postDescriptionRef = React.createRef<HTMLTextAreaElement>()
     const imageUploadRef = React.createRef<HTMLInputElement>()
 
     const [image, setImage] = useState<File | null>()
@@ -62,9 +62,9 @@ export default function PostPage() {
     return (
         <div className = 'post-editor'>
             <div className = 'text-entries'>
-                <input ref={postTitleRef} type='text' placeholder='Title' className='post-title' />
-                <select ref={postTypeRef} className='post-furniture-type'>   
-                    <option value='' selected disabled></option>
+                <input ref={postTitleRef} type='text' placeholder='Post Title' className='post-title' />
+                <select placeholder="Select Category" ref={postTypeRef} className='post-furniture-type'>   
+                    <option className='default-value' value='' selected disabled hidden>Select Category</option>
                     <option value='Chair'>Chair</option>
                     <option value='Sofa'>Sofa</option>
                     <option value='Table'>Table</option>
@@ -76,19 +76,23 @@ export default function PostPage() {
                     <option value='Lighting'>Lighting</option>
                     <option value='Other'>Other</option>
                 </select>
+                <label className='dollar-sign'>$</label>
                 <input ref={postPriceRef} type='text' placeholder='Price' className='post-price'/>
-                <input ref={postDescriptionRef} type='text' placeholder='Description' className='post-description'/>
+                <textarea ref={postDescriptionRef} placeholder='Description of post...' className='post-description'/>
 
-                <button type='button' onClick={uploadPost} className='post-submit-button'>Submit Post</button>
+                <button type='button' onClick={uploadPost} className='post-submit-button'>Create Post</button>
             </div>
 
             <form className = 'image-renderer'>
-                {imagePreview ? <img onClick= {() => {setImage(null)}} className='image-display' src={imagePreview} /> :
+                {imagePreview ? <img onClick= {() => {setImage(null)}} className='image-display' src={imagePreview} /> 
+                :
                 <button onClick={(event) => {
                     event.preventDefault()
                     imageUploadRef.current?.click()
-                }} className='file-upload-display'>Upload Image</button>
+                }} className='file-upload-display'>Click to Upload Image</button>
                 }
+
+                {imagePreview ? <label className='delete-message'>X</label> : <></>}
                 
                 <input onChange={(event) => {
                     let file = null
