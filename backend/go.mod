@@ -11,7 +11,10 @@ require (
 	gorm.io/gorm v1.24.5
 )
 
+require github.com/jmespath/go-jmespath v0.4.0 // indirect
+
 require (
+	github.com/aws/aws-sdk-go v1.44.244
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/gorilla/context v1.1.1 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
