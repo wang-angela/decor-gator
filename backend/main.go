@@ -22,6 +22,7 @@ func main() {
 	// Connect database
 	configs.ConnectDB()
 	//utils.InitDB("data")
+	controllers.Init()
 
 	// Routes
 	routes.UserRoutes(r)
