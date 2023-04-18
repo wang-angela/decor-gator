@@ -33,7 +33,7 @@ export default function PostPage() {
             postObj = {Title, FurnitureType, description, price, UserPosted, imageURL}
             console.log(JSON.stringify(postObj))
         }
-        if (!Title || !FurnitureType) {
+        if (!Title || FurnitureType === '' || !description || !imageURL || !price) {
             alert("Please enter all fields.")
         } else {
             fetch('http://localhost:8080/posts', {
