@@ -6,6 +6,8 @@ type PostContainerProps = {
     furnitureType: string
     posterUsername: string
     price: string
+    imageURL: string
+    description: string
 }
 
 export default function PostContainer(props: PostContainerProps) {
@@ -17,7 +19,7 @@ export default function PostContainer(props: PostContainerProps) {
                 </label>
             </div>
             <div className='post-display'>
-                <img className='post-image' src='https://cdn.discordapp.com/attachments/726320415827427360/1090294211645018192/image.png' alt={props.title}></img>
+                <img className='post-image' src={props.imageURL} alt={props.title}></img>
             </div>
             <div className='post-footer'>
                 <label className='price-label'>

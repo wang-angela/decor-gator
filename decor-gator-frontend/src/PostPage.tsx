@@ -20,14 +20,18 @@ export default function PostPage() {
     }
 
     function uploadPost() {
-        var Title, FurnitureType, UserPosted, postObj
-        if (postTitleRef.current && postTypeRef.current) {
+        var Title, FurnitureType, price, description, imageURL, UserPosted, postObj
+        if (postTitleRef.current && postTypeRef.current && postTypeRef.current.value != '' && postPriceRef.current && postDescriptionRef.current && imagePreview) {
             Title = postTitleRef.current.value
             FurnitureType = postTypeRef.current.value
+            price = Number(postPriceRef.current.value)
+            description = postDescriptionRef.current.value
+            imageURL = imagePreview
             console.log(JSON.parse(localStorage.getItem('userData') || ""))
             let a = JSON.parse(localStorage.getItem('userData') || "")
             UserPosted = JSON.parse(localStorage.getItem('userData') || "").email
-            postObj = {Title, FurnitureType, UserPosted}
+            postObj = {Title, FurnitureType, description, price, UserPosted, imageURL}
+            console.log(JSON.stringify(postObj))
         }
         if (!Title || !FurnitureType) {
             alert("Please enter all fields.")
