@@ -23,6 +23,7 @@ func main() {
 	// Connect database
 	configs.ConnectDB()
 	controllers.InitAWSSession()
+	controllers.CreateBucket()
 
 	// Routes
 	routes.UserRoutes(r)
