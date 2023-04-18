@@ -31,7 +31,7 @@ const (
 func InitAWSSession() {
 	s3sess = s3.New(session.Must(session.NewSession(&aws.Config{
 		Region:      aws.String(REGION),
-		Credentials: credentials.NewStaticCredentials("AKIAWYOMFPS7DV5H73C6", "ihgJi8CeqWOtL9IR8rTFDuEnojs+3jtzEabdnXd2", ""),
+		Credentials: credentials.NewStaticCredentials(os.Getenv("AWS_ACCESS_KEY_ID"), os.Getenv("AWS_SECRET_ACCESS_KEY"), ""),
 	})))
 }
 
