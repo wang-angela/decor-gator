@@ -95,6 +95,23 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
         }
     }
 
+    function handlePasswordEmail() {
+        if (!loginEmailRef.current?.value) {
+            alert("Enter an email address first!")
+        } else {
+            fetch('http://localhost:8080/emails/'+loginEmailRef.current.value, {
+            method: "PUT",
+            headers: {'content-type': 'application/json'},
+            body:JSON.stringify(loginEmailRef.current.value)
+            }).then((response)=>{
+            console.log(response)
+            alert("Password reset email successfully handled.")
+            }).catch((err) => {
+            console.log(err)
+        })
+        }
+    }
+
     return (
   
         <div className = 'menu'>
@@ -138,6 +155,10 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
                 
                 <button type="submit" onClick = {handleLogin} className="login-button"> 
                     SIGN IN
+                </button>
+
+                <button type="submit" className="forgot-password-link" onClick = {handlePasswordEmail}>
+                    Forgot password?
                 </button>
 
                 <button className = 'flip-button' onClick = {onClick}>

@@ -9,9 +9,20 @@
 2. Have not gotten AWS to host images through buckets yet.
 3. Needs to be able to send JWT token to frontend.
 
+## Frontend Accomplishments
+1. Created post containers that holds post title and furniture type
+2. Dynamically rendered posts whenever list of all posts is updated; used post containers to display title/price/image/etc.
+3. Added page function to post page to display sets of posts at once rather than all posts
+4. Add search functionality to search posts by title
+
+## Frontend Shortcomings
+1. Need to add more data to creating posts - price, image
+2. Need to find out how to upload images by URL and sending them to backend
+3. Need to develop and finalize user page where they can edit/delete posts and email/password/etc.
+
 ## Updated API Documentation
 
-### users.go:
+### user.go:
 
 #### Struct:
 Creates a user struct that holds an id as an int and username, password, and email all as strings.
@@ -33,7 +44,7 @@ Updates a specific user using the information stored in that JSON body. Returns 
 ##### deleteUser(w http.ResponseWriter, r \*http.Request):
 Delete a specific user contained in the database given by email. Returns an error if that user is not contained in the database. Is stored as a DELETE function.
 
-### posts.go:
+### post.go:
 
 #### Struct:
 Creates a post struct that holds an id as an int and the user that posted the furniture, furniture type, and post title all as strings.
@@ -55,10 +66,10 @@ Updates a specific post using the information stored in that JSON body. Returns 
 ##### deletePost(w http.ResponseWriter, r \*http.Request):
 Deletes a specific post contained in the database given by id. Returns an error if that post is not contained in the database. Is stored as a DELETE function.
 
-### images.go:
+### image.go:
 
 #### Struct:
-Creates a image struct that holds an id as an int and the image byte data as a string.
+Creates a image struct that holds an id as an int and the image url as a string.
 
 #### Functions:
 
@@ -111,7 +122,11 @@ Compares a given password to its corresponding encrypted hash data.
 
 Sends an email from decorgators@gmail.com confirming that the user signed up with our service. For now, the only emails we can send are to those we manually approve on our Amazon Web Service account. We cannot fix this until we get approval to leave the sandbox from Amazon.
 
-##### SendForgotPasswordEmail(w http.ResponseWriter, r \*http.Request):
+##### HelperForgotPassword(w http.ResponseWriter, r \*http.Request):
+
+Wrapper for SendForgotPasswordEmail(), so no parameters are needed.
+
+##### SendForgotPasswordEmail(destinationEmails []string):
 
 Sends an email from decorgators@gmail.com for user to reset their password. Similar issues from SendWelcomeEmail(). This is stored as a PUT function.
 
@@ -180,37 +195,24 @@ Test deleteImage() using a http request and checks results. The changes to the d
 #### Functions:
 
 ##### TestEncryption (t \*testing.T)
-Tests encrypt() then checks result using comparePassword() .
+Tests encrypt() then checks result using comparePassword().
 
-## Frontend Goals
-Chris: Username --> Uploading image --> 
-Joanne: Use the GUI create About page
+### email_test.go
 
-### Transform Website using MUI
-- Make front page (About page)
-- Login, Sign up, Post, Buy
+#### Functions:
 
-### Implement username for users
-- Include in Sign-up page
-   - Check if the username is unqiue
-- Change Log in page to login with username instead of email
-- Send username instead of email when creating new post
+##### TestSendWelcomeEmail (t \*testing.T)
+Tests SendWelcomeEmail() and checks result to ensure email was sent.
 
-### Finish making Buy Page & Post Page structure and make Rent Page
-#### Post Page Features:
-- Title, Description, Type (Drop-down Menu), Buy/Rent, (Multiple) Images, Price, Location (?)
+##### TestSendForgotPasswordEmail(t \*testing.T)
+Tests SendForgotPasswordEmail() and checks result to ensure email was sent.
 
-#### Buy Page Features: 
-- Display Posts (obvious) by Newst (default)
-- Sort by Chair, Sofa, Bed, Table, Electronics, Lighting, Stroage, Kitchen, Other 
-- Search bar to search posts by Buy/Rent, Title, Type, Price (Low to high, high to low), Location (?)
-   - Three fields - Search by input string, search by drop-down with Buy/Rent, Price, Newest/Oldest, and search by drop-down furniture type
-- When clicked on a post that same user made - Put edit button
-- Implement Edit page using Post Page
-- User Icon -> User Page
+## Front End Unit Test
+#### \*Note Sprint 2 unit testing had modification on Buy Page testing - It was removed and was entirely written again in Sprint 3. Everything else in Sprint 2 remains the same.
 
-#### In User Page:
-- Show my post
-- Change username, email, password, first and last name
-
-
+### In Sprint 3:
+* Alerts if any of post information in creating post is missing (Title or Furniture Type)
+* Clicks "+Post" button and submits a post
+* Shows new posts created
+* Creates a new page if number of posts go over 8
+* Searches by keyword for post titles

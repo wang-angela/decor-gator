@@ -1,0 +1,123 @@
+.post-window{
+    background-color: white;
+    height: 60vh;
+    max-height: 60vh;
+    width: 60vw;
+    border:2px;
+    display:flex;
+    flex-flow: row wrap;
+    border-radius: 20px;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.8);
+}
+
+.post-title{
+    width: 25vw;
+    margin-left: 2.5vw;
+    margin-right: 2.5vw;
+    height: 4vh;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    font-family: "Nunito";
+    font-weight: 800;
+    font-size: 24px;
+    border-radius: 8px;
+    border-style: hidden;
+    background-color: rgb(232, 229, 229);
+}
+
+.post-furniture-type{
+    width: 8vw;
+    margin-left: 2.5vw;
+    margin-right: 2.5vw;
+    height: 3vh;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    font-family: "Nunito";
+    font-weight: 800;
+    font-size: 16px;
+    border-radius: 8px;
+    border-style: hidden;
+    color:black;
+    background-color: rgb(232, 229, 229);
+}
+
+.dollar-sign {
+    font-family: "Nunito";
+    font-weight:bolder;
+    margin-right: 0.2vw;
+}
+
+.post-price{
+    width: 3vw;
+    margin-right: 2.5vw;
+    height: 3vh;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    font-family: "Nunito";
+    font-weight: 800;
+    font-size: 16px;
+    border-radius: 8px;
+    border-style: hidden;
+    background-color: rgb(232, 229, 229);
+}
+
+.post-description{
+    width: 24vw;
+    margin-left: 2.5vw;
+    margin-right: 2.5vw;
+    height: 32vh;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    font-family: "Nunito";
+    font-weight: 800;
+    font-size: 16px;
+    border-radius: 8px;
+    border-style: hidden;
+    background-color: rgb(232, 229, 229);
+    text-align: left;
+    padding-left: 0.5vw;
+    padding-right: 0.5vw;
+    padding-top: 0.5vh;
+    padding-bottom: 0.5vh;
+}
+
+.post-submit-button {
+    padding: 8px;
+    margin-top: 20px;
+    font-family: "Nunito";
+    font-size: 16px;
+    background-color: rgb(13, 116, 15);
+    color: white;
+    border-radius: 15px;
+    width: 10vw;
+    transition: all 0.1s ease-out;
+    border: none;
+    font-weight: bolder;
+    margin-left: 10vw;
+    margin-right: 10vw;
+}
+
+.post-submit-button:hover {
+    background-color: #02480a;
+    opacity: 1;
+    transition: all 0.1s ease-in;
+}
+
+.text-entries{
+    width: 30vw;
+}
+
+.image-renderer{
+    width: 30vw;
+    display:flex;
+}
+
+.image-display{
+    width: 30vw;
+    height: 60vh;
+    object-fit: fill;
+    border-radius: 20px;
+    border-width: 4px;
+    z-index: 1;
+}
+

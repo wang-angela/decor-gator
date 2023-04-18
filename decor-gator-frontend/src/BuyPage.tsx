@@ -28,10 +28,12 @@ function BuyPage() {
             let title = element.title
             let furnitureType = element.furnitureType
             let posterUsername = element.userPosted
-            let price = '$20'
+            let price = '$'+ String(element.price)
             let id = element.id
+            let imageURL = element.imageURL
+            let description = element.description
 
-            let postObj = {id, title, furnitureType, posterUsername, price}
+            let postObj = {id, title, furnitureType, posterUsername, price, imageURL, description}
             console.log(postObj)
 
             postArray.push(postObj)
