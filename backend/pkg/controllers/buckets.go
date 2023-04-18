@@ -1,15 +1,22 @@
 package controllers
 
+// Used code from this tutorial for bucket operations: https://www.youtube.com/watch?v=gzBnrBK1P5Q&t=710s
+
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
+	"net/http"
 	"os"
 	"strings"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
+	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
+	"github.com/gorilla/mux"
 )
 
 var (
@@ -17,13 +24,14 @@ var (
 )
 
 const (
-	BUCKET_NAME = "angelalovegolanggoohers463"
+	BUCKET_NAME = "decorgatorbucket"
 	REGION      = "us-east-1"
 )
 
-func Init() {
+func InitAWSSession() {
 	s3sess = s3.New(session.Must(session.NewSession(&aws.Config{
-		Region: aws.String(REGION),
+		Region:      aws.String(REGION),
+		Credentials: credentials.NewStaticCredentials("AKIAWYOMFPS7DV5H73C6", "ihgJi8CeqWOtL9IR8rTFDuEnojs+3jtzEabdnXd2", ""),
 	})))
 }
 
@@ -39,9 +47,6 @@ func ListBuckets() (resp *s3.ListBucketsOutput) {
 func CreateBucket() (resp *s3.CreateBucketOutput) {
 	resp, err := s3sess.CreateBucket(&s3.CreateBucketInput{
 		Bucket: aws.String(BUCKET_NAME),
-		CreateBucketConfiguration: &s3.CreateBucketConfiguration{
-			LocationConstraint: aws.String(REGION),
-		},
 	})
 	if err != nil {
 		if aerr, ok := err.(awserr.Error); ok {
@@ -128,4 +133,23 @@ func DeleteObject(filename string) (resp *s3.DeleteObjectOutput) {
 	}
 
 	return resp
+}
+
+func UploadObjectHelper(w http.ResponseWriter, r *http.Request) {
+	UploadObject(mux.Vars(r)["filename"])
+}
+
+func ListBucketsHelper(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application-json")
+
+	resp := ListBuckets()
+
+	err = json.NewEncoder(w).Encode(resp)
+	if err != nil {
+		log.Fatalln("Error Encoding")
+	}
+}
+
+func DeleteObjectHelper(w http.ResponseWriter, r *http.Request) {
+	DeleteObject(mux.Vars(r)["filename"])
 }
