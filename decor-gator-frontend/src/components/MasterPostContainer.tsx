@@ -8,6 +8,8 @@ type MasterPostContainerProps = {
         furnitureType: string
         posterUsername: string
         price: string
+        imageURL: string
+        description: string
     }[]
 }
 
@@ -16,7 +18,7 @@ export default function MasterPostContainer(props: MasterPostContainerProps) {
         <div className = 'master-container'>
                 {props.postContainers?.map(post => {
                     return <PostContainer key={post.id} title={post.title} furnitureType={post.furnitureType}
-                        posterUsername={post.posterUsername} price={post.price} id={post.id}/>
+                        posterUsername={post.posterUsername} price={post.price} id={post.id} imageURL={post.imageURL} description={post.description}/>
                 })}
         </div>
     )
