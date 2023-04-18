@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/decor-gator/backend/pkg/configs"
+	"github.com/decor-gator/backend/pkg/controllers"
 	"github.com/decor-gator/backend/pkg/routes"
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
@@ -21,8 +22,7 @@ func main() {
 
 	// Connect database
 	configs.ConnectDB()
-	//utils.InitDB("data")
-	controllers.Init()
+	controllers.InitAWSSession()
 
 	// Routes
 	routes.UserRoutes(r)
