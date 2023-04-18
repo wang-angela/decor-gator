@@ -4,17 +4,25 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/decor-gator/backend/pkg/configs"
 	"github.com/decor-gator/backend/pkg/controllers"
 	"github.com/decor-gator/backend/pkg/routes"
-	"github.com/decor-gator/backend/pkg/utils"
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 	"github.com/rs/cors"
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Print("Error loading .env")
+	}
+
 	r := mux.NewRouter()
-	utils.InitDB("data")
-	controllers.Init()
+
+	// Connect database
+	configs.ConnectDB()
+	controllers.InitAWSSession()
 
 	// Routes
 	routes.UserRoutes(r)
