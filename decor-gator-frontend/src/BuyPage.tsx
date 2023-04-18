@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import PostPage from "./PostPage"
 import {useState, useEffect, useRef} from 'react';
 import MasterPostContainer from './components/MasterPostContainer'
+import PostDisplay from './components/PostDisplay'
 import PostContainer from './components/MasterPostContainer'
 import './BuyPage.css'
 
@@ -11,6 +12,7 @@ function BuyPage() {
     const [postsToDisplay, updateDisplayedPosts] = useState<any[]>([])
     const [pageList, updatePageList] = useState<any[][]>([])
     const [page, setPage] = useState<number>(1)
+    const [focusDisplayPost, updateFocusDisplayPost] = useState<any>(null)
     const allPostsRef = useRef<Array<any>>([])
     const searchBarRef = React.createRef<HTMLInputElement>()
 
@@ -90,6 +92,15 @@ function BuyPage() {
         updatePageList(newPages)
     }
 
+    function newFocusPost(id:any, title:string, furnitureType:string, posterUsername:string, price:string, imageURL:string, description:string) {
+        if (!id)
+        updateFocusDisplayPost(null)
+        else {
+            let postObj = {id, title, furnitureType, posterUsername, price, imageURL, description}
+            updateFocusDisplayPost(postObj)
+        }
+    }
+
     useEffect(() => {
         console.log("Rendering initial posts...")
         getAllPosts()
@@ -106,10 +117,18 @@ function BuyPage() {
             setPage(1)
     }, [pageList])
 
+    useEffect(() => {
+
+    }, [focusDisplayPost])
+
     const navigate = useNavigate();
     return (
         <div className='buy-container'>
-            <MasterPostContainer postContainers={postsToDisplay}/>
+            {focusDisplayPost ? <div className='overlay'>
+                <PostDisplay id={focusDisplayPost.id} title={focusDisplayPost.title} furnitureType={focusDisplayPost.furnitureType} posterUsername={focusDisplayPost.posterUsername}
+                price={focusDisplayPost.price} imageURL={focusDisplayPost.imageURL} description={focusDisplayPost.description} clickDisplayEvent={newFocusPost}/>
+            </div> : <div className='underlay'>
+            <MasterPostContainer postContainers={postsToDisplay} clickDisplayEvent={newFocusPost}/>
             <button type="button" className="makePost-button" onClick={()=>navigate('/PostPage')}>
             + Post
             </button>
@@ -131,6 +150,7 @@ function BuyPage() {
                 Next Page
                 </button>
             </div>
+            </div>}
         </div>
     )
 }
