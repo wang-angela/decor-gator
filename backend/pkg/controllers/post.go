@@ -97,6 +97,8 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalln("Error Encoding")
 	}
+
+	UploadObject(post)
 }
 
 func UpdatePost(w http.ResponseWriter, r *http.Request) {
@@ -179,4 +181,6 @@ func DeletePost(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalln("Error Encoding")
 	}
+
+	DeleteObject(mux.Vars(r)["id"])
 }
