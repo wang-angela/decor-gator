@@ -3,20 +3,17 @@ package controllers
 // Used code from this tutorial for bucket operations: https://www.youtube.com/watch?v=gzBnrBK1P5Q&t=710s
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"log"
-	"net/http"
 	"os"
-	"strings"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
-	"github.com/gorilla/mux"
+	"github.com/decor-gator/backend/pkg/models"
 )
 
 var (
@@ -35,13 +32,11 @@ func InitAWSSession() {
 	})))
 }
 
-func ListBuckets() (resp *s3.ListBucketsOutput) {
-	resp, err := s3sess.ListBuckets(&s3.ListBucketsInput{})
-	if err != nil {
-		panic(err)
-	}
-
-	return resp
+func InitAWSSessionTest(key string, secretKey string) {
+	s3sess = s3.New(session.Must(session.NewSession(&aws.Config{
+		Region:      aws.String(REGION),
+		Credentials: credentials.NewStaticCredentials(key, secretKey, ""),
+	})))
 }
 
 func CreateBucket() (resp *s3.CreateBucketOutput) {
@@ -65,17 +60,16 @@ func CreateBucket() (resp *s3.CreateBucketOutput) {
 	return resp
 }
 
-func UploadObject(filename string) (resp *s3.PutObjectOutput) {
-	f, err := os.Open(filename)
+func UploadObject(post models.Post) (resp *s3.PutObjectOutput) {
+	p, err := json.Marshal(post)
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println("Uploading:", filename)
 	resp, err = s3sess.PutObject(&s3.PutObjectInput{
-		Body:   f,
+		Body:   aws.ReadSeekCloser(bytes.NewReader(p)),
 		Bucket: aws.String(BUCKET_NAME),
-		Key:    aws.String(strings.Split(filename, "/")[1]),
+		Key:    aws.String(string(post.ID.Hex())),
 		ACL:    aws.String(s3.BucketCannedACLPublicRead),
 	})
 
@@ -98,34 +92,25 @@ func ListObjects() (resp *s3.ListObjectsV2Output) {
 	return resp
 }
 
-func GetObject(filename string) {
-	fmt.Println("Downloading: ", filename)
-
+func GetObject(id string, post models.Post) error {
 	resp, err := s3sess.GetObject(&s3.GetObjectInput{
 		Bucket: aws.String(BUCKET_NAME),
-		Key:    aws.String(filename),
+		Key:    aws.String(id),
 	})
 
 	if err != nil {
-		panic(err)
+		return err
 	}
 
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		panic(err)
-	}
+	value := json.NewDecoder(resp.Body).Decode(post)
 
-	err = ioutil.WriteFile(filename, body, 0644)
-	if err != nil {
-		panic(err)
-	}
+	return value
 }
 
-func DeleteObject(filename string) (resp *s3.DeleteObjectOutput) {
-	fmt.Println("Deleting: ", filename)
+func DeleteObject(key string) (resp *s3.DeleteObjectOutput) {
 	resp, err := s3sess.DeleteObject(&s3.DeleteObjectInput{
 		Bucket: aws.String(BUCKET_NAME),
-		Key:    aws.String(filename),
+		Key:    aws.String(key),
 	})
 
 	if err != nil {
@@ -133,23 +118,4 @@ func DeleteObject(filename string) (resp *s3.DeleteObjectOutput) {
 	}
 
 	return resp
-}
-
-func UploadObjectHelper(w http.ResponseWriter, r *http.Request) {
-	UploadObject(mux.Vars(r)["filename"])
-}
-
-func ListBucketsHelper(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application-json")
-
-	resp := ListBuckets()
-
-	err = json.NewEncoder(w).Encode(resp)
-	if err != nil {
-		log.Fatalln("Error Encoding")
-	}
-}
-
-func DeleteObjectHelper(w http.ResponseWriter, r *http.Request) {
-	DeleteObject(mux.Vars(r)["filename"])
 }

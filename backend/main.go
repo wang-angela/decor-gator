@@ -7,6 +7,7 @@ import (
 	"github.com/decor-gator/backend/pkg/configs"
 	"github.com/decor-gator/backend/pkg/controllers"
 	"github.com/decor-gator/backend/pkg/routes"
+	"github.com/decor-gator/backend/pkg/utils"
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 	"github.com/rs/cors"
@@ -19,6 +20,7 @@ func main() {
 	}
 
 	r := mux.NewRouter()
+	utils.InitDB("data")
 
 	// Connect database
 	configs.ConnectDB()
@@ -28,7 +30,6 @@ func main() {
 	// Routes
 	routes.UserRoutes(r)
 	routes.PostRoutes(r)
-	routes.ImageRoutes(r)
 	routes.EmailRoutes(r)
 	routes.JwtRoutes(r)
 
