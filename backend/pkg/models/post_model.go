@@ -8,6 +8,6 @@ type Post struct {
 	FurnitureType string             `json:"furnitureType" bson:"furniture_type"`
 	Description   string             `json:"description" bson:"description"`
 	Price         float64            `json:"price" bson:"price"`
-	UserPosted    string             `json:"userPosted" bson:"user_posted"` // Change later to user object once we learn how to test that on Postman.
+	UserPosted    string             `json:"userPosted" bson:"user_posted"`
 	ImageURL      string             `json:"imageURL" bson:"image_url"`
 }
