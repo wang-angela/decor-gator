@@ -66,11 +66,11 @@ describe('decor-gator Post and Buy Page', () => {
   })
   
   it('Creates new page if posts go over 8', () => {
-    for (let i = 1; i <= 1; ++i) {
+    for (let i = 1; i <= 4; ++i) {
       // Go to post page
       cy.contains('+ Post').click()
       // Make a new post
-      cy.get('.post-title').type('SELLING BRICK CHAIR '+i)
+      cy.get('.post-title').type('BRICK CHAIR '+i)
       cy.get('.post-furniture-type').select('Chair')
       cy.get('input.post-price').type('22')
       cy.get('textarea.post-description').type('Selling 13 years old brick chair.')
@@ -85,7 +85,7 @@ describe('decor-gator Post and Buy Page', () => {
 
     // Is able to go to next page and see post name '7'
     cy.get('button.next-page-button').click()
-    cy.get('.container').contains('1')
+    cy.get('.container').contains('4')
   })
 
   it('Searches by post titles', () => {
