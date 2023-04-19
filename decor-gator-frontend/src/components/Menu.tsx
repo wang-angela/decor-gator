@@ -14,9 +14,6 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
     const signupPasswordRef = React.createRef<HTMLInputElement>()
 
     const navigate = useNavigate();
-    const goToBuyPage = () => { //check if user is authenticated
-        navigate('/BuyPage', { state: { userEmail: loginEmailRef}});
-    }
 
     function handleLogin() {
 
@@ -38,7 +35,8 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
                             alert("Login successful!")
                             localStorage.setItem('userData', JSON.stringify(response)) // store userData in local storage for whenever we need info about the current user
                             console.log(JSON.parse(localStorage.getItem('userData') || ""))
-                            navigate('/BuyPage', { state: loginEmailRef })
+                            if (loginEmailRef.current)
+                                navigate('/BuyPage', { state: loginEmailRef.current.value })
                         }
                         else {
                             status = 'INVALID PASSWORD'
@@ -165,8 +163,6 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
                     Don't have an account? SIGN UP
                 </button>
             </div>
-            
-
         </div>
     )
 };
