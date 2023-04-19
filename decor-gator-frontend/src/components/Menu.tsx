@@ -27,7 +27,7 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
             }).then((response) => {
                 console.log(response)
                 let status = 'ERROR'
-                if (loginPasswordRef.current) {
+                if (loginPasswordRef.current && response != 'User does not exist') {
                     bcrypt.compare(loginPasswordRef.current.value, response.password).then((result) => {
                         console.log(result)
                         if (result) {
@@ -45,6 +45,8 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
                     }).catch((err) => {
                         console.log(err)
                     })
+                } else {
+                    alert("Please enter valid credentials.")
                 }
 
             }).catch((err) => {
