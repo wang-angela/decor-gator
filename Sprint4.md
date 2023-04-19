@@ -4,6 +4,7 @@
 
 1. Moved our data into MongoDB so that the database is stored remotely.
 2. Create AWS bucket to host post data.
+3. Modified the JWT token to allow the frontend to access the token to authenticate users.
 
 ## Backend Shortcomings
 
