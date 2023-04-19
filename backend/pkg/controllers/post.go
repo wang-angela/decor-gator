@@ -111,7 +111,7 @@ func UpdatePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Convert params string into ObjectID
-	params := mux.Vars(r)["id"]
+	params := mux.Vars(r)["_id"]
 	objectId, err := primitive.ObjectIDFromHex(params)
 	if err != nil {
 		log.Println("Invalid id")
