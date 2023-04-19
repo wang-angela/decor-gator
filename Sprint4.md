@@ -8,6 +8,11 @@
 ## Backend Shortcomings
 
 1. The post data is stored properly in an AWS bucket, but is not accessible for edits, so it is simply used as a second database in addition to MongoDB.
+2. Our project was not able to deploy publicly as a website, so only emails that are registered with our AWS account will recieve emails from DecorGator.
+
+## Frontend Accomplishments
+
+## Frontend Shortcomings
 
 ## Updated API Documentation
 
