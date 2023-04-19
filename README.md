@@ -11,7 +11,7 @@ DecorGator is a peer-to-peer furniture marketplace geared towards college studen
 
 ### Backend:
 
-In order to run this program, you must have GO installed. There is a backend.exe file in the backend file. Before running the application, run this executable in a seperate terminal using the command "go build ." to start the server locally.
+In order to run this program, you must have GO installed. There is a backend.exe file in the backend file. Before running the application, run this executable in a seperate terminal using the command `go build .` to start the server locally.
 
 ## Frontend:
 
