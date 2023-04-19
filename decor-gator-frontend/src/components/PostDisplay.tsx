@@ -14,19 +14,21 @@ type PostDisplayProps = {
 export default function PostDisplay(props: PostDisplayProps) {
     return (
         <div className = 'post-overlay'>
-            <div className = 'post-window'>
-            <div className = 'text-entries'>
-                <label className='post-title'>{props.title}</label>
-                <label className='post-furniture-type'>{props.furnitureType}</label>
-                <label className='dollar-sign'>$</label>
-                <label className='post-price'>{props.price}</label>
-                <p className='post-description'>{props.description}</p>
-                <p className='post-owner'>Posted by {props.posterUsername}</p>
+            <div className = 'post-window-2'>
+            <div className = 'text-entries-2'>
+                <div className = 'display-header'>
+                <label className='post-title-2'>{props.title}</label>
+                <label className='post-furniture-type-2'>{props.furnitureType}</label>
+                <label className='post-price-2'>{props.price}</label>
+                </div>
+                <label className='post-owner-prefix'>Posted by </label>
+                <label className='post-owner'>{props.posterUsername}</label>
+                <p className='post-description-2'>{props.description}</p>
 
-                <button type='button' onClick={() => {props.clickDisplayEvent(null)}} className='post-submit-button'>Back</button>
+                <button type='button' onClick={() => {props.clickDisplayEvent(null)}} className='post-submit-button-2'>← Back</button>
             </div>
 
-            <form className = 'image-renderer'>
+            <form className = 'image-renderer-2'>
                 <img className='image-display-2' src={props.imageURL} /> 
             </form>     
         </div>
