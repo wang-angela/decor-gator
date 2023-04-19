@@ -13,7 +13,8 @@ type PostDisplayProps = {
 
 export default function PostDisplay(props: PostDisplayProps) {
     return (
-        <div className = 'post-window'>
+        <div className = 'post-overlay'>
+            <div className = 'post-window'>
             <div className = 'text-entries'>
                 <label className='post-title'>{props.title}</label>
                 <label className='post-furniture-type'>{props.furnitureType}</label>
@@ -26,8 +27,9 @@ export default function PostDisplay(props: PostDisplayProps) {
             </div>
 
             <form className = 'image-renderer'>
-                <img className='image-display' src={props.imageURL} /> 
+                <img className='image-display-2' src={props.imageURL} /> 
             </form>     
+        </div>
         </div>
     )
 }
