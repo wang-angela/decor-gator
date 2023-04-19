@@ -19,7 +19,7 @@
 ### user.go:
 
 #### Struct:
-Creates a user struct that holds an id as an int and username, password, and email all as strings.
+Creates a user struct that holds an id as an object ID and first name, last name, username, password, and email all as strings.
 
 #### Functions:
 
@@ -41,7 +41,7 @@ Delete a specific user contained in the database given by email. Returns an erro
 ### post.go:
 
 #### Struct:
-Creates a post struct that holds an id as an int and the user that posted the furniture, furniture type, and post title all as strings.
+Creates a post struct that holds an id as an object ID, the price as a float, and the user that posted the furniture, furniture type, image URL, and post title all as strings.
 
 #### Functions:
 
