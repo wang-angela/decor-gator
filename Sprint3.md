@@ -11,12 +11,14 @@
 
 ## Frontend Accomplishments
 1. Created post containers that holds post title and furniture type
-2. Update the Buy Page to display multiple posts
-3. Add search functionality to search posts by title
+2. Dynamically rendered posts whenever list of all posts is updated; used post containers to display title/price/image/etc.
+3. Added page function to post page to display sets of posts at once rather than all posts
+4. Add search functionality to search posts by title
 
 ## Frontend Shortcomings
 1. Need to add more data to creating posts - price, image
-2. Need to find out how to upload images and send to backend
+2. Need to find out how to upload images by URL and sending them to backend
+3. Need to develop and finalize user page where they can edit/delete posts and email/password/etc.
 
 ## Updated API Documentation
 
@@ -120,7 +122,11 @@ Compares a given password to its corresponding encrypted hash data.
 
 Sends an email from decorgators@gmail.com confirming that the user signed up with our service. For now, the only emails we can send are to those we manually approve on our Amazon Web Service account. We cannot fix this until we get approval to leave the sandbox from Amazon.
 
-##### SendForgotPasswordEmail(w http.ResponseWriter, r \*http.Request):
+##### HelperForgotPassword(w http.ResponseWriter, r \*http.Request):
+
+Wrapper for SendForgotPasswordEmail(), so no parameters are needed.
+
+##### SendForgotPasswordEmail(destinationEmails []string):
 
 Sends an email from decorgators@gmail.com for user to reset their password. Similar issues from SendWelcomeEmail(). This is stored as a PUT function.
 
@@ -201,36 +207,12 @@ Tests SendWelcomeEmail() and checks result to ensure email was sent.
 ##### TestSendForgotPasswordEmail(t \*testing.T)
 Tests SendForgotPasswordEmail() and checks result to ensure email was sent.
 
+## Front End Unit Test
+#### \*Note Sprint 2 unit testing had modification on Buy Page testing - It was removed and was entirely written again in Sprint 3. Everything else in Sprint 2 remains the same.
 
-## Frontend Goals
-Chris: Username --> Uploading image --> 
-Joanne: Use the GUI create About page
-
-### Transform Website using MUI
-- Make front page (About page)
-- Login, Sign up, Post, Buy
-
-### Implement username for users
-- Include in Sign-up page
-   - Check if the username is unqiue
-- Change Log in page to login with username instead of email
-- Send username instead of email when creating new post
-
-### Finish making Buy Page & Post Page structure and make Rent Page
-#### Post Page Features:
-- Title, Description, Type (Drop-down Menu), Buy/Rent, (Multiple) Images, Price, Location (?)
-
-#### Buy Page Features: 
-- Display Posts (obvious) by Newst (default)
-- Sort by Chair, Sofa, Bed, Table, Electronics, Lighting, Stroage, Kitchen, Other 
-- Search bar to search posts by Buy/Rent, Title, Type, Price (Low to high, high to low), Location (?)
-   - Three fields - Search by input string, search by drop-down with Buy/Rent, Price, Newest/Oldest, and search by drop-down furniture type
-- When clicked on a post that same user made - Put edit button
-- Implement Edit page using Post Page
-- User Icon -> User Page
-
-#### In User Page:
-- Show my post
-- Change username, email, password, first and last name
-
-
+### In Sprint 3:
+* Alerts if any of post information in creating post is missing (Title or Furniture Type)
+* Clicks "+Post" button and submits a post
+* Shows new posts created
+* Creates a new page if number of posts go over 8
+* Searches by keyword for post titles

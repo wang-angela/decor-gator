@@ -1,16 +1,21 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation} from "react-router-dom";
 import PostPage from "./PostPage"
 import {useState, useEffect, useRef} from 'react';
 import MasterPostContainer from './components/MasterPostContainer'
+import PostDisplay from './components/PostDisplay'
 import PostContainer from './components/MasterPostContainer'
 import './BuyPage.css'
 
 function BuyPage() {
+
+    const {state} = useLocation();
+    const email = state;
     
     const [postsToDisplay, updateDisplayedPosts] = useState<any[]>([])
     const [pageList, updatePageList] = useState<any[][]>([])
     const [page, setPage] = useState<number>(1)
+    const [focusDisplayPost, updateFocusDisplayPost] = useState<any>(null)
     const allPostsRef = useRef<Array<any>>([])
     const searchBarRef = React.createRef<HTMLInputElement>()
 
@@ -28,10 +33,12 @@ function BuyPage() {
             let title = element.title
             let furnitureType = element.furnitureType
             let posterUsername = element.userPosted
-            let price = '$20'
-            let id = element.id
+            let price = '$'+ String(element.price)
+            let id = element._id
+            let imageURL = element.imageURL
+            let description = element.description
 
-            let postObj = {id, title, furnitureType, posterUsername, price}
+            let postObj = {id, title, furnitureType, posterUsername, price, imageURL, description}
             console.log(postObj)
 
             postArray.push(postObj)
@@ -88,6 +95,15 @@ function BuyPage() {
         updatePageList(newPages)
     }
 
+    function newFocusPost(id:any, title:string, furnitureType:string, posterUsername:string, price:string, imageURL:string, description:string) {
+        if (!id)
+        updateFocusDisplayPost(null)
+        else {
+            let postObj = {id, title, furnitureType, posterUsername, price, imageURL, description}
+            updateFocusDisplayPost(postObj)
+        }
+    }
+
     useEffect(() => {
         console.log("Rendering initial posts...")
         getAllPosts()
@@ -104,10 +120,21 @@ function BuyPage() {
             setPage(1)
     }, [pageList])
 
+    useEffect(() => {
+
+    }, [focusDisplayPost])
+
     const navigate = useNavigate();
     return (
         <div className='buy-container'>
-            <MasterPostContainer postContainers={postsToDisplay}/>
+            {focusDisplayPost ? <div className='overlay'>
+                <PostDisplay id={focusDisplayPost.id} title={focusDisplayPost.title} furnitureType={focusDisplayPost.furnitureType} posterUsername={focusDisplayPost.posterUsername}
+                price={focusDisplayPost.price} imageURL={focusDisplayPost.imageURL} description={focusDisplayPost.description} clickDisplayEvent={newFocusPost}/>
+            </div> : <div className='underlay'>
+            <button type="button" className="makePost-button" onClick={()=>navigate('/UserPage', { state: email})}>
+            My Page
+            </button>
+            <MasterPostContainer postContainers={postsToDisplay} clickDisplayEvent={newFocusPost}/>
             <button type="button" className="makePost-button" onClick={()=>navigate('/PostPage')}>
             + Post
             </button>
@@ -129,6 +156,7 @@ function BuyPage() {
                 Next Page
                 </button>
             </div>
+            </div>}
         </div>
     )
 }
