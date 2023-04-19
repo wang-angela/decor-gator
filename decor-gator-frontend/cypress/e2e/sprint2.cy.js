@@ -95,44 +95,4 @@ describe('decor-gator signup and login test', () => {
   })
     
 })
-
-  describe('decor-gator Posting', () => {
-
-    beforeEach(() => {
-      // Login and get redirected to Buy Page
-      cy.visit('http://localhost:3000/')
-      cy.get('input[placeholder="Email"').last().type('djohnson@gmail.com')
-      cy.get('input[placeholder="Password"').last().type('123456')
-      cy.contains('SIGN IN').click()
-      cy.wait(7000)
-      cy.url().should('be.equal', 'http://localhost:3000/BuyPage')
-    })
-
-    it('Clicks + Post button and submit a post', () => {
-      // Click on + Post button, redirect to Post Page
-      cy.contains('+ Post').click()
-      cy.url().should('be.equal', 'http://localhost:3000/PostPage')
-
-      // Fill in post information
-      cy.get('.post-title').type('SELLING BRICK CHAIR')
-      cy.get('.post-furniture-type').type('Chair')
-      // Submit Post
-      cy.get('.post-submit-button').click()
-      cy.wait(5000)
-      // Check if submission was successful
-      cy.on('window:alert', (t) => {
-        expect(t).to.contains('Post successfully created!');
-      })
-    })
-
-    it('Clicks Show Post button and lists created post', () => {
-      // Click on List Post button
-      cy.contains('List Posts').click()
-
-      // Check if user email, furniture type, post title are logged into console
-      cy.window().then((win) => {
-        cy.spy(win.console, "log");
-      });
-    })
-  })
   

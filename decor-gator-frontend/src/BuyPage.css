@@ -4,9 +4,71 @@
 }
 
 .change-page-container{
-    padding-left: 37vw;
+
 }
 
 .buy-container{
-    justify-content: space-between;
+    display: flex;
+}
+
+.bottom-panel{
+    display: flex;
+    margin-left: 4.2vw;
+    margin-right: 4.2vw;
+    width: 90vw;
+    background-color: rgb(205, 205, 205);
+    padding: 1vh;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.post-furniture-type-3{
+    width: 8vw;
+    margin-left: 2vw;
+    margin-right: 1vw;
+    height: 3vh;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    font-family: "Nunito";
+    font-weight: 800;
+    font-size: 16px;
+    border-radius: 8px;
+    border-style: hidden;
+    color:black;
+    background-color: rgb(232, 229, 229);
+}
+
+.search-text-input {
+    width: 8vw;
+    height: 3vh;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    border-style: hidden;
+    background-color: rgb(232, 229, 229);
+    font-family: "Nunito";
+    border-radius: 8px;
+    text-indent: 6px;
+}
+
+.search-button {
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+    font-family: "Nunito";
+    font-size: 16px;
+    background-color: rgb(71, 86, 217);
+    color: white;
+    border-radius: 15px;
+    width: 4vw;
+    transition: all 0.1s ease-out;
+    border: none;
+    font-weight: bolder;
+    margin-left: 1vw;
+    margin-right: 10vw;
+    height: 4vh;
+}
+
+.search-button:hover {
+
 }
