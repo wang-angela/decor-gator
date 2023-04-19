@@ -20,7 +20,7 @@ func InitDB(name string) {
 	if err != nil {
 		log.Print("Unable to connect to DB")
 	}
-	DB.AutoMigrate(&models.User{}, &models.Post{}, &models.Image{})
+	DB.AutoMigrate(&models.User{}, &models.Post{})
 }
 
 func InitDBTest(name string) *gorm.DB {
@@ -34,7 +34,7 @@ func InitDBTest(name string) *gorm.DB {
 	}
 
 	TX = DB.Session(&gorm.Session{SkipDefaultTransaction: true})
-	TX.AutoMigrate(&models.User{}, &models.Post{}, &models.Image{})
+	TX.AutoMigrate(&models.User{}, &models.Post{})
 
 	return TX
 }

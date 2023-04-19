@@ -30,7 +30,6 @@ func main() {
 	// Routes
 	routes.UserRoutes(r)
 	routes.PostRoutes(r)
-	routes.ImageRoutes(r)
 	routes.EmailRoutes(r)
 	routes.JwtRoutes(r)
 
