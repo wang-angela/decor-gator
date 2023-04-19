@@ -1,0 +1,8 @@
+.user-editor{
+    background-color: black;
+    height: 120vh;
+    width: 60vw;
+    border:2px;
+    display:flex;
+    flex-flow: row wrap;
+}

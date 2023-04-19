@@ -15,7 +15,7 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
 
     const navigate = useNavigate();
     const goToBuyPage = () => { //check if user is authenticated
-        navigate('/BuyPage');
+        navigate('/BuyPage', { state: { userEmail: loginEmailRef}});
     }
 
     function handleLogin() {
@@ -38,7 +38,7 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
                             alert("Login successful!")
                             localStorage.setItem('userData', JSON.stringify(response)) // store userData in local storage for whenever we need info about the current user
                             console.log(JSON.parse(localStorage.getItem('userData') || ""))
-                            goToBuyPage()
+                            navigate('/BuyPage', { state: loginEmailRef })
                         }
                         else {
                             status = 'INVALID PASSWORD'
