@@ -17,6 +17,7 @@ function BuyPage() {
     const [page, setPage] = useState<number>(1)
     const [focusDisplayPost, updateFocusDisplayPost] = useState<any>(null)
     const allPostsRef = useRef<Array<any>>([])
+    const postTypeRef = React.createRef<HTMLSelectElement>()
     const searchBarRef = React.createRef<HTMLInputElement>()
 
     function getAllPosts() {
@@ -88,9 +89,17 @@ function BuyPage() {
     }
 
     function filterBySearch() {
-        let matchedResults = allPostsRef.current.filter((post) => {
-            return post.title.toLowerCase().includes(searchBarRef.current?.value.toLowerCase())
-        })
+        let destinationCategory:any, matchedResults:any
+        destinationCategory = postTypeRef.current?.value
+        if (destinationCategory === '') {
+            matchedResults = allPostsRef.current.filter((post) => {
+                return post.title.toLowerCase().includes(searchBarRef.current?.value.toLowerCase())
+            })
+        } else {
+            matchedResults = allPostsRef.current.filter((post) => {
+                return post.title.toLowerCase().includes(searchBarRef.current?.value.toLowerCase()) && post.furnitureType === destinationCategory
+            })
+        }
         let newPages = getPages(matchedResults)
         updatePageList(newPages)
     }
@@ -134,13 +143,24 @@ function BuyPage() {
             <button type="button" className="makePost-button" onClick={()=>navigate('/UserPage', { state: email})}>
             My Page
             </button>
-            <MasterPostContainer postContainers={postsToDisplay} clickDisplayEvent={newFocusPost}/>
             <button type="button" className="makePost-button" onClick={()=>navigate('/PostPage')}>
             + Post
             </button>
-            <button type="button" className="viewPosts-button" onClick={getAllPosts}>
-            List Posts (Debug)
-            </button>
+            <MasterPostContainer postContainers={postsToDisplay} clickDisplayEvent={newFocusPost}/>
+            <div className='bottom-panel'>
+            <select placeholder="Select Category" ref={postTypeRef} className='post-furniture-type-3'>   
+                    <option className='default-value' value=''>All Categories</option>
+                    <option value='Chair'>Chair</option>
+                    <option value='Sofa'>Sofa</option>
+                    <option value='Table'>Table</option>
+                    <option value='Desk'>Desk</option>
+                    <option value='Appliance'>Appliance</option>
+                    <option value='Bedding'>Bedding</option>
+                    <option value='Decoration'>Decoration</option>
+                    <option value='Storage'>Storage</option>
+                    <option value='Lighting'>Lighting</option>
+                    <option value='Other'>Other</option>
+                </select>
             <input type="text" className="search-text-input" placeholder="Search Title" ref={searchBarRef}/>
             <button type="button" className="search-button" onClick={filterBySearch}>
             Search
@@ -155,6 +175,7 @@ function BuyPage() {
                 <button type="button" className="next-page-button" onClick={increasePage}>
                 Next Page
                 </button>
+            </div>
             </div>
             </div>}
         </div>
