@@ -34,7 +34,7 @@ function BuyPage() {
             let furnitureType = element.furnitureType
             let posterUsername = element.userPosted
             let price = '$'+ String(element.price)
-            let id = element.id
+            let id = element._id
             let imageURL = element.imageURL
             let description = element.description
 

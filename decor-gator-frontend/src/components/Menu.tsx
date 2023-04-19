@@ -70,7 +70,7 @@ export default function Menu({onClick} : {onClick:React.MouseEventHandler<HTMLBu
                 return res.json()
             }).then((response) => {
                 console.log(response)
-                if (response.ID != 0)
+                if (response != 'User does not exist')
                     return false
                 else
                     return true
