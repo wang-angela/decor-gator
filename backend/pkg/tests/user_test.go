@@ -86,7 +86,7 @@ func TestCreateUser(t *testing.T) {
 	jsonBody := []byte(`{
 		"firstName": "Angela",
 		"lastName": "Wang",
-		"email":    "john.smith@gmail.com",
+		"email":    "gophers@gmail.com",
 		"username": "iLuvGophers",
 		"password": "golang!!!"
 	}`)
@@ -125,15 +125,20 @@ func TestCreateUser(t *testing.T) {
 }
 
 func TestUpdateUser(t *testing.T) {
+	configs.ConnectDB()
+
 	// Request Body
 	jsonBody := []byte(`{
-		"username": "BasicGal",
+		"first_name": "Fredrick",
+		"last_name": "Willison",
+		"email": "Fred@mail.com",
+		"username": "SuperMan",
 		"password": "myNewPassword!"
 	}`)
 	bodyReader := bytes.NewReader(jsonBody)
 
 	// Send new request with json body info
-	req, err := http.NewRequest("PUT", "/user/jane.doe@gmail.com", bodyReader)
+	req, err := http.NewRequest("PUT", "/user/Fred@mail.com", bodyReader)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -161,16 +166,16 @@ func TestUpdateUser(t *testing.T) {
 	// Reversing changes
 	update := bson.D{{Key: "$set",
 		Value: bson.D{
-			{Key: "first_name", Value: "Jane"},
-			{Key: "last_name", Value: "Doe"},
-			{Key: "email", Value: "jane.doe@gmail.com"},
-			{Key: "username", Value: "BasicGal"},
-			{Key: "password", Value: "little-lamb"},
+			{Key: "first_name", Value: "Fredrick"},
+			{Key: "last_name", Value: "Willison"},
+			{Key: "email", Value: "Fred@mail.com"},
+			{Key: "username", Value: "SuperDog"},
+			{Key: "password", Value: "man"},
 		},
 	}}
 
 	configs.GetCollection(configs.DB, "users").UpdateOne(context.TODO(),
-		bson.D{{Key: "email", Value: "jane.doe@gmail.com"}},
+		bson.D{{Key: "email", Value: "Fred@mail.com"}},
 		update,
 	)
 }

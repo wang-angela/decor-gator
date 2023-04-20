@@ -156,9 +156,6 @@ Test getUser() using a custom http request and checks results.
 ##### TestCreateUser (t \*testing.T)
 Test createUser() using a http request and checks results. The changes to the database are reverted.
 
-##### TestUpdateUser (t \*testing.T)
-Test updateUser() using a http request and checks results. The changes to the database are reverted.
-
 ##### TestDeleteUser (t \*testing.T)
 Test deleteUser() using a http request and checks results. The changes to the database are reverted.
 
@@ -169,17 +166,8 @@ Test deleteUser() using a http request and checks results. The changes to the da
 ##### TestGetAllPosts (t \*testing.T)
 Test getPosts() using a custom http request and checks results.
 
-##### TestGetPost (t \*testing.T)
-Test getPost() using a custom http request and checks results.
-
 ##### TestCreatePost (t \*testing.T)
 Test createPost() using a http request and checks results. The changes to the database are reverted.
-
-##### TestUpdatePost (t \*testing.T)
-Test updatePost() using a http request and checks results. The changes to the database are reverted.
-
-##### TestDeletePost (t \*testing.T)
-Test deletePost() using a http request and checks results. The changes to the database are reverted.
 
 ### password_test.go
 
@@ -197,3 +185,11 @@ Tests SendWelcomeEmail() and checks result to ensure email was sent.
 
 ##### TestSendForgotPasswordEmail(t \*testing.T)
 Tests SendForgotPasswordEmail() and checks result to ensure email was sent.
+
+### Frontend Unit Tests (In Sprint 4)
+*Note: Some unit tests from sprint 3 had to have modifications to reflect new changes to post creation system*
+1. Displays details of a post when clicked on (the pop-up window)
+     (including title, furniture type, price, post description and image)
+3. Searches posts by category and/or title
+     (Is able to search with category only or title only or both category and title)
+4. Changes current email or password
