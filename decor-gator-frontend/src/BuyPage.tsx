@@ -167,13 +167,13 @@ function BuyPage() {
             </button>
             <div className="change-page-container">
                 <button type="button" className="previous-page-button" onClick={decreasePage}>
-                Previous Page
+                «
                 </button>
                 <label className="page-label">
                 Page {page} of {pageList.length}
                 </label>
                 <button type="button" className="next-page-button" onClick={increasePage}>
-                Next Page
+                »
                 </button>
             </div>
             </div>
