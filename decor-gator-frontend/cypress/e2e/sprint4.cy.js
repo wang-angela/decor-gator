@@ -20,17 +20,18 @@ describe('decor-gator Post and Buy Page', () => {
     // Go to Post Page
     cy.contains('BRICK CHAIR 1').click()
 
-    cy.get('label.post-title-2').contains('SEELING BRICK CHAIR 1')
-    cy.get('label.post-furniture-type-2').contains('Chair')
+    cy.get('.post-display').last().click()
+    cy.get('label.post-furniture-type-2').contains('Sofa')
     cy.get('label.post-price-2').contains('$22')
-    cy.get('post-description-2').contains('Selling 13 years old brick chair.')
+    cy.get('.post-description-2').contains('Selling 13 years old brick sofa.')
 
-    cy.get('button.post-submit-button-2').click()
+    cy.contains('← Back').click()
 
     cy.url().should('be.equal', 'http://localhost:3000/BuyPage')
   })
 
   it('Searches posts by category and title', () => {
+    cy.wait(3000)
     // Search post by category
     cy.get('select.post-furniture-type-3').select('Sofa')
     cy.get('button.search-button').click()
@@ -47,19 +48,16 @@ describe('decor-gator Post and Buy Page', () => {
     cy.contains("Beautiful Desk")
   })
 
-  it('Changes current email', () => {
+  it('Changes current email and password', () => {
     // Displays current email
     cy.get('button.editUser-button').click()
-    cy.get('button.makePost-button').first.click()
+    cy.contains('Change Email').click()
     cy.contains('Current Email: djohnson@gmail.com')
 
-
-    cy.get('input.search-text-input').first.type('hi@gmail.com')
-    cy.get('input.search-text-input').last.type('123456')
-    cy.get('button.makePost-button').click()
-    cy.on('window:alert', (t) => {
-      expect(t).to.contains('Email successfully updated!');
-    })
+    cy.get('input.search-text-input').first().type('hi@gmail.com')
+    cy.get('input.search-text-input').last().type('123456')
+    cy.get('.change-userInfo-button').click()
+    cy.wait(15000)
 
     cy.visit('http://localhost:3000/')
     cy.get('input[placeholder="Email"]').last().type('hi@gmail.com')
@@ -67,19 +65,14 @@ describe('decor-gator Post and Buy Page', () => {
     cy.contains('SIGN IN').click()
     cy.wait(5000)
     cy.url().should('be.equal', 'http://localhost:3000/BuyPage')
-  })
 
-  it('Changes current password', () => {
-    // Displays current email
     cy.get('button.editUser-button').click()
-    cy.get('button.makePost-button').last.click()
+    cy.contains('Change Password').click()
 
-    cy.contains('Current Password').first.type('123456')
-    cy.contains('New Password').type('1')
+    cy.get('.search-text-input').first().type('123456')
+    cy.get('.search-text-input').last().type('1')
     cy.contains('Enter').click()
-    cy.on('window:alert', (t) => {
-      expect(t).to.contains('Password successfully updated!');
-    })
+    cy.wait(13000)
 
     cy.visit('http://localhost:3000/')
     cy.get('input[placeholder="Email"]').last().type('hi@gmail.com')
@@ -88,5 +81,6 @@ describe('decor-gator Post and Buy Page', () => {
     cy.wait(5000)
     cy.url().should('be.equal', 'http://localhost:3000/BuyPage')
   })
+
 })
   

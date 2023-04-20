@@ -150,7 +150,7 @@ export default function UserPage() {
                     <div>
                         <input ref={newEmailRef} type='text' placeholder='New Email' className="search-text-input"/>
                         <input ref={enteredPasswordRef1} type='text' placeholder='Password' className="search-text-input"/>
-                        <button type="button" className="makePost-button" onClick={updateEmail}>
+                        <button type="button" className="change-userInfo-button" onClick={updateEmail}>
                             Enter
                         </button>
                     </div>
@@ -167,7 +167,7 @@ export default function UserPage() {
                     <div>
                         <input ref={enteredPasswordRef2} type='text' placeholder='Current Password' className="search-text-input"/>
                         <input ref={newPasswordRef} type='text' placeholder='New Password' className="search-text-input"/>
-                        <button type="button" className="makePost-button" onClick={updatePassword}>
+                        <button type="button" className="change-userInfo-button" onClick={updatePassword}>
                             Enter
                         </button>
                     </div>

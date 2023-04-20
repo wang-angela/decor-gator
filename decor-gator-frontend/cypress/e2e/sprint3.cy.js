@@ -92,7 +92,7 @@ describe('decor-gator Post and Buy Page', () => {
     // Go to post page
     cy.contains('+ Post').click()
     // Make a new post
-    cy.get('.post-title').type('SELLING BRICK SOFA')
+    cy.get('.post-title').type('BRICK SOFA')
     cy.get('.post-furniture-type').select('Sofa')
     cy.get('input.post-price').type('22')
     cy.get('textarea.post-description').type('Selling 13 years old brick sofa.')
