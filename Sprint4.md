@@ -156,9 +156,6 @@ Test getUser() using a custom http request and checks results.
 ##### TestCreateUser (t \*testing.T)
 Test createUser() using a http request and checks results. The changes to the database are reverted.
 
-##### TestUpdateUser (t \*testing.T)
-Test updateUser() using a http request and checks results. The changes to the database are reverted.
-
 ##### TestDeleteUser (t \*testing.T)
 Test deleteUser() using a http request and checks results. The changes to the database are reverted.
 
@@ -169,17 +166,8 @@ Test deleteUser() using a http request and checks results. The changes to the da
 ##### TestGetAllPosts (t \*testing.T)
 Test getPosts() using a custom http request and checks results.
 
-##### TestGetPost (t \*testing.T)
-Test getPost() using a custom http request and checks results.
-
 ##### TestCreatePost (t \*testing.T)
 Test createPost() using a http request and checks results. The changes to the database are reverted.
-
-##### TestUpdatePost (t \*testing.T)
-Test updatePost() using a http request and checks results. The changes to the database are reverted.
-
-##### TestDeletePost (t \*testing.T)
-Test deletePost() using a http request and checks results. The changes to the database are reverted.
 
 ### password_test.go
 
