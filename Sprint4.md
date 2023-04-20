@@ -197,3 +197,11 @@ Tests SendWelcomeEmail() and checks result to ensure email was sent.
 
 ##### TestSendForgotPasswordEmail(t \*testing.T)
 Tests SendForgotPasswordEmail() and checks result to ensure email was sent.
+
+### Frontend Unit Tests (In Sprint 4)
+*Note: Some unit tests from sprint 3 had to have modifications to reflect new changes to post creation system*
+1. Displays details of a post when clicked on (the pop-up window)
+     (including title, furniture type, price, post description and image)
+3. Searches posts by category and/or title
+     (Is able to search with category only or title only or both category and title)
+4. Changes current email or password
