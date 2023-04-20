@@ -8,6 +8,7 @@ type PostContainerProps = {
     price: string
     imageURL: string
     description: string
+    clickDisplayEvent: Function
 }
 
 export default function PostContainer(props: PostContainerProps) {
@@ -18,7 +19,7 @@ export default function PostContainer(props: PostContainerProps) {
                     {props.title}
                 </label>
             </div>
-            <div className='post-display'>
+            <div onClick={() => props.clickDisplayEvent(props.id, props.title, props.furnitureType, props.posterUsername, props.price, props.imageURL, props.description)} className='post-display'>
                 <img className='post-image' src={props.imageURL} alt={props.title}></img>
             </div>
             <div className='post-footer'>

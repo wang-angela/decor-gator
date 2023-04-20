@@ -11,4 +11,6 @@
     flex-wrap: wrap;
     justify-content: start;
     border-radius: 20px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
 }

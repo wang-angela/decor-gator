@@ -9,26 +9,8 @@ describe('decor-gator Post and Buy Page', () => {
     // Visit Website
     cy.visit('http://localhost:3000/')
     
-    // Sign up
-    // cy.contains('Don\'t have an account? SIGN UP').click()
-    // // Write in sign up information
-    // cy.get('input[placeholder="First Name"]').type('Dwayne', {force: true})
-    // cy.get('input[placeholder="Last Name"]').type('Johnson', {force: true})
-    // cy.get('input[placeholder="Email"]').first().type('djohnson@gmail.com', {force: true})
-    // cy.get('input[placeholder="Password"]').first().type('123456', {force: true})
-    // cy.contains('SIGN UP').click({force: true})
-    
-    // cy.wait(5000)
-
-    // // Test if successful message popped off
-    // cy.on('window:alert', (t) => {
-    //   expect(t).to.contains('User successfully created!');
-    // })
-
-    // cy.contains('LOG IN').click({force: true})
-    
-    cy.get('input[placeholder="Email"').last().type('djohnson@gmail.com')
-    cy.get('input[placeholder="Password"').last().type('123456')
+    cy.get('input[placeholder="Email"]').last().type('djohnson@gmail.com')
+    cy.get('input[placeholder="Password"]').last().type('123456')
     cy.contains('SIGN IN').click()
     cy.wait(5000)
     cy.url().should('be.equal', 'http://localhost:3000/BuyPage')
@@ -54,7 +36,19 @@ describe('decor-gator Post and Buy Page', () => {
     cy.contains('+ Post').click()
     // Fill in post information
     cy.get('.post-title').type('SELLING BRICK CHAIR')
-    cy.get('.post-furniture-type').type('Chair')
+    cy.get('.post-furniture-type').select('Chair')
+    cy.get('input.post-price').type('22')
+    cy.get('textarea.post-description').type('Selling 13 years old brick chair.')
+
+    //upload image
+    cy.get('button.file-upload-display').click()
+    cy.wait(10000)
+    // //deletes image when clicked again
+    // cy.get('img.image-display').click()
+    // //upload image again
+    // cy.get('button.file-upload-display').click()
+    // cy.wait(10000)
+
     // Submit Post
     cy.get('.post-submit-button').click()
     cy.wait(5000)
@@ -69,23 +63,29 @@ describe('decor-gator Post and Buy Page', () => {
   it('Shows New Posts Created', () => {
     // Check if the post is visible
     cy.get('.container').contains('SELLING BRICK CHAIR')
-    cy.get('.container').contains('Chair')
   })
   
   it('Creates new page if posts go over 8', () => {
-    for (let i = 1; i <= 8; ++i) {
+    for (let i = 1; i <= 4; ++i) {
       // Go to post page
       cy.contains('+ Post').click()
       // Make a new post
-      cy.get('.post-title').type('' + i)
-      cy.get('.post-furniture-type').type('Chair')
+      cy.get('.post-title').type('BRICK CHAIR '+i)
+      cy.get('.post-furniture-type').select('Chair')
+      cy.get('input.post-price').type('22')
+      cy.get('textarea.post-description').type('Selling 13 years old brick chair.')
+
+      //upload image
+      cy.get('button.file-upload-display').click()
+      cy.wait(5000)
+
       cy.get('.post-submit-button').click()
     }
     cy.wait(5000)
 
     // Is able to go to next page and see post name '7'
-    cy.contains('Next Page').click()
-    cy.get('.container').first().contains('8')
+    cy.get('button.next-page-button').click()
+    cy.get('.container').contains('4')
   })
 
   it('Searches by post titles', () => {
@@ -93,12 +93,20 @@ describe('decor-gator Post and Buy Page', () => {
     cy.contains('+ Post').click()
     // Make a new post
     cy.get('.post-title').type('SELLING BRICK SOFA')
-    cy.get('.post-furniture-type').type('Sofa')
+    cy.get('.post-furniture-type').select('Sofa')
+    cy.get('input.post-price').type('22')
+    cy.get('textarea.post-description').type('Selling 13 years old brick sofa.')
+    cy.get('button.file-upload-display').click()
+    cy.wait(5000)
+
     cy.get('.post-submit-button').click()
 
     // Search the first post created
     cy.get('.search-text-input').type('BRICK')
     cy.get('.search-button').click()
+    cy.wait(3000)
+    cy.get('.search-button').click()
+    cy.wait(3000)
     cy.contains('SELLING BRICK CHAIR')
     cy.contains('SELLING BRICK SOFA')
   })

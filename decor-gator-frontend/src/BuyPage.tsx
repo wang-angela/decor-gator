@@ -1,17 +1,23 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation} from "react-router-dom";
 import PostPage from "./PostPage"
 import {useState, useEffect, useRef} from 'react';
 import MasterPostContainer from './components/MasterPostContainer'
+import PostDisplay from './components/PostDisplay'
 import PostContainer from './components/MasterPostContainer'
 import './BuyPage.css'
 
 function BuyPage() {
+
+    const {state} = useLocation();
+    const email = state;
     
     const [postsToDisplay, updateDisplayedPosts] = useState<any[]>([])
     const [pageList, updatePageList] = useState<any[][]>([])
     const [page, setPage] = useState<number>(1)
+    const [focusDisplayPost, updateFocusDisplayPost] = useState<any>(null)
     const allPostsRef = useRef<Array<any>>([])
+    const postTypeRef = React.createRef<HTMLSelectElement>()
     const searchBarRef = React.createRef<HTMLInputElement>()
 
     function getAllPosts() {
@@ -29,7 +35,7 @@ function BuyPage() {
             let furnitureType = element.furnitureType
             let posterUsername = element.userPosted
             let price = '$'+ String(element.price)
-            let id = element.id
+            let id = element._id
             let imageURL = element.imageURL
             let description = element.description
 
@@ -83,11 +89,28 @@ function BuyPage() {
     }
 
     function filterBySearch() {
-        let matchedResults = allPostsRef.current.filter((post) => {
-            return post.title.toLowerCase().includes(searchBarRef.current?.value.toLowerCase())
-        })
+        let destinationCategory:any, matchedResults:any
+        destinationCategory = postTypeRef.current?.value
+        if (destinationCategory === '') {
+            matchedResults = allPostsRef.current.filter((post) => {
+                return post.title.toLowerCase().includes(searchBarRef.current?.value.toLowerCase())
+            })
+        } else {
+            matchedResults = allPostsRef.current.filter((post) => {
+                return post.title.toLowerCase().includes(searchBarRef.current?.value.toLowerCase()) && post.furnitureType === destinationCategory
+            })
+        }
         let newPages = getPages(matchedResults)
         updatePageList(newPages)
+    }
+
+    function newFocusPost(id:any, title:string, furnitureType:string, posterUsername:string, price:string, imageURL:string, description:string) {
+        if (!id)
+        updateFocusDisplayPost(null)
+        else {
+            let postObj = {id, title, furnitureType, posterUsername, price, imageURL, description}
+            updateFocusDisplayPost(postObj)
+        }
     }
 
     useEffect(() => {
@@ -106,16 +129,38 @@ function BuyPage() {
             setPage(1)
     }, [pageList])
 
+    useEffect(() => {
+
+    }, [focusDisplayPost])
+
     const navigate = useNavigate();
     return (
         <div className='buy-container'>
-            <MasterPostContainer postContainers={postsToDisplay}/>
+            {focusDisplayPost ? <div className='overlay'>
+                <PostDisplay id={focusDisplayPost.id} title={focusDisplayPost.title} furnitureType={focusDisplayPost.furnitureType} posterUsername={focusDisplayPost.posterUsername}
+                price={focusDisplayPost.price} imageURL={focusDisplayPost.imageURL} description={focusDisplayPost.description} clickDisplayEvent={newFocusPost}/>
+            </div> : <div className='underlay'>
+            <button type="button" className="editUser-button" onClick={()=>navigate('/UserPage', { state: email})}>
+            My Page
+            </button>
             <button type="button" className="makePost-button" onClick={()=>navigate('/PostPage')}>
             + Post
             </button>
-            <button type="button" className="viewPosts-button" onClick={getAllPosts}>
-            List Posts (Debug)
-            </button>
+            <MasterPostContainer postContainers={postsToDisplay} clickDisplayEvent={newFocusPost}/>
+            <div className='bottom-panel'>
+            <select placeholder="Select Category" ref={postTypeRef} className='post-furniture-type-3'>   
+                    <option className='default-value' value=''>All Categories</option>
+                    <option value='Chair'>Chair</option>
+                    <option value='Sofa'>Sofa</option>
+                    <option value='Table'>Table</option>
+                    <option value='Desk'>Desk</option>
+                    <option value='Appliance'>Appliance</option>
+                    <option value='Bedding'>Bedding</option>
+                    <option value='Decoration'>Decoration</option>
+                    <option value='Storage'>Storage</option>
+                    <option value='Lighting'>Lighting</option>
+                    <option value='Other'>Other</option>
+                </select>
             <input type="text" className="search-text-input" placeholder="Search Title" ref={searchBarRef}/>
             <button type="button" className="search-button" onClick={filterBySearch}>
             Search
@@ -131,6 +176,8 @@ function BuyPage() {
                 Next Page
                 </button>
             </div>
+            </div>
+            </div>}
         </div>
     )
 }
