@@ -61,22 +61,28 @@ Updates a specific post using the information stored in that JSON body. Returns 
 ##### deletePost(w http.ResponseWriter, r \*http.Request):
 Deletes a specific post contained in the database given by id. Returns an error if that post is not contained in the database. Is stored as a DELETE function.
 
+### jwt.go
+
+#### Struct
+Creates JWT struct that stores token as a string value and create exception struct that helps display error messages.
+
 #### Functions:
 
-##### getImages(w http.ResponseWriter, r \*http.Request):
-Returns all of the images contained in the database. Returns an error if there are no images contained in the database. Is stored as a GET function.
+##### CreateTokenEndpoint(w http.ResponseWrite, r \*http.Request)
+Validates user. If user exists and correct password is entered, then a token string is created and return through a json file.
 
-##### getPost(w http.ResponseWriter, r \*http.Request):
-Returns a specific image contained in the database given by id. Returns an error if that image is not contained in the database. Is stored as a GET function.
+##### ValidateMiddleware(next http.HandlerFunc) http.HandlerFunc
+Validates JWT and allows access if token is valid.
 
-##### createPost(w http.ResponseWriter, r \*http.Request):
-Creates a specific image using the information stored in that JSON body. Returns an error if that image is already contained in the database. Is stored as a POST function.
+### accessors.go
 
-##### updatePost(w http.ResponseWriter, r \*http.Request):
-Updates a specific image using the information stored in that JSON body. Returns an error if that image is not contained in the database. Is stored as a PUT function.
+#### Functions:
 
-##### deletePost(w http.ResponseWriter, r \*http.Request):
-Deletes a specific image contained in the database given by id. Returns an error if that image is not contained in the database. Is stored as a DELETE function.
+##### JwtVerifyUserExists(user models.User) bool
+Verifies that user exists. Used by CreateTokenEndpoint() function.
+
+##### JwtVerifyPassword(user models.User) bool
+Verifies that password is correct for a specific user in the database. Used by CreateTokenEndpoint() function.
 
 ### password.go
 
@@ -132,9 +138,6 @@ Deletes a post given by the post id.
 
 #### Functions:
 
-##### initDB()
-Initializes database and creates gorm transactions.
-
 ##### TestGetAllUsers (t \*testing.T)
 Test getUsers() using a custom http request and checks results.
 
@@ -142,13 +145,13 @@ Test getUsers() using a custom http request and checks results.
 Test getUser() using a custom http request and checks results.
 
 ##### TestCreateUser (t \*testing.T)
-Test createUser() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
+Test createUser() using a http request and checks results. The changes to the database are reverted.
 
 ##### TestUpdateUser (t \*testing.T)
-Test updateUser() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
+Test updateUser() using a http request and checks results. The changes to the database are reverted.
 
 ##### TestDeleteUser (t \*testing.T)
-Test deleteUser() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
+Test deleteUser() using a http request and checks results. The changes to the database are reverted.
 
 ### posts_test.go
 
@@ -161,32 +164,13 @@ Test getPosts() using a custom http request and checks results.
 Test getPost() using a custom http request and checks results.
 
 ##### TestCreatePost (t \*testing.T)
-Test createPost() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
+Test createPost() using a http request and checks results. The changes to the database are reverted.
 
 ##### TestUpdatePost (t \*testing.T)
-Test updatePost() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
+Test updatePost() using a http request and checks results. The changes to the database are reverted.
 
 ##### TestDeletePost (t \*testing.T)
-Test deletePost() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
-
-### images_test.go
-
-#### Functions:
-
-##### TestGetAllImages (t \*testing.T)
-Test getImages() using a custom http request and checks results.
-
-##### TestGetImage (t \*testing.T)
-Test getImage() using a custom http request and checks results.
-
-##### TestCreateImage (t \*testing.T)
-Test createImage() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
-
-##### TestUpdateImage (t \*testing.T)
-Test updateImage() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
-
-##### TestDeleteImage (t \*testing.T)
-Test deleteImage() using a http request and checks results. The changes to the database are undone through a rollback using gorm transactions.
+Test deletePost() using a http request and checks results. The changes to the database are reverted.
 
 ### password_test.go
 
