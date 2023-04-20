@@ -140,7 +140,7 @@ function BuyPage() {
                 <PostDisplay id={focusDisplayPost.id} title={focusDisplayPost.title} furnitureType={focusDisplayPost.furnitureType} posterUsername={focusDisplayPost.posterUsername}
                 price={focusDisplayPost.price} imageURL={focusDisplayPost.imageURL} description={focusDisplayPost.description} clickDisplayEvent={newFocusPost}/>
             </div> : <div className='underlay'>
-            <button type="button" className="makePost-button" onClick={()=>navigate('/UserPage', { state: email})}>
+            <button type="button" className="editUser-button" onClick={()=>navigate('/UserPage', { state: email})}>
             My Page
             </button>
             <button type="button" className="makePost-button" onClick={()=>navigate('/PostPage')}>

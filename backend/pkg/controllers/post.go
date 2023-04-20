@@ -97,6 +97,8 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalln("Error Encoding")
 	}
+
+	UploadObject(post)
 }
 
 func UpdatePost(w http.ResponseWriter, r *http.Request) {
@@ -109,7 +111,7 @@ func UpdatePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Convert params string into ObjectID
-	params := mux.Vars(r)["id"]
+	params := mux.Vars(r)["_id"]
 	objectId, err := primitive.ObjectIDFromHex(params)
 	if err != nil {
 		log.Println("Invalid id")
@@ -179,4 +181,6 @@ func DeletePost(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalln("Error Encoding")
 	}
+
+	DeleteObject(mux.Vars(r)["id"])
 }
