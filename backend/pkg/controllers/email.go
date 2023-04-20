@@ -3,6 +3,7 @@ package controllers
 // The code is formatted using this tutorial: https://blog.devgenius.io/sending-emails-with-golang-and-amazon-ses-31f25a0f2acb
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -10,8 +11,9 @@ import (
 	"net/smtp"
 
 	"github.com/decor-gator/backend/pkg/models"
-	"github.com/decor-gator/backend/pkg/utils"
 	"github.com/gorilla/mux"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 func SendWelcomeEmail(destinationEmails []string) error {
@@ -52,9 +54,21 @@ func HelperForgotPassword(w http.ResponseWriter, r *http.Request) {
 
 	// Search for user by id; id=0 if user not found
 	params := mux.Vars(r)["email"]
-	utils.DB.Where("email = ?", params).First(&user)
-	if user.Email == "" {
-		log.Println("User not found")
+	filter := bson.D{{Key: "email", Value: params}}
+
+	err := userColl.FindOne(context.TODO(), filter).Decode(&user)
+	if err == mongo.ErrNoDocuments {
+		// Throws error if no user exists
+		msg := "User does not exist"
+
+		err = json.NewEncoder(w).Encode(&msg)
+		if err != nil {
+			log.Fatalln("Error Encoding")
+		}
+		return
+	} else if err != nil {
+		// Throws error for other cases
+		log.Fatal(err)
 	}
 
 	email := []string{user.Email}
