@@ -22,7 +22,7 @@ func TestGetAllUsers(t *testing.T) {
 	configs.ConnectDB()
 
 	// Send new request with json body info
-	req, err := http.NewRequest("POST", "/users", nil)
+	req, err := http.NewRequest("GET", "/user", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
