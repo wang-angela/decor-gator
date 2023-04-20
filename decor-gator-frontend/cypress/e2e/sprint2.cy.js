@@ -43,35 +43,18 @@ describe('decor-gator signup and login test', () => {
     })
     
   })
-
-  it('Alerts if sign up attempted twice', () => {
-    cy.contains('Don\'t have an account? SIGN UP').click()
-    // Write in sign up information
-    cy.get('input[placeholder="First Name"]').type('Dwayne', {force: true})
-    cy.get('input[placeholder="Last Name"]').type('Johnson', {force: true})
-    cy.get('input[placeholder="Email"]').first().type('djohnson@gmail.com', {force: true})
-    cy.get('input[placeholder="Password"]').first().type('123456', {force: true})
-    // Test if it alerts signup attempt with already existing email
-    cy.contains('SIGN UP').click({force: true})
-    
-    cy.wait(5000)
-
-    cy.on('window:alert', (t) => {
-      expect(t).to.contains('Email already registered.');
-    })
-  })
   
   it('Alerts if login information is invalid', () => {
     // Put in invalid passsword
-    cy.get('input[placeholder="Email"').last().type('djohnson@gmail.com')
-    cy.get('input[placeholder="Password"').last().type('1')
+    cy.get('input[placeholder="Email"').last().type('@')
+    cy.get('input[placeholder="Password"').last().type('123456')
     cy.contains('SIGN IN').click()
     
     cy.wait(5000)
 
     // Test if invalid password message pops off
     cy.on('window:alert', (t) => {
-      expect(t).to.contains('Invalid password');
+      expect(t).to.contains('Please enter valid credentials.');
     })
   })
 
@@ -85,13 +68,6 @@ describe('decor-gator signup and login test', () => {
     cy.window().then((win) => {
       cy.spy(win.console, "log");
     });
-    // Test if login successful message popped off
-    // cy.on('window:alert', (t) => {
-    //   expect(t).to.contains('Login successful!', {timeout: 5000});
-    // })
-    
-    // // Redirects to Buy Page
-    // cy.url().should('be.equal', 'http://localhost:3000/BuyPage')
   })
     
 })

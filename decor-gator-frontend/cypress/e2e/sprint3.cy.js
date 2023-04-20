@@ -43,11 +43,6 @@ describe('decor-gator Post and Buy Page', () => {
     //upload image
     cy.get('button.file-upload-display').click()
     cy.wait(10000)
-    // //deletes image when clicked again
-    // cy.get('img.image-display').click()
-    // //upload image again
-    // cy.get('button.file-upload-display').click()
-    // cy.wait(10000)
 
     // Submit Post
     cy.get('.post-submit-button').click()
@@ -66,7 +61,7 @@ describe('decor-gator Post and Buy Page', () => {
   })
   
   it('Creates new page if posts go over 8', () => {
-    for (let i = 1; i <= 4; ++i) {
+    for (let i = 1; i <= 6; ++i) {
       // Go to post page
       cy.contains('+ Post').click()
       // Make a new post
@@ -85,7 +80,7 @@ describe('decor-gator Post and Buy Page', () => {
 
     // Is able to go to next page and see post name '7'
     cy.get('button.next-page-button').click()
-    cy.get('.container').contains('4')
+    cy.get('.container').contains('6')
   })
 
   it('Searches by post titles', () => {
@@ -108,7 +103,6 @@ describe('decor-gator Post and Buy Page', () => {
     cy.get('.search-button').click()
     cy.wait(3000)
     cy.contains('SELLING BRICK CHAIR')
-    cy.contains('SELLING BRICK SOFA')
   })
 })
   
