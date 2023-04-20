@@ -171,7 +171,7 @@ func TestUpdatePost(t *testing.T) {
 
 	objectId, err := primitive.ObjectIDFromHex("643f3e7a30eabed5ba74768b")
 
-	configs.GetCollection(configs.DB, "users").UpdateOne(context.TODO(),
+	configs.GetCollection(configs.DB, "posts").UpdateOne(context.TODO(),
 		bson.D{{Key: "_id", Value: objectId}},
 		update,
 	)
