@@ -13,7 +13,16 @@
 
 ## Frontend Accomplishments
 
+1. Completed the post upload page.
+2. Handled image uploading and rendering using base64.
+3. Built pop-up windows for each post to display all of the post's information.
+4. The search function now can filter by furniture type.
+5. "My Page" feature that allows the user to change their email and password.
+
 ## Frontend Shortcomings
+
+1. JWT token/authentication was unable to be implemented.
+2. Navbar was unable to be completed.
 
 ## Updated API Documentation
 

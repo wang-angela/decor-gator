@@ -1,5 +1,5 @@
 # DecorGator
-DecorGator is a peer-to-peer furniture marketplace geared towards college students that allows users to locally rent or sell furniture. DecorGator will serve as purchasing platform for both buyer and sellers that is safer and more specialized/streamlined than alternatives.
+DecorGator is a peer-to-peer furniture marketplace geared towards college students that allows users to locally rent or sell furniture. DecorGator serves as purchasing platform for both buyer and sellers that is safer and more specialized/streamlined than alternatives.
 
 ## Contributors
 * Joanne Kim (Frontend)
@@ -7,7 +7,7 @@ DecorGator is a peer-to-peer furniture marketplace geared towards college studen
 * Sam Gallic (Backend)
 * Angela Wang (Backend)
 
-## Requirements for running the application:
+## Requirements for running/using the application:
 
 ### Backend:
 

@@ -21,9 +21,9 @@ describe('decor-gator Post and Buy Page', () => {
     cy.contains('BRICK CHAIR 1').click()
 
     cy.get('.post-display').last().click()
-    cy.get('label.post-furniture-type-2').contains('Sofa')
+    cy.get('label.post-furniture-type-2').contains('Chair')
     cy.get('label.post-price-2').contains('$22')
-    cy.get('.post-description-2').contains('Selling 13 years old brick sofa.')
+    cy.get('.post-description-2').contains('Selling 13 years old brick chair.')
 
     cy.contains('← Back').click()
 
@@ -34,18 +34,22 @@ describe('decor-gator Post and Buy Page', () => {
     cy.wait(3000)
     // Search post by category
     cy.get('select.post-furniture-type-3').select('Sofa')
+    cy.wait(1000)
     cy.get('button.search-button').click()
-    cy.contains('SELLING BRICK SOFA')
+    cy.wait(3000)
+    cy.contains('BRICK SOFA')
     
     // Reload all posts
     cy.get('select.post-furniture-type-3').select('All Categories')
     cy.get('button.search-button').click()
 
     // Search post by category + title
-    cy.get('select.post-furniture-type-3').select('Desk')
-    cy.get('input.search-text-input').type('Beautiful')
+    cy.get('select.post-furniture-type-3').select('Decoration')
+    cy.get('input.search-text-input').type('Another')
+    cy.wait(1000)
     cy.get('button.search-button').click()
-    cy.contains("Beautiful Desk")
+    cy.wait(3000)
+    cy.contains("Another Desk")
   })
 
   it('Changes current email and password', () => {
