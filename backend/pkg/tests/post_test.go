@@ -11,7 +11,6 @@ import (
 	"github.com/decor-gator/backend/pkg/configs"
 	"github.com/decor-gator/backend/pkg/controllers"
 	"github.com/decor-gator/backend/pkg/models"
-	"github.com/decor-gator/backend/pkg/utils"
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -19,7 +18,6 @@ import (
 )
 
 func TestGetAllPosts(t *testing.T) {
-	utils.InitDBTest("test")
 
 	// Send new request with json body info
 	req, err := http.NewRequest("POST", "/posts", nil)

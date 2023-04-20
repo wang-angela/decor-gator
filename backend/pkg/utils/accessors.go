@@ -11,6 +11,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
+var err error
+
 // Used by CreatedTokenEndpoint() to check if users have an account
 func JwtVerifyUserExists(user models.User) bool {
 	var res models.User
