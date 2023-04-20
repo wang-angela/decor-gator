@@ -9,12 +9,13 @@ DecorGator is a peer-to-peer furniture marketplace geared towards college studen
 
 ## Requirements for running/using the application:
 
+Before using the application, make sure to have Go, TypeScript, React, and Node.js installed.
 First, clone the respository. For starting the individual backend/frontend:
 
 ### Backend:
 
-In order to run this program, you must have GO installed. There is a backend.exe file in the /backend folder. Before running the application, run this executable in a terminal using the command `./backend.exe` within the backend directory of the project to start the server locally.
+There is a backend.exe file in the /backend folder. Before running the application, run this executable in a terminal using the command `./backend.exe` within the backend directory of the project to start the server locally.
 
 ### Frontend:
 
-The app's frontend was built using TypeScript and React; these must both be installed alongside Node. To run the app's frontend, first navigate to the /decor-gator-frontend folder and run `npm install` to install dependencies. Then, using `npm start` will start the frontend portion of the application.
+To run the app's frontend, first navigate to the /decor-gator-frontend folder and run `npm install` to install dependencies. Then, using `npm start` will start the frontend portion of the application.
