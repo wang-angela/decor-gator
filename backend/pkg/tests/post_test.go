@@ -2,22 +2,25 @@ package tests
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
+	"github.com/decor-gator/backend/pkg/configs"
 	"github.com/decor-gator/backend/pkg/controllers"
 	"github.com/decor-gator/backend/pkg/models"
-	"github.com/decor-gator/backend/pkg/utils"
 	"github.com/gorilla/mux"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 func TestGetAllPosts(t *testing.T) {
-	utils.InitDBTest("test")
 
 	// Send new request with json body info
-	req, err := http.NewRequest("POST", "/users", nil)
+	req, err := http.NewRequest("POST", "/posts", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -45,10 +48,10 @@ func TestGetAllPosts(t *testing.T) {
 }
 
 func TestGetPost(t *testing.T) {
-	utils.InitDBTest("test")
+	configs.ConnectDB()
 
 	// Send new request with json body info
-	req, err := http.NewRequest("GET", "/posts/1", nil)
+	req, err := http.NewRequest("GET", "/posts/643dd5258fa45fce76227bbd", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -57,7 +60,7 @@ func TestGetPost(t *testing.T) {
 	rr := httptest.NewRecorder()
 
 	r := mux.NewRouter()
-	r.HandleFunc("/posts/{id}", controllers.GetPost)
+	r.HandleFunc("/posts/{_id}", controllers.GetPost)
 	r.ServeHTTP(rr, req)
 
 	if status := rr.Code; status != http.StatusOK {
@@ -66,24 +69,27 @@ func TestGetPost(t *testing.T) {
 	}
 
 	// Decoding recorded response
-	var resp map[string]interface{}
+	var resp *mongo.SingleResult
 	json.Unmarshal(rr.Body.Bytes(), &resp)
 
-	if resp["title"] != "Sofa for sale!" {
-		t.Errorf("Posts is invalid, expected \"Sofa for sale\", got %v", resp["title"])
+	if resp != nil {
+		t.Errorf("Post not found")
 	}
 }
 
 func TestCreatePost(t *testing.T) {
-	TX := utils.InitDBTest("test")
-	TX.SavePoint("sp1")
+	configs.ConnectDB()
+	controllers.InitAWSSession()
+	controllers.CreateBucket()
 
 	// Request Body
 	jsonBody := []byte(`{
-		"id": 4,
-		"title": "Hello Kitty Chair for Rent!",
-		"furnitureType": "Chair",
-		"userPosted": "john.smith"
+		"title":		 "A chair!",
+		"furnitureType": "chair",
+		"description":	 "such beautiful chair",
+		"price": 		 22.23,
+		"userPosted":	 "angela",
+		"imageURL": 	 "fnewkdnfkkcdsmkfcwesd"
 	}`)
 	bodyReader := bytes.NewReader(jsonBody)
 
@@ -105,31 +111,28 @@ func TestCreatePost(t *testing.T) {
 	}
 
 	// Decoding recorded response
-	var resp map[string]interface{}
+	var resp *mongo.InsertOneResult
 	json.Unmarshal(rr.Body.Bytes(), &resp)
 
-	if resp["title"] != "Hello Kitty Chair for Rent!" {
-		t.Errorf("Post title is invalid, expected \"Hello Kitty Chair for Rent!\", got %v", resp["title"])
+	if resp == nil {
+		t.Errorf("Insert failed")
 	}
 
-	TX.RollbackTo("sp1")
+	configs.GetCollection(configs.DB, "posts").DeleteOne(context.TODO(),
+		bson.D{{Key: "_id", Value: resp.InsertedID}},
+	)
 }
 
 func TestUpdatePost(t *testing.T) {
-	TX := utils.InitDBTest("test")
-	TX.SavePoint("sp2")
-
 	// Request Body
 	jsonBody := []byte(`{
-		"id": 2,
-		"title": "Selling a Dining Table",
-		"furnitureType": "Table",
-		"userPosted": "william-scott"
+		"title": "The Most Beautiful Desk",
+		"description": "BUY ME!!!!!"
 	}`)
 	bodyReader := bytes.NewReader(jsonBody)
 
 	// Send new request with json body info
-	req, err := http.NewRequest("PUT", "/posts/2", bodyReader)
+	req, err := http.NewRequest("PUT", "/posts/643f3e7a30eabed5ba74768b", bodyReader)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -138,7 +141,7 @@ func TestUpdatePost(t *testing.T) {
 	rr := httptest.NewRecorder()
 
 	r := mux.NewRouter()
-	r.HandleFunc("/posts/{id}", controllers.UpdatePost)
+	r.HandleFunc("/posts/{_id}", controllers.UpdatePost)
 	r.ServeHTTP(rr, req)
 
 	if status := rr.Code; status != http.StatusOK {
@@ -147,22 +150,56 @@ func TestUpdatePost(t *testing.T) {
 	}
 
 	// Decoding recorded response
-	var resp map[string]interface{}
+	var resp *mongo.UpdateResult
 	json.Unmarshal(rr.Body.Bytes(), &resp)
 
-	if resp["title"] != "Selling a Dining Table" {
-		t.Errorf("Post Title is invalid, expected \"Selling a Dining Table\", got %v", resp["title"])
+	if resp.MatchedCount == 0 {
+		t.Errorf("Fail to update")
 	}
 
-	TX.RollbackTo("sp2")
+	// Reversing changes
+	update := bson.D{{Key: "$set",
+		Value: bson.D{
+			{Key: "title", Value: "Beautiful Desk"},
+			{Key: "furniture_type", Value: "Desk"},
+			{Key: "description", Value: "What a nice desk."},
+			{Key: "price", Value: 34.00},
+			{Key: "user_posted", Value: "test@gmail.com"},
+			{Key: "image_url", Value: "data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWN"},
+		},
+	}}
+
+	objectId, err := primitive.ObjectIDFromHex("643f3e7a30eabed5ba74768b")
+
+	configs.GetCollection(configs.DB, "users").UpdateOne(context.TODO(),
+		bson.D{{Key: "_id", Value: objectId}},
+		update,
+	)
 }
 
 func TestDeletePost(t *testing.T) {
-	TX := utils.InitDBTest("test")
-	TX.SavePoint("sp3")
+	controllers.InitAWSSession()
+	controllers.CreateBucket()
+
+	post := &models.Post{
+		ID:            primitive.NewObjectID(),
+		Title:         "New Chair",
+		FurnitureType: "Chair",
+		Description:   "a new chair",
+		Price:         10.0,
+		UserPosted:    "jacksonSon",
+		ImageURL:      "aURL",
+	}
+
+	configs.GetCollection(configs.DB, "posts").InsertOne(context.TODO(), post)
 
 	// Send new request with json body info
-	req, err := http.NewRequest("DELETE", "/posts/3", nil)
+
+	route := "/posts/"
+	hexString := post.ID.Hex()
+	route += hexString
+
+	req, err := http.NewRequest("DELETE", route, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -171,7 +208,7 @@ func TestDeletePost(t *testing.T) {
 	rr := httptest.NewRecorder()
 
 	r := mux.NewRouter()
-	r.HandleFunc("/posts/{id}", controllers.DeletePost)
+	r.HandleFunc("/posts/{_id}", controllers.DeleteUser)
 	r.ServeHTTP(rr, req)
 
 	if status := rr.Code; status != http.StatusOK {
@@ -180,12 +217,10 @@ func TestDeletePost(t *testing.T) {
 	}
 
 	// Decoding recorded response
-	var resp map[string]interface{}
+	var resp *mongo.DeleteResult
 	json.Unmarshal(rr.Body.Bytes(), &resp)
 
-	if resp["deleted_at"] == "" {
+	if resp.DeletedCount != 1 {
 		t.Errorf("Has not been deleted")
 	}
-
-	TX.RollbackTo("sp3")
 }

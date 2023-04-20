@@ -16,6 +16,8 @@ import (
 	"github.com/mitchellh/mapstructure"
 )
 
+var PassPhrase = "SecretestSecret"
+
 func CreateTokenEndpoint(w http.ResponseWriter, r *http.Request) {
 	var user models.User
 
@@ -39,7 +41,7 @@ func CreateTokenEndpoint(w http.ResponseWriter, r *http.Request) {
 		"exp":      time.Now().Add(time.Minute * 5).Unix(),
 	})
 
-	tokenStr, err := token.SignedString(utils.GetEnvVar("PASS_PHRASE"))
+	tokenStr, err := token.SignedString([]byte(PassPhrase))
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -58,7 +60,7 @@ func ValidateMiddleware(next http.HandlerFunc) http.HandlerFunc {
 					if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 						return nil, fmt.Errorf("There was an error")
 					}
-					return utils.GetEnvVar("PASS_PHRASE"), nil
+					return []byte(PassPhrase), nil
 				})
 				if error != nil {
 					json.NewEncoder(w).Encode(models.Exception{Message: error.Error()})
