@@ -1,11 +1,55 @@
 .page-label{
     color:black;
     font-weight: bold;
+    align-self: center;
 }
 
 .change-page-container{
-
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    display: flex;
+    height: 3vh;
+    margin-left: 44vw;
 }
+
+.previous-page-button {
+    margin-right: 0.5vw;
+    font-family: "Nunito";
+    font-size: 24px;
+    text-align: center;
+    background-color: rgb(71, 86, 217);
+    color: white;
+    border-radius: 15px;
+    width: 2vw;
+    transition: all 0.1s ease-out;
+    border: none;
+}
+
+.previous-page-button:hover {
+    background-color: #201876;
+    opacity: 1;
+    transition: all 0.1s ease-in;
+}
+
+.next-page-button {
+    margin-left: 0.5vw;
+    font-family: "Nunito";
+    font-size: 24px;
+    text-align: center;
+    background-color: rgb(71, 86, 217);
+    color: white;
+    border-radius: 15px;
+    width: 2vw;
+    transition: all 0.1s ease-out;
+    border: none;
+}
+
+.next-page-button:hover {
+    background-color: #201876;
+    opacity: 1;
+    transition: all 0.1s ease-in;
+}
+
 
 .buy-container{
     display: flex;
@@ -70,5 +114,7 @@
 }
 
 .search-button:hover {
-
+    background-color: #201876;
+    opacity: 1;
+    transition: all 0.1s ease-in;
 }
